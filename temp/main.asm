@@ -1689,117 +1689,193 @@ _load_bkg_tileset::
 ; Function draw_mt_column
 ; ---------------------------------
 _draw_mt_column::
-	add	sp, #-4
-	ldhl	sp,	#1
+	add	sp, #-10
+	ldhl	sp,	#7
 	ld	(hl), e
 	inc	hl
 	ld	(hl), d
-;src/main.c:48: uint8_t bx = ring_col << 1;
-	dec	hl
-	dec	hl
+;src/main.c:50: uint8_t bx = ring_col << 1;
 	add	a, a
+	ldhl	sp,	#2
+;src/main.c:53: uint8_t _prev = _current_bank;
+	ld	(hl+), a
+	ldh	a, (__current_bank + 0)
 	ld	(hl), a
-;src/main.c:49: for (uint8_t r = 0; r < map_h && r < BKG_MT_H; r++) {
-	ldhl	sp,	#3
+;src/main.c:54: SWITCH_ROM(map_bank);
+	ldhl	sp,	#18
+	ld	a, (hl)
+	ldh	(__current_bank + 0), a
+	ld	(#_rROMB0),a
+;src/main.c:56: for (uint8_t r = 0; r < map_h && r < BKG_MT_H; r++) {
+	ldhl	sp,	#9
 	ld	(hl), #0x00
 00104$:
-	ldhl	sp,	#3
-	ld	e, (hl)
-	ld	d, #0x00
-	ldhl	sp,	#10
-	ld	a, e
+	ldhl	sp,	#9
+	ld	a, (hl)
+	ldhl	sp,	#5
+	ld	(hl+), a
+	ld	(hl), #0x00
+	ldhl	sp,	#5
+	ld	e, l
+	ld	d, h
+	ldhl	sp,	#16
+	ld	a, (de)
+	inc	de
 	sub	a, (hl)
 	inc	hl
-	ld	a, d
+	ld	a, (de)
 	sbc	a, (hl)
-	jr	NC, 00106$
-	ldhl	sp,	#3
+	jp	NC, 00101$
+	ldhl	sp,	#9
 	ld	a, (hl)
 	sub	a, #0x10
-	jr	NC, 00106$
-;src/main.c:50: uint8_t mt = map[(uint16_t)r * map_w + map_col];
-	ldhl	sp,	#8
+	jp	NC, 00101$
+;src/main.c:57: uint8_t mt = map[(uint16_t)r * map_w + map_col];
+	ldhl	sp,	#14
 	ld	a, (hl+)
 	ld	c, a
 	ld	b, (hl)
+	ldhl	sp,	#5
+	ld	e, (hl)
+	ld	d, #0x00
 	call	__mulint
-	ldhl	sp,	#1
+	pop	hl
+	push	bc
+	pop	de
+	push	de
+	ldhl	sp,	#7
 	ld	a,	(hl+)
 	ld	h, (hl)
 	ld	l, a
-	add	hl, bc
-	ld	c, l
-	ld	b, h
+	add	hl, de
+	push	hl
+	ld	a, l
+	ldhl	sp,	#7
+	ld	(hl), a
+	pop	hl
+	ld	a, h
 	ldhl	sp,	#6
+	ld	(hl-), a
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+	ldhl	sp,	#12
 	ld	a,	(hl+)
 	ld	h, (hl)
 	ld	l, a
-	add	hl, bc
-	ld	c, l
-	ld	b, h
-	ld	a, (bc)
-	ld	c, a
-;src/main.c:51: uint8_t by = (r & (BKG_MT_H - 1)) << 1;
-	ldhl	sp,	#3
+	add	hl, de
+	inc	sp
+	inc	sp
+	ld	e, l
+	ld	d, h
+	push	de
+	ld	a, (de)
+	ldhl	sp,	#5
+	ld	(hl), a
+;src/main.c:58: uint8_t by = (r & (BKG_MT_H - 1)) << 1;
+	ldhl	sp,	#9
 	ld	a, (hl)
 	and	a, #0x0f
-	add	a, a
+	ldhl	sp,	#6
+	ld	(hl), a
+	sla	(hl)
+;src/main.c:59: set_bkg_tiles(bx, by, 2, 1, &metatiles[mt][0]);
+	dec	hl
+	ld	a, (hl-)
+	ld	(hl+), a
+	ld	(hl), #0x00
+	ld	a, #0x02
+00130$:
+	ldhl	sp,	#4
+	sla	(hl)
+	inc	hl
+	rl	(hl)
+	dec	a
+	jr	NZ, 00130$
+	dec	hl
+	ld	a, (hl+)
 	ld	e, a
-;src/main.c:52: set_bkg_tiles(bx, by, 2, 1, &metatiles[mt][0]);
-	xor	a, a
-	ld	l, c
-	ld	h, a
-	add	hl, hl
-	add	hl, hl
-	ld	a, l
-	add	a, #<(_metatiles)
-	ld	c, a
-	ld	a, h
-	adc	a, #>(_metatiles)
-	ld	b, a
-	ld	l, c
-	ld	h, b
-	push	de
+	ld	d, (hl)
+	ld	hl, #_metatiles
+	add	hl, de
+	inc	sp
+	inc	sp
 	push	hl
-	ld	a, #0x01
+	ldhl	sp,	#0
+	ld	a, (hl)
+	ldhl	sp,	#4
+	ld	(hl), a
+	ldhl	sp,	#1
+	ld	a, (hl)
+	ldhl	sp,	#5
+	ld	(hl-), a
+	ld	a, (hl+)
+	ld	e, a
+	ld	a, (hl+)
+	ld	d, a
+	push	de
+	ld	de, #0x102
+	push	de
+	ld	a, (hl)
 	push	af
 	inc	sp
-	ld	d, #0x02
-	push	de
 	ldhl	sp,	#7
 	ld	a, (hl)
 	push	af
 	inc	sp
 	call	_set_bkg_tiles
 	add	sp, #6
+;src/main.c:60: set_bkg_tiles(bx, by + 1, 2, 1, &metatiles[mt][2]);
 	pop	de
-;src/main.c:53: set_bkg_tiles(bx, by + 1, 2, 1, &metatiles[mt][2]);
-	inc	bc
-	inc	bc
-	inc	e
-	push	bc
-	ld	a, #0x01
+	push	de
+	ld	hl, #0x0002
+	add	hl, de
+	push	hl
+	ld	a, l
+	ldhl	sp,	#6
+	ld	(hl), a
+	pop	hl
+	ld	a, h
+	ldhl	sp,	#5
+	ld	(hl+), a
+	ld	a, (hl-)
+	dec	hl
+	inc	a
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	push	de
+	ld	h, #0x01
+	push	hl
+	inc	sp
+	ld	h, #0x02
+	push	hl
+	inc	sp
 	push	af
 	inc	sp
-	ld	d, #0x02
-	push	de
-	ldhl	sp,	#5
+	ldhl	sp,	#7
 	ld	a, (hl)
 	push	af
 	inc	sp
 	call	_set_bkg_tiles
 	add	sp, #6
-;src/main.c:49: for (uint8_t r = 0; r < map_h && r < BKG_MT_H; r++) {
-	ldhl	sp,	#3
+;src/main.c:56: for (uint8_t r = 0; r < map_h && r < BKG_MT_H; r++) {
+	ldhl	sp,	#9
 	inc	(hl)
-	jr	00104$
-00106$:
-;src/main.c:55: }
-	add	sp, #4
+	jp	00104$
+00101$:
+;src/main.c:64: SWITCH_ROM(_prev);
+	ldhl	sp,	#3
+	ld	a, (hl)
+	ldh	(__current_bank + 0), a
+	ld	a, (hl)
+	ld	(#_rROMB0),a
+;src/main.c:65: }
+	add	sp, #10
 	pop	hl
-	add	sp, #6
+	add	sp, #7
 	jp	(hl)
-;src/main.c:57: void fill_scroll_bg(const uint8_t* map, uint16_t map_w, uint16_t map_h) {
+;src/main.c:67: void fill_scroll_bg(const uint8_t* map, uint16_t map_w, uint16_t map_h, uint8_t map_bank) {
 ;	---------------------------------
 ; Function fill_scroll_bg
 ; ---------------------------------
@@ -1809,7 +1885,7 @@ _fill_scroll_bg::
 	ld	a, e
 	ld	(hl+), a
 	ld	(hl), d
-;src/main.c:58: uint16_t cols = (map_w < BKG_MT_W) ? map_w : BKG_MT_W;
+;src/main.c:68: uint16_t cols = (map_w < BKG_MT_W) ? map_w : BKG_MT_W;
 	ld	e, c
 	ld	d, b
 	ld	a, e
@@ -1822,7 +1898,7 @@ _fill_scroll_bg::
 	ldhl	sp,	#0
 	ld	a, e
 	ld	(hl+), a
-;src/main.c:59: for (uint16_t c = 0; c < cols; c++) {
+;src/main.c:69: for (uint16_t c = 0; c < cols; c++) {
 	ld	de, #0x0000
 	ld	(hl), e
 00103$:
@@ -1833,13 +1909,17 @@ _fill_scroll_bg::
 	ld	a, d
 	sbc	a, (hl)
 	jr	NC, 00105$
-;src/main.c:60: draw_mt_column((uint8_t)(c % BKG_MT_W), c, map, map_w, map_h);
+;src/main.c:71: draw_mt_column((uint8_t)(c % BKG_MT_W), c, map, map_w, map_h, map_bank);
 	ld	a, e
 	and	a, #0x0f
 	push	bc
 	push	de
-	push	af
 	ldhl	sp,	#12
+	ld	h, (hl)
+	push	hl
+	inc	sp
+	push	af
+	ldhl	sp,	#13
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
@@ -1847,7 +1927,7 @@ _fill_scroll_bg::
 	push	hl
 	push	bc
 	push	af
-	ldhl	sp,	#12
+	ldhl	sp,	#13
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
@@ -1856,21 +1936,21 @@ _fill_scroll_bg::
 	call	_draw_mt_column
 	pop	de
 	pop	bc
-;src/main.c:59: for (uint16_t c = 0; c < cols; c++) {
+;src/main.c:69: for (uint16_t c = 0; c < cols; c++) {
 	inc	de
 	jr	00103$
 00105$:
-;src/main.c:62: }
+;src/main.c:73: }
 	add	sp, #4
 	pop	hl
-	pop	af
+	add	sp, #3
 	jp	(hl)
-;src/main.c:67: void draw_menu(void) {
+;src/main.c:78: void draw_menu(void) {
 ;	---------------------------------
 ; Function draw_menu
 ; ---------------------------------
 _draw_menu::
-;src/main.c:68: fill_bkg_rect(0, 0, 20, 18, 0x00);
+;src/main.c:79: fill_bkg_rect(0, 0, 20, 18, 0x00);
 	xor	a, a
 	ld	h, a
 	ld	l, #0x12
@@ -1883,21 +1963,21 @@ _draw_menu::
 	push	af
 	call	_fill_bkg_rect
 	add	sp, #5
-;src/main.c:69: gotoxy(0, 0);
+;src/main.c:80: gotoxy(0, 0);
 	xor	a, a
 	rrca
 	push	af
 	call	_gotoxy
 	pop	hl
-;src/main.c:70: printf("GBDASH\n\n");
+;src/main.c:81: printf("GBDASH\n\n");
 	ld	de, #___str_1
 	call	_puts
-;src/main.c:71: for (uint8_t i = 0; i < MAX_LEVELS; i++) {
+;src/main.c:82: for (uint8_t i = 0; i < MAX_LEVELS; i++) {
 	ld	c, #0x00
 00106$:
 	ld	a, (_MAX_LEVELS)
 	ld	b, a
-;src/main.c:72: gotoxy(1, 2 + i);
+;src/main.c:83: gotoxy(1, 2 + i);
 	ld	a,c
 	cp	a,b
 	jr	NC, 00104$
@@ -1909,7 +1989,7 @@ _draw_menu::
 	call	_gotoxy
 	pop	hl
 	pop	bc
-;src/main.c:73: if (i == selected) printf("> %s", game_levels[i]->name);
+;src/main.c:84: if (i == selected) printf("> %s", game_levels[i]->name);
 	ld	l, c
 	ld	h, #0x00
 	add	hl, hl
@@ -1937,7 +2017,7 @@ _draw_menu::
 	pop	bc
 	jr	00107$
 00102$:
-;src/main.c:74: else               printf("  %s", game_levels[i]->name);
+;src/main.c:85: else               printf("  %s", game_levels[i]->name);
 	ld	a, #<(_game_levels)
 	add	a, b
 	ld	l, a
@@ -1958,18 +2038,18 @@ _draw_menu::
 	add	sp, #4
 	pop	bc
 00107$:
-;src/main.c:71: for (uint8_t i = 0; i < MAX_LEVELS; i++) {
+;src/main.c:82: for (uint8_t i = 0; i < MAX_LEVELS; i++) {
 	inc	c
 	jr	00106$
 00104$:
-;src/main.c:76: SHOW_BKG;
+;src/main.c:87: SHOW_BKG;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x01
 	ldh	(_LCDC_REG + 0), a
-;src/main.c:77: redraw = 0;
+;src/main.c:88: redraw = 0;
 	xor	a, a
 	ld	(#_redraw),a
-;src/main.c:78: }
+;src/main.c:89: }
 	ret
 ___str_1:
 	.ascii "GBDASH"
@@ -1981,72 +2061,94 @@ ___str_2:
 ___str_3:
 	.ascii "  %s"
 	.db 0x00
-;src/main.c:84: void play_level(uint8_t idx) {
+;src/main.c:95: void play_level(uint8_t idx) {
 ;	---------------------------------
 ; Function play_level
 ; ---------------------------------
 _play_level::
-	add	sp, #-19
+	add	sp, #-21
 	ld	e, a
-;src/main.c:85: const Level* l = game_levels[idx];
+;src/main.c:96: const Level* l = game_levels[idx];
 	ld	bc, #_game_levels+0
 	xor	a, a
 	ld	l, e
 	ld	h, a
 	add	hl, hl
 	add	hl, bc
-	ld	a, (hl+)
-	ld	c, a
-	ld	b, (hl)
-;src/main.c:86: const uint8_t* map = l->map;        // ROM pointer, no decompression
-	ld	hl, #0x0004
-	add	hl, bc
 	ld	e, l
 	ld	d, h
+	ld	a, (de)
+	ldhl	sp,	#19
+	ld	(hl+), a
+	inc	de
+	ld	a, (de)
+	ld	(hl), a
+;src/main.c:97: const uint8_t* map = l->map;        // ROM pointer, no decompression
+	ldhl	sp,#19
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+	ld	hl, #0x0004
+	add	hl, de
+	ld	c, l
+	ld	b, h
+	ld	e, c
+	ld	d, b
 	ld	a, (de)
 	ldhl	sp,	#0
 	ld	(hl+), a
 	inc	de
 	ld	a, (de)
 	ld	(hl), a
-;src/main.c:87: uint16_t map_w = l->map_width;   // 894
+;src/main.c:98: uint16_t map_w = l->map_width;   // 894
+	ldhl	sp,#19
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
 	ld	hl, #0x0008
-	add	hl, bc
-	ld	e, l
-	ld	d, h
+	add	hl, de
+	ld	c, l
+	ld	b, h
+	ld	e, c
+	ld	d, b
 	ld	a, (de)
 	ldhl	sp,	#2
 	ld	(hl+), a
 	inc	de
 	ld	a, (de)
 	ld	(hl), a
-;src/main.c:88: uint16_t map_h = l->map_height;  // 16
+;src/main.c:99: uint16_t map_h = l->map_height;  // 16
+	ldhl	sp,#19
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
 	ld	hl, #0x000a
-	add	hl, bc
-	ld	e, l
-	ld	d, h
+	add	hl, de
+	ld	c, l
+	ld	b, h
+	ld	e, c
+	ld	d, b
 	ld	a, (de)
 	ldhl	sp,	#4
 	ld	(hl+), a
 	inc	de
 	ld	a, (de)
-	ld	(hl), a
-;src/main.c:90: uint16_t cam_px = 0;
-	xor	a, a
-	ldhl	sp,	#6
-	ld	(hl+), a
-;src/main.c:91: uint16_t cam_py = 0;
+;src/main.c:101: uint16_t cam_px = 0;
 	ld	(hl+), a
 	xor	a, a
 	ld	(hl+), a
+;src/main.c:102: uint16_t cam_py = 0;
+	ld	(hl+), a
+	xor	a, a
+	ld	(hl+), a
 	ld	(hl), a
-;src/main.c:92: uint16_t max_px = (map_w - VIEW_MT_W) << 4;
+;src/main.c:103: uint16_t max_px = (map_w - VIEW_MT_W) << 4;
 	ldhl	sp,	#2
 	ld	a, (hl+)
-	ld	e, (hl)
+	ld	c, (hl)
 	add	a, #0xf6
 	ld	l, a
-	ld	a, e
+	ld	a, c
 	adc	a, #0xff
 	ld	h, a
 	add	hl, hl
@@ -2054,17 +2156,17 @@ _play_level::
 	add	hl, hl
 	add	hl, hl
 	ld	a, l
-	ld	e, h
+	ld	c, h
 	ldhl	sp,	#10
 	ld	(hl+), a
-	ld	(hl), e
-;src/main.c:93: uint16_t max_py = (map_h - VIEW_MT_H) << 4;
+	ld	(hl), c
+;src/main.c:104: uint16_t max_py = (map_h - VIEW_MT_H) << 4;
 	ldhl	sp,	#4
 	ld	a, (hl+)
-	ld	e, (hl)
+	ld	c, (hl)
 	add	a, #0xf7
 	ld	l, a
-	ld	a, e
+	ld	a, c
 	adc	a, #0xff
 	ld	h, a
 	add	hl, hl
@@ -2072,41 +2174,36 @@ _play_level::
 	add	hl, hl
 	add	hl, hl
 	ld	a, l
-	ld	e, h
+	ld	c, h
 	ldhl	sp,	#12
 	ld	(hl+), a
-;src/main.c:94: uint16_t loaded_r = BKG_MT_W - 1;
-	ld	a, e
+;src/main.c:105: uint16_t loaded_r = BKG_MT_W - 1;
+	ld	a, c
 	ld	(hl+), a
 	ld	a, #0x0f
 	ld	(hl+), a
 	xor	a, a
 	ld	(hl), a
-;src/main.c:96: DISPLAY_OFF;
+;src/main.c:107: DISPLAY_OFF;
 	call	_display_off
-;src/main.c:97: load_bkg_tileset(l->tiles, l->tile_count);
+;src/main.c:108: load_bkg_tileset(l->tiles, l->tile_count);
+	ldhl	sp,#19
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
 	ld	hl, #0x0006
-	add	hl, bc
-	ld	e, l
-	ld	d, h
-	ld	a, (de)
-	ldhl	sp,	#17
-	ld	(hl+), a
-	inc	de
-	ld	a, (de)
-	ld	(hl), a
-	ld	l, c
-	ld	h, b
+	add	hl, de
+	ld	a, (hl+)
+	ld	c, a
+	ld	b, (hl)
+	ldhl	sp,	#19
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
 	inc	hl
 	inc	hl
 	ld	a, (hl+)
 	ld	l, (hl)
-	push	hl
-	ldhl	sp,	#19
-	ld	c, (hl)
-	ldhl	sp,	#20
-	ld	b, (hl)
-	pop	hl
 	ld	e, a
 	ld	d, l
 	call	_load_bkg_tileset
@@ -2115,56 +2212,76 @@ _play_level::
 	ldh	(_SCX_REG + 0), a
 	xor	a, a
 	ldh	(_SCY_REG + 0), a
-;src/main.c:99: fill_scroll_bg(map, map_w, map_h);
-	ldhl	sp,	#4
+;src/main.c:110: fill_scroll_bg(map, map_w, map_h, l->map_bank);
+	ldhl	sp,#19
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+	ld	hl, #0x000e
+	add	hl, de
+	push	hl
+	ld	a, l
+	ldhl	sp,	#18
+	ld	(hl), a
+	pop	hl
+	ld	a, h
+	ldhl	sp,	#17
+	ld	(hl-), a
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+	ld	a, (de)
+	push	af
+	inc	sp
+	ldhl	sp,	#5
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	push	de
-	ldhl	sp,	#4
+	ldhl	sp,	#5
 	ld	a, (hl+)
 	ld	c, a
 	ld	b, (hl)
-	ldhl	sp,	#2
+	ldhl	sp,	#3
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	call	_fill_scroll_bg
-;src/main.c:100: SHOW_BKG;
+;src/main.c:111: SHOW_BKG;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x01
 	ldh	(_LCDC_REG + 0), a
-;src/main.c:101: DISPLAY_ON;
+;src/main.c:112: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
-;src/main.c:103: waitpadup();
+;src/main.c:114: waitpadup();
 	call	_waitpadup
-;src/main.c:105: while (1) {
+;src/main.c:116: while (1) {
 00133$:
-;src/main.c:106: wait_vbl_done();
+;src/main.c:117: wait_vbl_done();
 	call	_wait_vbl_done
-;src/main.c:107: uint8_t joy = joypad();
+;src/main.c:118: uint8_t joy = joypad();
 	call	_joypad
-	ldhl	sp,	#16
+	ldhl	sp,	#18
 	ld	(hl), a
-;src/main.c:108: if (joy & J_START) break;
+;src/main.c:119: if (joy & J_START) break;
 	push	hl
 	bit	7, (hl)
 	pop	hl
 	jp	NZ, 00134$
-;src/main.c:114: cam_px += SCROLL_SPEED;
+;src/main.c:125: cam_px += SCROLL_SPEED;
 	ldhl	sp,	#6
 	ld	a, (hl+)
 	ld	c, a
 	ld	b, (hl)
-;src/main.c:111: if (joy & J_RIGHT) {
+;src/main.c:122: if (joy & J_RIGHT) {
 	push	hl
-	ldhl	sp,	#18
+	ldhl	sp,	#20
 	bit	0, (hl)
 	pop	hl
 	jp	Z, 00118$
-;src/main.c:112: if (cam_px < max_px) {
+;src/main.c:123: if (cam_px < max_px) {
 	ldhl	sp,	#6
 	ld	e, l
 	ld	d, h
@@ -2176,14 +2293,14 @@ _play_level::
 	ld	a, (de)
 	sbc	a, (hl)
 	jp	NC, 00119$
-;src/main.c:113: uint16_t prev = cam_px >> 4;
+;src/main.c:124: uint16_t prev = cam_px >> 4;
 	ldhl	sp,	#6
 	ld	a, (hl)
-	ldhl	sp,	#17
+	ldhl	sp,	#19
 	ld	(hl), a
 	ldhl	sp,	#7
 	ld	a, (hl)
-	ldhl	sp,	#18
+	ldhl	sp,	#20
 	ld	(hl), a
 	srl	(hl)
 	dec	hl
@@ -2200,14 +2317,14 @@ _play_level::
 	srl	(hl)
 	dec	hl
 	rr	(hl)
-;src/main.c:114: cam_px += SCROLL_SPEED;
+;src/main.c:125: cam_px += SCROLL_SPEED;
 	inc	bc
 	inc	bc
 	ldhl	sp,	#6
 	ld	a, c
 	ld	(hl+), a
 	ld	(hl), b
-;src/main.c:115: if (cam_px > max_px) cam_px = max_px;
+;src/main.c:126: if (cam_px > max_px) cam_px = max_px;
 	ldhl	sp,	#10
 	ld	e, l
 	ld	d, h
@@ -2228,7 +2345,7 @@ _play_level::
 	ldhl	sp,	#7
 	ld	(hl), a
 00104$:
-;src/main.c:116: uint16_t curr = cam_px >> 4;
+;src/main.c:127: uint16_t curr = cam_px >> 4;
 	ldhl	sp,#6
 	ld	a, (hl+)
 	ld	c, a
@@ -2241,8 +2358,8 @@ _play_level::
 	rr	c
 	srl	b
 	rr	c
-;src/main.c:117: if (curr != prev) {
-	ldhl	sp,	#17
+;src/main.c:128: if (curr != prev) {
+	ldhl	sp,	#19
 	ld	a, (hl)
 	sub	a, c
 	jr	NZ, 00248$
@@ -2251,58 +2368,68 @@ _play_level::
 	sub	a, b
 	jr	Z, 00119$
 00248$:
-;src/main.c:118: uint16_t need = curr + VIEW_MT_W;
+;src/main.c:129: uint16_t need = curr + VIEW_MT_W;
 	ld	hl, #0x000a
 	add	hl, bc
-	ld	e, l
-	ld	d, h
-;src/main.c:119: if (need > loaded_r && need < map_w) {
+	ld	c, l
+	ld	b, h
+;src/main.c:130: if (need > loaded_r && need < map_w) {
 	ldhl	sp,	#14
 	ld	a, (hl+)
-	sub	a, e
+	sub	a, c
 	ld	a, (hl)
-	sbc	a, d
+	sbc	a, b
 	jr	NC, 00119$
 	ldhl	sp,	#2
-	ld	a, e
+	ld	a, c
 	sub	a, (hl)
 	inc	hl
-	ld	a, d
+	ld	a, b
 	sbc	a, (hl)
 	jr	NC, 00119$
-;src/main.c:120: loaded_r = need;
+;src/main.c:131: loaded_r = need;
 	ldhl	sp,	#14
-	ld	a, e
+	ld	a, c
 	ld	(hl+), a
-	ld	(hl), d
-;src/main.c:121: draw_mt_column((uint8_t)(need % BKG_MT_W),
-	ld	a, e
+;src/main.c:132: draw_mt_column((uint8_t)(need % BKG_MT_W), need, map, map_w, map_h, l->map_bank);
+	ld	a, b
+	ld	(hl+), a
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+	ld	a, (de)
+	ld	h, a
+	ld	a, c
 	and	a, #0x0f
-	ldhl	sp,	#4
-	ld	c, (hl)
+	push	hl
+	inc	sp
+	ldhl	sp,	#5
+	ld	e, (hl)
 	inc	hl
-	ld	b, (hl)
-	push	bc
-	ldhl	sp,	#4
-	ld	c, (hl)
+	ld	d, (hl)
+	push	de
+	ldhl	sp,	#5
+	ld	e, (hl)
 	inc	hl
-	ld	b, (hl)
-	push	bc
-	ldhl	sp,	#4
-	ld	c, (hl)
+	ld	d, (hl)
+	push	de
+	ldhl	sp,	#5
+	ld	e, (hl)
 	inc	hl
-	ld	b, (hl)
-	push	bc
+	ld	d, (hl)
+	push	de
+	ld	e, c
+	ld	d, b
 	call	_draw_mt_column
 	jr	00119$
 00118$:
-;src/main.c:127: else if (joy & J_LEFT) {
+;src/main.c:137: else if (joy & J_LEFT) {
 	push	hl
-	ldhl	sp,	#18
+	ldhl	sp,	#20
 	bit	1, (hl)
 	pop	hl
 	jr	Z, 00119$
-;src/main.c:128: if (cam_px >= SCROLL_SPEED) cam_px -= SCROLL_SPEED;
+;src/main.c:138: if (cam_px >= SCROLL_SPEED) cam_px -= SCROLL_SPEED;
 	ld	a, c
 	sub	a, #0x02
 	ld	a, b
@@ -2316,24 +2443,24 @@ _play_level::
 	ld	(hl), b
 	jr	00119$
 00113$:
-;src/main.c:129: else cam_px = 0;
+;src/main.c:139: else cam_px = 0;
 	xor	a, a
 	ldhl	sp,	#6
 	ld	(hl+), a
 	ld	(hl), a
 00119$:
-;src/main.c:135: cam_py += SCROLL_SPEED;
+;src/main.c:145: cam_py += SCROLL_SPEED;
 	ldhl	sp,	#8
 	ld	a, (hl+)
 	ld	c, a
 	ld	b, (hl)
-;src/main.c:133: if (joy & J_DOWN) {
+;src/main.c:143: if (joy & J_DOWN) {
 	push	hl
-	ldhl	sp,	#18
+	ldhl	sp,	#20
 	bit	3, (hl)
 	pop	hl
 	jr	Z, 00130$
-;src/main.c:134: if (cam_py < max_py) {
+;src/main.c:144: if (cam_py < max_py) {
 	ldhl	sp,	#8
 	ld	e, l
 	ld	d, h
@@ -2345,14 +2472,14 @@ _play_level::
 	ld	a, (de)
 	sbc	a, (hl)
 	jr	NC, 00131$
-;src/main.c:135: cam_py += SCROLL_SPEED;
+;src/main.c:145: cam_py += SCROLL_SPEED;
 	inc	bc
 	inc	bc
 	ldhl	sp,	#8
 	ld	a, c
 	ld	(hl+), a
 	ld	(hl), b
-;src/main.c:136: if (cam_py > max_py) cam_py = max_py;
+;src/main.c:146: if (cam_py > max_py) cam_py = max_py;
 	ldhl	sp,	#12
 	ld	e, l
 	ld	d, h
@@ -2374,13 +2501,13 @@ _play_level::
 	ld	(hl), a
 	jr	00131$
 00130$:
-;src/main.c:139: else if (joy & J_UP) {
+;src/main.c:149: else if (joy & J_UP) {
 	push	hl
-	ldhl	sp,	#18
+	ldhl	sp,	#20
 	bit	2, (hl)
 	pop	hl
 	jr	Z, 00131$
-;src/main.c:140: if (cam_py >= SCROLL_SPEED) cam_py -= SCROLL_SPEED;
+;src/main.c:150: if (cam_py >= SCROLL_SPEED) cam_py -= SCROLL_SPEED;
 	ld	a, c
 	sub	a, #0x02
 	ld	a, b
@@ -2394,13 +2521,13 @@ _play_level::
 	ld	(hl), b
 	jr	00131$
 00125$:
-;src/main.c:141: else cam_py = 0;
+;src/main.c:151: else cam_py = 0;
 	xor	a, a
 	ldhl	sp,	#8
 	ld	(hl+), a
 	ld	(hl), a
 00131$:
-;src/main.c:144: move_bkg((uint8_t)cam_px, (uint8_t)cam_py);
+;src/main.c:154: move_bkg((uint8_t)cam_px, (uint8_t)cam_py);
 	ldhl	sp,	#8
 	ld	a, (hl-)
 	dec	hl
@@ -2410,7 +2537,7 @@ _play_level::
 ;c:\gbdk\include\gb\gb.h:1461: SCX_REG=x, SCY_REG=y;
 	ld	a, c
 	ldh	(_SCY_REG + 0), a
-;src/main.c:144: move_bkg((uint8_t)cam_px, (uint8_t)cam_py);
+;src/main.c:154: move_bkg((uint8_t)cam_px, (uint8_t)cam_py);
 	jp	00133$
 00134$:
 ;c:\gbdk\include\gb\gb.h:1461: SCX_REG=x, SCY_REG=y;
@@ -2418,74 +2545,74 @@ _play_level::
 	ldh	(_SCX_REG + 0), a
 	xor	a, a
 	ldh	(_SCY_REG + 0), a
-;src/main.c:148: waitpadup();
+;src/main.c:158: waitpadup();
 	call	_waitpadup
-;src/main.c:149: setup_menu_font();
+;src/main.c:159: setup_menu_font();
 	call	_setup_menu_font
-;src/main.c:150: redraw = 1;
+;src/main.c:160: redraw = 1;
 	ld	hl, #_redraw
 	ld	(hl), #0x01
-;src/main.c:151: }
-	add	sp, #19
+;src/main.c:161: }
+	add	sp, #21
 	ret
-;src/main.c:156: void main(void) {
+;src/main.c:166: void main(void) {
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main::
 	dec	sp
-;src/main.c:157: music_ready = 0;
+;src/main.c:167: music_ready = 0;
 	xor	a, a
 	ld	(#_music_ready),a
-;src/main.c:158: NR52_REG = 0x80;
+;src/main.c:168: NR52_REG = 0x80;
 	ld	a, #0x80
 	ldh	(_NR52_REG + 0), a
-;src/main.c:159: NR51_REG = 0xFF;
+;src/main.c:169: NR51_REG = 0xFF;
 	ld	a, #0xff
 	ldh	(_NR51_REG + 0), a
-;src/main.c:160: NR50_REG = 0x77;
+;src/main.c:170: NR50_REG = 0x77;
 	ld	a, #0x77
 	ldh	(_NR50_REG + 0), a
-;src/main.c:162: hUGE_init(&song_stereoma);
+;src/main.c:172: hUGE_init(&song_stereoma);
 	ld	de, #_song_stereoma
 	call	_hUGE_init
-;src/main.c:163: music_ready = 1;
+;src/main.c:173: music_ready = 1;
 	ld	hl, #_music_ready
 	ld	(hl), #0x01
-;src/main.c:165: TMA_REG = 224;
+;src/main.c:175: TMA_REG = 224;
 	ld	a, #0xe0
 	ldh	(_TMA_REG + 0), a
-;src/main.c:166: TAC_REG = 0x04;
+;src/main.c:176: TAC_REG = 0x04;
 	ld	a, #0x04
 	ldh	(_TAC_REG + 0), a
-;src/main.c:167: add_TIM(play_music_safe);
+;src/main.c:177: add_TIM(play_music_safe);
 	ld	de, #_play_music_safe
 	call	_add_TIM
-;src/main.c:168: set_interrupts(VBL_IFLAG | TIM_IFLAG);
+;src/main.c:178: set_interrupts(VBL_IFLAG | TIM_IFLAG);
 	ld	a, #0x05
 	call	_set_interrupts
 ;c:\gbdk\include\gb\gb.h:795: __asm__("ei");
 	ei
-;src/main.c:171: setup_menu_font();
+;src/main.c:181: setup_menu_font();
 	call	_setup_menu_font
-;src/main.c:173: while (1) {
+;src/main.c:183: while (1) {
 00116$:
-;src/main.c:174: if (redraw) draw_menu();
+;src/main.c:184: if (redraw) draw_menu();
 	ld	a, (#_redraw)
 	or	a, a
 	jr	Z, 00102$
 	call	_draw_menu
 00102$:
-;src/main.c:175: uint8_t joy = joypad();
+;src/main.c:185: uint8_t joy = joypad();
 	call	_joypad
 	ldhl	sp,	#0
 	ld	(hl), a
-;src/main.c:177: if (joy & J_UP) {
+;src/main.c:187: if (joy & J_UP) {
 	push	hl
 	bit	2, (hl)
 	pop	hl
 	jr	Z, 00113$
-;src/main.c:178: if (selected > 0) { selected--; redraw = 1; }
+;src/main.c:188: if (selected > 0) { selected--; redraw = 1; }
 	ld	hl, #_selected
 	ld	a, (hl)
 	or	a, a
@@ -2494,17 +2621,17 @@ _main::
 	ld	hl, #_redraw
 	ld	(hl), #0x01
 00104$:
-;src/main.c:179: waitpadup();
+;src/main.c:189: waitpadup();
 	call	_waitpadup
 	jr	00114$
 00113$:
-;src/main.c:181: else if (joy & J_DOWN) {
+;src/main.c:191: else if (joy & J_DOWN) {
 	push	hl
 	ldhl	sp,	#2
 	bit	3, (hl)
 	pop	hl
 	jr	Z, 00110$
-;src/main.c:182: if (selected < MAX_LEVELS - 1) { selected++; redraw = 1; }
+;src/main.c:192: if (selected < MAX_LEVELS - 1) { selected++; redraw = 1; }
 	ld	a, (_MAX_LEVELS)
 	ld	b, #0x00
 	ld	c, a
@@ -2535,24 +2662,24 @@ _main::
 	ld	hl, #_redraw
 	ld	(hl), #0x01
 00106$:
-;src/main.c:183: waitpadup();
+;src/main.c:193: waitpadup();
 	call	_waitpadup
 	jr	00114$
 00110$:
-;src/main.c:185: else if (joy & J_A) {
+;src/main.c:195: else if (joy & J_A) {
 	push	hl
 	ldhl	sp,	#2
 	bit	4, (hl)
 	pop	hl
 	jr	Z, 00114$
-;src/main.c:186: play_level(selected);
+;src/main.c:196: play_level(selected);
 	ld	a, (_selected)
 	call	_play_level
 00114$:
-;src/main.c:189: wait_vbl_done();
+;src/main.c:199: wait_vbl_done();
 	call	_wait_vbl_done
 	jr	00116$
-;src/main.c:191: }
+;src/main.c:201: }
 	inc	sp
 	ret
 	.area _CODE

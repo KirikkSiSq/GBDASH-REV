@@ -44,20 +44,31 @@ void load_bkg_tileset(const uint8_t* tiles, uint16_t tile_count) {
 #define SCROLL_SPEED 2
 
 void draw_mt_column(uint8_t ring_col, uint16_t map_col,
-    const uint8_t* map, uint16_t map_w, uint16_t map_h) {
+    const uint8_t* map, uint16_t map_w, uint16_t map_h,
+    uint8_t map_bank) { // <--- Pass the bank here
+
     uint8_t bx = ring_col << 1;
+
+    // Save the current bank, then switch to the map's bank
+    uint8_t _prev = _current_bank;
+    SWITCH_ROM(map_bank);
+
     for (uint8_t r = 0; r < map_h && r < BKG_MT_H; r++) {
         uint8_t mt = map[(uint16_t)r * map_w + map_col];
         uint8_t by = (r & (BKG_MT_H - 1)) << 1;
         set_bkg_tiles(bx, by, 2, 1, &metatiles[mt][0]);
         set_bkg_tiles(bx, by + 1, 2, 1, &metatiles[mt][2]);
     }
+
+    // Switch back to the previous bank so the rest of the engine works
+    SWITCH_ROM(_prev);
 }
 
-void fill_scroll_bg(const uint8_t* map, uint16_t map_w, uint16_t map_h) {
+void fill_scroll_bg(const uint8_t* map, uint16_t map_w, uint16_t map_h, uint8_t map_bank) {
     uint16_t cols = (map_w < BKG_MT_W) ? map_w : BKG_MT_W;
     for (uint16_t c = 0; c < cols; c++) {
-        draw_mt_column((uint8_t)(c % BKG_MT_W), c, map, map_w, map_h);
+        // Added l->map_bank here
+        draw_mt_column((uint8_t)(c % BKG_MT_W), c, map, map_w, map_h, map_bank);
     }
 }
 
@@ -96,7 +107,7 @@ void play_level(uint8_t idx) {
     DISPLAY_OFF;
     load_bkg_tileset(l->tiles, l->tile_count);
     move_bkg(0, 0);
-    fill_scroll_bg(map, map_w, map_h);
+    fill_scroll_bg(map, map_w, map_h, l->map_bank);
     SHOW_BKG;
     DISPLAY_ON;
 
@@ -118,8 +129,7 @@ void play_level(uint8_t idx) {
                     uint16_t need = curr + VIEW_MT_W;
                     if (need > loaded_r && need < map_w) {
                         loaded_r = need;
-                        draw_mt_column((uint8_t)(need % BKG_MT_W),
-                            need, map, map_w, map_h);
+                        draw_mt_column((uint8_t)(need % BKG_MT_W), need, map, map_w, map_h, l->map_bank);
                     }
                 }
             }
