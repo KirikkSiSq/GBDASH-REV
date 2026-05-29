@@ -5,7 +5,7 @@
 
 #include "assets.h"
 #include "hUGEDriver.h"
-#include "famidash_metatiles.c"  // metatiles[] + famidash_metatile_collision[]
+#include "famidash_metatiles.c"  // metatiles[] and famidash_metatile_collision[]
 
 uint8_t music_ready = 0;
 uint8_t redraw = 1;
@@ -34,8 +34,8 @@ void load_bkg_tileset(const uint8_t* tiles, uint16_t tile_count) {
 
 // -------------------------------------------------------
 // Ring-buffer background
-// GB background = 32x32 tiles = 16x16 metatiles (ring)
-// Only new columns are drawn as the camera moves right.
+// GB background is 32x32 tiles = 16x16 metatiles (ring)
+//  new columns are drawn as the camera moves right.
 // -------------------------------------------------------
 #define BKG_MT_W  16
 #define BKG_MT_H  16
@@ -45,11 +45,11 @@ void load_bkg_tileset(const uint8_t* tiles, uint16_t tile_count) {
 
 void draw_mt_column(uint8_t ring_col, uint16_t map_col,
     const uint8_t* map, uint16_t map_w, uint16_t map_h,
-    uint8_t map_bank) { // <--- Pass the bank here
+    uint8_t map_bank) { 
 
     uint8_t bx = ring_col << 1;
 
-    // Save the current bank, then switch to the map's bank
+    // Save the current bank, then switch to the maps bank
     uint8_t _prev = _current_bank;
     SWITCH_ROM(map_bank);
 
@@ -90,11 +90,10 @@ void draw_menu(void) {
 
 // -------------------------------------------------------
 // Level player
-// Map is ROM-resident — read directly, no RAM copy needed.
 // -------------------------------------------------------
 void play_level(uint8_t idx) {
     const Level* l = game_levels[idx];
-    const uint8_t* map = l->map;        // ROM pointer, no decompression
+    const uint8_t* map = l->map;        // ROM pointer
     uint16_t map_w = l->map_width;   // 894
     uint16_t map_h = l->map_height;  // 16
 
@@ -118,7 +117,7 @@ void play_level(uint8_t idx) {
         uint8_t joy = joypad();
         if (joy & J_START) break;
 
-        // Horizontal
+        // Horizontal 
         if (joy & J_RIGHT) {
             if (cam_px < max_px) {
                 uint16_t prev = cam_px >> 4;
@@ -139,7 +138,7 @@ void play_level(uint8_t idx) {
             else cam_px = 0;
         }
 
-        // Vertical (free — all rows in ring already)
+        // Vertical which if freee
         if (joy & J_DOWN) {
             if (cam_py < max_py) {
                 cam_py += SCROLL_SPEED;
