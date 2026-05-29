@@ -14,6 +14,10 @@ extern const uint8_t stereomadness_map[];
 BANKREF_EXTERN(backontrack_map)
 extern const uint8_t backontrack_map[];
 
+//level2.c
+BANKREF_EXTERN(polargeist_map)
+extern const uint8_t polargeist_map[];
+
 const Level level_sm = {
     "STEREO MADNESS",
     famidash_chr_tiles,
@@ -22,7 +26,7 @@ const Level level_sm = {
     894,
     16,
     0, 0,
-    BANK(stereomadness_map) // This will now correctly return '2'
+    BANK(stereomadness_map) 
 };
 
 const Level level_bot = {
@@ -33,9 +37,20 @@ const Level level_bot = {
     846,
     16,
     0, 0,
-    BANK(backontrack_map) // This will now correctly return '2'
+    BANK(backontrack_map) 
+};
+
+const Level level_pg = {
+    "POLARGEIST",
+    famidash_chr_tiles,
+    polargeist_map,
+    256,
+    934,
+    16,
+    0, 0,
+    BANK(polargeist_map)
 };
 
 
-const Level* const game_levels[] = { &level_sm, &level_bot };
-const uint8_t MAX_LEVELS = 2;
+const Level* const game_levels[] = { &level_sm, &level_bot, &level_pg };
+const uint8_t MAX_LEVELS = 3;

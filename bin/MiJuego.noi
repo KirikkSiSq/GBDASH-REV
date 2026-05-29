@@ -57,6 +57,7 @@ DEF ___bank_backontrack_map 0x3
 DEF l__FONT_HEADER0 0x3
 DEF l__HEADER9 0x3
 DEF l__HEADER_LCD0 0x3
+DEF ___bank_polargeist_map 0x4
 DEF l__HEADER1 0x5
 DEF l__HEADER8 0x6
 DEF l__HEADER2 0x7
@@ -73,7 +74,7 @@ DEF l__HEADER11 0xAB
 DEF s__CODE 0x200
 DEF l__HOME 0xAE2
 DEF ___size_famidash_chr_tiles 0x1000
-DEF l__CODE_1 0x1040
+DEF l__CODE_1 0x105C
 DEF l__CODE 0x1CF5
 DEF s__HOME 0x1EF5
 DEF _rROMB0 0x2000
@@ -84,10 +85,12 @@ DEF s__LIT 0x29D7
 DEF s__GSINIT 0x29E0
 DEF s__GSFINAL 0x29EC
 DEF _rROMB1 0x3000
-DEF ___size_stereomadness_map 0x3462
-DEF l__CODE_2 0x3462
 DEF ___size_backontrack_map 0x34E0
 DEF l__CODE_3 0x34E0
+DEF ___size_stereomadness_map 0x37E0
+DEF l__CODE_2 0x37E0
+DEF ___size_polargeist_map 0x3A60
+DEF l__CODE_4 0x3A60
 DEF _rMBC7_SRAM_ENABLE_2 0x4000
 DEF _rRAMB 0x4000
 DEF __VRAM 0x8000
@@ -179,6 +182,7 @@ DEF _IE_REG 0xFFFF
 DEF s__CODE_1 0x14000
 DEF s__CODE_2 0x24000
 DEF s__CODE_3 0x34000
+DEF s__CODE_4 0x44000
 DEF _play_music_safe 0x200
 DEF _metatiles 0x208
 DEF _famidash_metatile_palettes 0x608
@@ -326,10 +330,13 @@ DEF ___func_famidash_chr_tiles 0x14000
 DEF _famidash_chr_tiles 0x14000
 DEF _level_sm 0x15000
 DEF _level_bot 0x1500F
-DEF _game_levels 0x1501E
-DEF _MAX_LEVELS 0x15022
+DEF _level_pg 0x1501E
+DEF _game_levels 0x1502D
+DEF _MAX_LEVELS 0x15033
 DEF ___func_stereomadness_map 0x24000
 DEF _stereomadness_map 0x24000
 DEF ___func_backontrack_map 0x34000
 DEF _backontrack_map 0x34000
+DEF ___func_polargeist_map 0x44000
+DEF _polargeist_map 0x44000
 LOAD bin/MiJuego.ihx
