@@ -2,16 +2,20 @@
 #include <gbdk/incbin.h>
 #include "assets.h"
 
-// Tileset stays in Bank 1
+//Bank 1
 INCBIN(famidash_chr_tiles, "levels/famidash/famidash_chr_tiles.bin")
 INCBIN_EXTERN(famidash_chr_tiles)
 
-// Refer to the map that is now in level1.c
+//level1.c
 BANKREF_EXTERN(stereomadness_map)
 extern const uint8_t stereomadness_map[];
 
+//level2.c
+BANKREF_EXTERN(backontrack_map)
+extern const uint8_t backontrack_map[];
+
 const Level level_sm = {
-    "STEREO MAD",
+    "STEREO MADNESS",
     famidash_chr_tiles,
     stereomadness_map,
     256,
@@ -21,5 +25,17 @@ const Level level_sm = {
     BANK(stereomadness_map) // This will now correctly return '2'
 };
 
-const Level* const game_levels[] = { &level_sm };
-const uint8_t MAX_LEVELS = 1;
+const Level level_bot = {
+    "BACK ON TRACK",
+    famidash_chr_tiles,
+    backontrack_map,
+    256,
+    846,
+    16,
+    0, 0,
+    BANK(backontrack_map) // This will now correctly return '2'
+};
+
+
+const Level* const game_levels[] = { &level_sm, &level_bot };
+const uint8_t MAX_LEVELS = 2;

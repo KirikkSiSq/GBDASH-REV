@@ -2,17 +2,13 @@
 ; File Created by SDCC : free open source ISO C Compiler
 ; Version 4.5.1 #15267 (MINGW64)
 ;--------------------------------------------------------
-	.module assets
+	.module level2
 	
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
-	.globl _MAX_LEVELS
-	.globl _game_levels
-	.globl _level_bot
-	.globl _level_sm
-	.globl b___func_famidash_chr_tiles
-	.globl ___func_famidash_chr_tiles
+	.globl b___func_backontrack_map
+	.globl ___func_backontrack_map
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -44,53 +40,22 @@
 ;--------------------------------------------------------
 ; code
 ;--------------------------------------------------------
-	.area _CODE_1
-;src/assets.c:6: INCBIN(famidash_chr_tiles, "levels/famidash/famidash_chr_tiles.bin")
+	.area _CODE_3
+;src/level2.c:4: INCBIN(backontrack_map, "levels/level_data/backontrack_16high.bin")
 ;	---------------------------------
-; Function __func_famidash_chr_tiles
+; Function __func_backontrack_map
 ; ---------------------------------
-	b___func_famidash_chr_tiles	= 1
-___func_famidash_chr_tiles::
-_famidash_chr_tiles::
+	b___func_backontrack_map	= 3
+___func_backontrack_map::
+_backontrack_map::
 1$:
-	.incbin "levels/famidash/famidash_chr_tiles.bin" 
+	.incbin "levels/level_data/backontrack_16high.bin" 
 2$:
-	___size_famidash_chr_tiles = (2$-1$) 
-	.globl ___size_famidash_chr_tiles 
-	.local b___func_famidash_chr_tiles 
-	___bank_famidash_chr_tiles = b___func_famidash_chr_tiles 
-	.globl ___bank_famidash_chr_tiles 
-	.area _CODE_1
-_level_sm:
-	.dw __str_0
-	.dw _famidash_chr_tiles
-	.dw _stereomadness_map
-	.dw #0x0100
-	.dw #0x037e
-	.dw #0x0010
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.byte ___bank_stereomadness_map
-_level_bot:
-	.dw __str_1
-	.dw _famidash_chr_tiles
-	.dw _backontrack_map
-	.dw #0x0100
-	.dw #0x034e
-	.dw #0x0010
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.byte ___bank_backontrack_map
-_game_levels:
-	.dw _level_sm
-	.dw _level_bot
-_MAX_LEVELS:
-	.db #0x02	; 2
-__str_0:
-	.ascii "STEREO MADNESS"
-	.db 0x00
-__str_1:
-	.ascii "BACK ON TRACK"
-	.db 0x00
+	___size_backontrack_map = (2$-1$) 
+	.globl ___size_backontrack_map 
+	.local b___func_backontrack_map 
+	___bank_backontrack_map = b___func_backontrack_map 
+	.globl ___bank_backontrack_map 
+	.area _CODE_3
 	.area _INITIALIZER
 	.area _CABS (ABS)

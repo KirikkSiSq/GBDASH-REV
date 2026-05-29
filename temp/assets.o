@@ -1,11 +1,13 @@
 XL4
-H B areas A global symbols
+H B areas D global symbols
 M assets
 S ___size_famidash_chr_tiles Def00001000
 S .__.ABS. Def00000000
 S ___bank_famidash_chr_tiles Def00000001
 S ___bank_stereomadness_map Ref00000000
+S ___bank_backontrack_map Ref00000000
 S _stereomadness_map Ref00000000
+S _backontrack_map Ref00000000
 A _CODE size 0 flags 0 addr 0
 A _HRAM size 0 flags 0 addr 0
 A _DATA size 0 flags 0 addr 0
@@ -14,10 +16,11 @@ A _DABS size 0 flags 8 addr 0
 A _HOME size 0 flags 0 addr 0
 A _GSINIT size 0 flags 0 addr 0
 A _GSFINAL size 0 flags 0 addr 0
-A _CODE_1 size 101D flags 0 addr 0
+A _CODE_1 size 1040 flags 0 addr 0
 S ___func_famidash_chr_tiles Def00000000
-S _game_levels Def0000100F
-S _MAX_LEVELS Def00001011
+S _level_bot Def0000100F
+S _game_levels Def0000101E
+S _MAX_LEVELS Def00001022
 S _level_sm Def00001000
 S _famidash_chr_tiles Def00000000
 A _INITIALIZER size 0 flags 0 addr 0
@@ -716,19 +719,33 @@ T 00 10 00 00
 R 00 00 08 00
 T 00 10 00 00
 R 00 00 08 00
-T 00 10 00 00 12 10 00 00 00 00 00 01 7E 03 10 00
-R 00 00 08 00 00 04 08 00 00 06 08 00 02 08 04 00
+T 00 10 00 00 23 10 00 00 00 00 00 01 7E 03 10 00
+R 00 00 08 00 00 04 08 00 00 06 08 00 02 08 05 00
 T 0C 10 00 00 00 00 00 00 00 00
 R 00 00 08 00 0B 06 03 00
 T 0F 10 00 00
 R 00 00 08 00
-T 0F 10 00 00 00 10
-R 00 00 08 00 00 04 08 00
-T 11 10 00 00
+T 0F 10 00 00 32 10 00 00 00 00 00 01 4E 03 10 00
+R 00 00 08 00 00 04 08 00 00 06 08 00 02 08 06 00
+T 1B 10 00 00 00 00 00 00 00 00
+R 00 00 08 00 0B 06 04 00
+T 1E 10 00 00
 R 00 00 08 00
-T 11 10 00 00 01
+T 1E 10 00 00 00 10 0F 10
+R 00 00 08 00 00 04 08 00 00 06 08 00
+T 22 10 00 00
 R 00 00 08 00
-T 12 10 00 00
+T 22 10 00 00 02
 R 00 00 08 00
-T 12 10 00 00 53 54 45 52 45 4F 20 4D 41 44 00
+T 23 10 00 00
+R 00 00 08 00
+T 23 10 00 00 53 54 45 52 45 4F 20 4D 41 44 4E 45
+R 00 00 08 00
+T 2F 10 00 00 53 53 00
+R 00 00 08 00
+T 32 10 00 00
+R 00 00 08 00
+T 32 10 00 00 42 41 43 4B 20 4F 4E 20 54 52 41 43
+R 00 00 08 00
+T 3E 10 00 00 4B 00
 R 00 00 08 00

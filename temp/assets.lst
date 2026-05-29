@@ -9,50 +9,51 @@
                                       9 ;--------------------------------------------------------
                                      10 	.globl _MAX_LEVELS
                                      11 	.globl _game_levels
-                                     12 	.globl _level_sm
-                                     13 	.globl b___func_famidash_chr_tiles
-                                     14 	.globl ___func_famidash_chr_tiles
-                                     15 ;--------------------------------------------------------
-                                     16 ; special function registers
-                                     17 ;--------------------------------------------------------
-                                     18 	.area _HRAM
-                                     19 ;--------------------------------------------------------
-                                     20 ; ram data
-                                     21 ;--------------------------------------------------------
-                                     22 	.area _DATA
-                                     23 ;--------------------------------------------------------
-                                     24 ; ram data
-                                     25 ;--------------------------------------------------------
-                                     26 	.area _INITIALIZED
-                                     27 ;--------------------------------------------------------
-                                     28 ; absolute external ram data
-                                     29 ;--------------------------------------------------------
-                                     30 	.area _DABS (ABS)
-                                     31 ;--------------------------------------------------------
-                                     32 ; global & static initialisations
-                                     33 ;--------------------------------------------------------
-                                     34 	.area _HOME
-                                     35 	.area _GSINIT
-                                     36 	.area _GSFINAL
-                                     37 	.area _GSINIT
-                                     38 ;--------------------------------------------------------
-                                     39 ; Home
-                                     40 ;--------------------------------------------------------
-                                     41 	.area _HOME
+                                     12 	.globl _level_bot
+                                     13 	.globl _level_sm
+                                     14 	.globl b___func_famidash_chr_tiles
+                                     15 	.globl ___func_famidash_chr_tiles
+                                     16 ;--------------------------------------------------------
+                                     17 ; special function registers
+                                     18 ;--------------------------------------------------------
+                                     19 	.area _HRAM
+                                     20 ;--------------------------------------------------------
+                                     21 ; ram data
+                                     22 ;--------------------------------------------------------
+                                     23 	.area _DATA
+                                     24 ;--------------------------------------------------------
+                                     25 ; ram data
+                                     26 ;--------------------------------------------------------
+                                     27 	.area _INITIALIZED
+                                     28 ;--------------------------------------------------------
+                                     29 ; absolute external ram data
+                                     30 ;--------------------------------------------------------
+                                     31 	.area _DABS (ABS)
+                                     32 ;--------------------------------------------------------
+                                     33 ; global & static initialisations
+                                     34 ;--------------------------------------------------------
+                                     35 	.area _HOME
+                                     36 	.area _GSINIT
+                                     37 	.area _GSFINAL
+                                     38 	.area _GSINIT
+                                     39 ;--------------------------------------------------------
+                                     40 ; Home
+                                     41 ;--------------------------------------------------------
                                      42 	.area _HOME
-                                     43 ;--------------------------------------------------------
-                                     44 ; code
-                                     45 ;--------------------------------------------------------
-                                     46 	.area _CODE_1
-                                     47 ;src/assets.c:6: INCBIN(famidash_chr_tiles, "levels/famidash/famidash_chr_tiles.bin")
-                                     48 ;	---------------------------------
-                                     49 ; Function __func_famidash_chr_tiles
-                                     50 ; ---------------------------------
-                         00000001    51 	b___func_famidash_chr_tiles	= 1
-    00000000                         52 ___func_famidash_chr_tiles::
-    00000000                         53 _famidash_chr_tiles::
-    00000000                         54 1$:
-    00000000 00 00 00 00 00 00 00    55 	.incbin "levels/famidash/famidash_chr_tiles.bin" 
+                                     43 	.area _HOME
+                                     44 ;--------------------------------------------------------
+                                     45 ; code
+                                     46 ;--------------------------------------------------------
+                                     47 	.area _CODE_1
+                                     48 ;src/assets.c:6: INCBIN(famidash_chr_tiles, "levels/famidash/famidash_chr_tiles.bin")
+                                     49 ;	---------------------------------
+                                     50 ; Function __func_famidash_chr_tiles
+                                     51 ; ---------------------------------
+                         00000001    52 	b___func_famidash_chr_tiles	= 1
+    00000000                         53 ___func_famidash_chr_tiles::
+    00000000                         54 _famidash_chr_tiles::
+    00000000                         55 1$:
+    00000000 00 00 00 00 00 00 00    56 	.incbin "levels/famidash/famidash_chr_tiles.bin" 
              00 00 00 00 00 00 00
              00 00 00 00 FF FF 7F
              7F 7F 7F 7F 7F 3F 3F
@@ -71,30 +72,45 @@
              FF FF FF FF EE EE E4
              E4 40 40 40 40 00 00
              00 00
-    00001000                         56 2$:
-                         00001000    57 	___size_famidash_chr_tiles = (2$-1$) 
-                                     58 	.globl ___size_famidash_chr_tiles 
-                                     59 	.local b___func_famidash_chr_tiles 
-                         00000001    60 	___bank_famidash_chr_tiles = b___func_famidash_chr_tiles 
-                                     61 	.globl ___bank_famidash_chr_tiles 
-                                     62 	.area _CODE_1
-    00001000                         63 _level_sm:
-    00001000r12r10                   64 	.dw __str_0
-    00001002r00r00                   65 	.dw _famidash_chr_tiles
-    00001004r00r00                   66 	.dw _stereomadness_map
-    00001006 00 01                   67 	.dw #0x0100
-    00001008 7E 03                   68 	.dw #0x037e
-    0000100A 10 00                   69 	.dw #0x0010
-    0000100C 00                      70 	.db #0x00	; 0
-    0000100D 00                      71 	.db #0x00	; 0
-    0000100Er00                      72 	.byte ___bank_stereomadness_map
-    0000100F                         73 _game_levels:
-    0000100Fr00r10                   74 	.dw _level_sm
-    00001011                         75 _MAX_LEVELS:
-    00001011 01                      76 	.db #0x01	; 1
-    00001012                         77 __str_0:
-    00001012 53 54 45 52 45 4F 20    78 	.ascii "STEREO MAD"
-             4D 41 44
-    0000101C 00                      79 	.db 0x00
-                                     80 	.area _INITIALIZER
-                                     81 	.area _CABS (ABS)
+    00001000                         57 2$:
+                         00001000    58 	___size_famidash_chr_tiles = (2$-1$) 
+                                     59 	.globl ___size_famidash_chr_tiles 
+                                     60 	.local b___func_famidash_chr_tiles 
+                         00000001    61 	___bank_famidash_chr_tiles = b___func_famidash_chr_tiles 
+                                     62 	.globl ___bank_famidash_chr_tiles 
+                                     63 	.area _CODE_1
+    00001000                         64 _level_sm:
+    00001000r23r10                   65 	.dw __str_0
+    00001002r00r00                   66 	.dw _famidash_chr_tiles
+    00001004r00r00                   67 	.dw _stereomadness_map
+    00001006 00 01                   68 	.dw #0x0100
+    00001008 7E 03                   69 	.dw #0x037e
+    0000100A 10 00                   70 	.dw #0x0010
+    0000100C 00                      71 	.db #0x00	; 0
+    0000100D 00                      72 	.db #0x00	; 0
+    0000100Er00                      73 	.byte ___bank_stereomadness_map
+    0000100F                         74 _level_bot:
+    0000100Fr32r10                   75 	.dw __str_1
+    00001011r00r00                   76 	.dw _famidash_chr_tiles
+    00001013r00r00                   77 	.dw _backontrack_map
+    00001015 00 01                   78 	.dw #0x0100
+    00001017 4E 03                   79 	.dw #0x034e
+    00001019 10 00                   80 	.dw #0x0010
+    0000101B 00                      81 	.db #0x00	; 0
+    0000101C 00                      82 	.db #0x00	; 0
+    0000101Dr00                      83 	.byte ___bank_backontrack_map
+    0000101E                         84 _game_levels:
+    0000101Er00r10                   85 	.dw _level_sm
+    00001020r0Fr10                   86 	.dw _level_bot
+    00001022                         87 _MAX_LEVELS:
+    00001022 02                      88 	.db #0x02	; 2
+    00001023                         89 __str_0:
+    00001023 53 54 45 52 45 4F 20    90 	.ascii "STEREO MADNESS"
+             4D 41 44 4E 45 53 53
+    00001031 00                      91 	.db 0x00
+    00001032                         92 __str_1:
+    00001032 42 41 43 4B 20 4F 4E    93 	.ascii "BACK ON TRACK"
+             20 54 52 41 43 4B
+    0000103F 00                      94 	.db 0x00
+                                     95 	.area _INITIALIZER
+                                     96 	.area _CABS (ABS)
