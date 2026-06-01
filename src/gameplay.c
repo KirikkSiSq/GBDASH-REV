@@ -23,6 +23,8 @@ const uint8_t cube_tiles[] = {
 #define VIEW_MT_W 10
 #define VIEW_MT_H  9
 #define SCROLL_SPEED 3
+#define CAM_Y_TOP_ZONE 20
+#define CAM_Y_BOTTOM_ZONE 100
 
 void setup_menu_font(void) NONBANKED {
     font_init();
@@ -111,6 +113,9 @@ void play_level(uint8_t idx) NONBANKED {
 
     uint16_t cam_px = 0;
     uint16_t cam_py = 112;
+    uint16_t cam_py_max = (level_map_h << 4);
+    if (cam_py_max > 144u) cam_py_max -= 144u;
+    else cam_py_max = 0;
     uint16_t loaded_r = BKG_MT_W - 1;
 
     uint8_t _prev;
@@ -172,9 +177,23 @@ void play_level(uint8_t idx) NONBANKED {
         died = player_update(&player, joy, level_map, level_map_w, level_map_h);
         SWITCH_ROM(_prev);
 
+        py = player_screen_y(&player, cam_py);
+        if (py < CAM_Y_TOP_ZONE) {
+            int16_t target_cam_py = player.world_y - CAM_Y_TOP_ZONE;
+            if (target_cam_py < 0) target_cam_py = 0;
+            if ((uint16_t)target_cam_py > cam_py_max) target_cam_py = (int16_t)cam_py_max;
+            cam_py = (uint16_t)target_cam_py;
+        } else if (py > CAM_Y_BOTTOM_ZONE) {
+            int16_t target_cam_py = player.world_y - CAM_Y_BOTTOM_ZONE;
+            if (target_cam_py < 0) target_cam_py = 0;
+            if ((uint16_t)target_cam_py > cam_py_max) target_cam_py = (int16_t)cam_py_max;
+            cam_py = (uint16_t)target_cam_py;
+        }
+
         if (died) {
             disable_interrupts();
             cam_px = 0;
+            cam_py = 112;
             loaded_r = BKG_MT_W - 1;
             player_init(&player, 32, 160);
             move_bkg(0, (uint8_t)cam_py);

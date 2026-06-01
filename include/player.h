@@ -11,7 +11,7 @@
 
 // Fixed-point physics (1 unit = 1/16th pixel)
 #define GRAVITY           9
-#define JUMP_FORCE       -92
+#define JUMP_FORCE       -93
 #define MAX_FALL_SPEED    95
 
 typedef struct {
