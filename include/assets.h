@@ -17,6 +17,7 @@ typedef struct {
 } Level;
 
 extern const Level * const game_levels[];
+BANKREF_EXTERN(game_levels)
 extern const uint8_t MAX_LEVELS;
 
 #endif

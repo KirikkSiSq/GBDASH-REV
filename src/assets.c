@@ -2,6 +2,9 @@
 #include <gbdk/incbin.h>
 #include "assets.h"
 
+BANKREF(game_levels)
+BANKREF(famidash_chr)
+
 //Bank 1
 INCBIN(famidash_chr_tiles, "levels/famidash/famidash_chr_tiles.bin")
 INCBIN_EXTERN(famidash_chr_tiles)

@@ -1,0 +1,77 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+    _BGP_REG                                                        ******** GX
+    _LCDC_REG                                                       ******** GX
+    _MAX_LEVELS                                                     ******** GX
+    _OBP0_REG                                                       ******** GX
+    _SCX_REG                                                        ******** GX
+    _SCY_REG                                                        ******** GX
+    ___bank_famidash_chr                                            ******** GX
+    ___bank_game_levels                                             ******** GX
+  8 ___str_1                                                        000001DD R
+  8 ___str_2                                                        000001E5 R
+  8 ___str_3                                                        000001EA R
+    __current_bank                                                  ******** GX
+    __mulint                                                        ******** GX
+  8 _col_at                                                         00000009 R
+  8 _col_of                                                         00000000 R
+  8 _col_point                                                      000000B2 R
+  5 _cube_tiles                                                     00000011 GR
+    _display_off                                                    ******** GX
+  8 _draw_menu                                                      0000015B GR
+  5 _draw_mt_column                                                 00000081 GR
+    _famidash_metatile_collision                                    ******** GX
+    _fill_bkg_rect                                                  ******** GX
+  5 _fill_scroll_bg                                                 00000175 GR
+    _font_init                                                      ******** GX
+    _font_load                                                      ******** GX
+    _font_min                                                       ******** GX
+    _font_set                                                       ******** GX
+    _game_levels                                                    ******** GX
+    _gotoxy                                                         ******** GX
+    _joypad                                                         ******** GX
+  5 _load_bkg_tileset                                               00000051 GR
+    _metatiles                                                      ******** GX
+  5 _play_level                                                     000001C2 GR
+    _play_music_safe                                                ******** GX
+  8 _player_init                                                    0000008C R
+  8 _player_screen_y                                                0000014F R
+    _player_update                                                  ******** GX
+    _printf                                                         ******** GX
+    _puts                                                           ******** GX
+    _rROMB0                                                         ******** GX
+    _redraw                                                         ******** GX
+    _selected                                                       ******** GX
+    _set_bkg_data                                                   ******** GX
+    _set_bkg_tiles                                                  ******** GX
+    _set_sprite_data                                                ******** GX
+  5 _setup_menu_font                                                00000000 GR
+    _shadow_OAM                                                     ******** GX
+    _wait_vbl_done                                                  ******** GX
+    _waitpadup                                                      ******** GX
+    b_draw_menu                                                 =   00000001 G
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size        0   flags    0
+   1 _HRAM                                      size        0   flags    0
+   2 _DATA                                      size        0   flags    0
+   3 _INITIALIZED                               size        0   flags    0
+   4 _DABS                                      size        0   flags    8
+   5 _HOME                                      size      465   flags    0
+   6 _GSINIT                                    size        0   flags    0
+   7 _GSFINAL                                   size        0   flags    0
+   8 _CODE_1                                    size      1EF   flags    0
+   9 _INITIALIZER                               size        0   flags    0
+   A _CABS                                      size        0   flags    8
+

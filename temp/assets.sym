@@ -9,10 +9,14 @@ Symbol Table
     .__.H$L.                                                    =   00000000 L
   8 _MAX_LEVELS                                                     00001033 GR
     ___bank_backontrack_map                                         ******** GX
+    ___bank_famidash_chr                                        =   00000001 G
     ___bank_famidash_chr_tiles                                  =   00000001 G
+    ___bank_game_levels                                         =   00000001 G
     ___bank_polargeist_map                                          ******** GX
     ___bank_stereomadness_map                                       ******** GX
+  8 ___func_famidash_chr                                            00000000 GR
   8 ___func_famidash_chr_tiles                                      00000000 GR
+  8 ___func_game_levels                                             00000000 GR
     ___size_famidash_chr_tiles                                  =   00001000 G
   8 __str_0                                                         00001034 R
   8 __str_1                                                         00001043 R
@@ -25,7 +29,9 @@ Symbol Table
   8 _level_sm                                                       00001000 GR
     _polargeist_map                                                 ******** GX
     _stereomadness_map                                              ******** GX
+    b___func_famidash_chr                                       =   00000001 L
     b___func_famidash_chr_tiles                                 =   00000001 L
+    b___func_game_levels                                        =   00000001 L
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2

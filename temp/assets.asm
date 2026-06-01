@@ -14,6 +14,10 @@
 	.globl _level_sm
 	.globl b___func_famidash_chr_tiles
 	.globl ___func_famidash_chr_tiles
+	.globl b___func_famidash_chr
+	.globl ___func_famidash_chr
+	.globl b___func_game_levels
+	.globl ___func_game_levels
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -46,7 +50,25 @@
 ; code
 ;--------------------------------------------------------
 	.area _CODE_1
-;src/assets.c:6: INCBIN(famidash_chr_tiles, "levels/famidash/famidash_chr_tiles.bin")
+;src/assets.c:5: BANKREF(game_levels)
+;	---------------------------------
+; Function __func_game_levels
+; ---------------------------------
+	b___func_game_levels	= 1
+___func_game_levels::
+	.local b___func_game_levels 
+	___bank_game_levels = b___func_game_levels 
+	.globl ___bank_game_levels 
+;src/assets.c:6: BANKREF(famidash_chr)
+;	---------------------------------
+; Function __func_famidash_chr
+; ---------------------------------
+	b___func_famidash_chr	= 1
+___func_famidash_chr::
+	.local b___func_famidash_chr 
+	___bank_famidash_chr = b___func_famidash_chr 
+	.globl ___bank_famidash_chr 
+;src/assets.c:9: INCBIN(famidash_chr_tiles, "levels/famidash/famidash_chr_tiles.bin")
 ;	---------------------------------
 ; Function __func_famidash_chr_tiles
 ; ---------------------------------
