@@ -73,10 +73,10 @@ void fill_scroll_bg(const uint8_t* map, uint16_t map_w, uint16_t map_h, uint8_t 
 void draw_menu(void) BANKED {
     fill_bkg_rect(0, 0, 20, 18, 0x00);
     gotoxy(0, 0);
-    printf("GBDASH\n\n");
+    printf("GBDASH BETA 01\n\n");
     for (uint8_t i = 0; i < MAX_LEVELS; i++) {
         gotoxy(1, 2 + i);
-        if (i == selected) printf("> %s", game_levels[i]->name);
+        if (i == selected) printf("0 %s", game_levels[i]->name);
         else               printf("  %s", game_levels[i]->name);
     }
     SHOW_BKG;
@@ -128,7 +128,7 @@ void play_level(uint8_t idx) NONBANKED {
 
     Player player;
 
-    player_init(&player, 32, 160);
+    player_init(&player, 32, 240);
 
     // Setup GBDK graphics state
     disable_interrupts();
@@ -158,7 +158,6 @@ void play_level(uint8_t idx) NONBANKED {
 
     while (1) {
         wait_vbl_done();
-        play_music_safe();
         uint8_t joy = joypad();
         if (joy & J_START) break;
 
@@ -204,7 +203,7 @@ void play_level(uint8_t idx) NONBANKED {
             cam_px = 0;
             cam_py = 112;
             loaded_r = BKG_MT_W - 1;
-            player_init(&player, 32, 160);
+            player_init(&player, 32, 240);
             move_bkg(0, (uint8_t)cam_py);
             fill_scroll_bg(level_map, level_map_w, level_map_h, level_map_bank);
             enable_interrupts();

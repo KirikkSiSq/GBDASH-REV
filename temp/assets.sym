@@ -7,8 +7,9 @@ Symbol Table
     .__.ABS.                                                    =   00000000 G
     .__.CPU.                                                    =   00000000 L
     .__.H$L.                                                    =   00000000 L
-  8 _MAX_LEVELS                                                     00001033 GR
+  8 _MAX_LEVELS                                                     00001044 GR
     ___bank_backontrack_map                                         ******** GX
+    ___bank_dryout_map                                              ******** GX
     ___bank_famidash_chr                                        =   00000001 G
     ___bank_famidash_chr_tiles                                  =   00000001 G
     ___bank_game_levels                                         =   00000001 G
@@ -18,13 +19,16 @@ Symbol Table
   8 ___func_famidash_chr_tiles                                      00000000 GR
   8 ___func_game_levels                                             00000000 GR
     ___size_famidash_chr_tiles                                  =   00001000 G
-  8 __str_0                                                         00001034 R
-  8 __str_1                                                         00001043 R
-  8 __str_2                                                         00001051 R
+  8 __str_0                                                         00001045 R
+  8 __str_1                                                         00001054 R
+  8 __str_2                                                         00001062 R
+  8 __str_3                                                         0000106D R
     _backontrack_map                                                ******** GX
+    _dryout_map                                                     ******** GX
   8 _famidash_chr_tiles                                             00000000 GR
-  8 _game_levels                                                    0000102D GR
+  8 _game_levels                                                    0000103C GR
   8 _level_bot                                                      0000100F GR
+  8 _level_du                                                       0000102D GR
   8 _level_pg                                                       0000101E GR
   8 _level_sm                                                       00001000 GR
     _polargeist_map                                                 ******** GX
@@ -32,7 +36,6 @@ Symbol Table
     b___func_famidash_chr                                       =   00000001 L
     b___func_famidash_chr_tiles                                 =   00000001 L
     b___func_game_levels                                        =   00000001 L
-
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
@@ -47,7 +50,7 @@ Area Table
    5 _HOME                                      size        0   flags    0
    6 _GSINIT                                    size        0   flags    0
    7 _GSFINAL                                   size        0   flags    0
-   8 _CODE_1                                    size     105C   flags    0
+   8 _CODE_1                                    size     1075   flags    0
    9 _INITIALIZER                               size        0   flags    0
    A _CABS                                      size        0   flags    8
 

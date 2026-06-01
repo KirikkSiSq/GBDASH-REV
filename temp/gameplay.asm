@@ -8,7 +8,6 @@
 ; Public variables in this module
 ;--------------------------------------------------------
 	.globl _player_update
-	.globl _play_music_safe
 	.globl _puts
 	.globl _printf
 	.globl _gotoxy
@@ -615,7 +614,7 @@ _play_level::
 	ld	(hl+), a
 	xor	a, a
 	ld	(hl), a
-;src/gameplay.c:131: player_init(&player, 32, 160);
+;src/gameplay.c:131: player_init(&player, 32, 240);
 ;include/player.h:27: p->world_x   = start_x;
 	ldhl	sp,	#0
 	ld	a, #0x20
@@ -623,7 +622,7 @@ _play_level::
 	xor	a, a
 ;include/player.h:28: p->world_y   = start_y;
 	ld	(hl+), a
-	ld	a, #0xa0
+	ld	a, #0xf0
 	ld	(hl+), a
 ;include/player.h:29: p->vel_y     = 0;
 	xor	a, a
@@ -735,19 +734,17 @@ _play_level::
 00129$:
 ;src/gameplay.c:160: wait_vbl_done();
 	call	_wait_vbl_done
-;src/gameplay.c:161: play_music_safe();
-	call	_play_music_safe
-;src/gameplay.c:162: uint8_t joy = joypad();
+;src/gameplay.c:161: uint8_t joy = joypad();
 	call	_joypad
 	ldhl	sp,	#21
 	ld	(hl), a
-;src/gameplay.c:163: if (joy & J_START) break;
+;src/gameplay.c:162: if (joy & J_START) break;
 	push	hl
 	ldhl	sp,	#23
 	bit	7, (hl)
 	pop	hl
 	jp	NZ, 00130$
-;src/gameplay.c:166: if (cam_px < ((level_map_w - VIEW_MT_W) << 4)) {
+;src/gameplay.c:165: if (cam_px < ((level_map_w - VIEW_MT_W) << 4)) {
 	ldhl	sp,	#10
 	ld	a, (hl)
 	ldhl	sp,	#22
@@ -795,7 +792,7 @@ _play_level::
 	ld	a, (de)
 	sbc	a, (hl)
 	jp	NC, 00112$
-;src/gameplay.c:167: uint16_t prev = cam_px >> 4;
+;src/gameplay.c:166: uint16_t prev = cam_px >> 4;
 	ldhl	sp,	#26
 	ld	a, (hl-)
 	dec	hl
@@ -819,7 +816,7 @@ _play_level::
 	srl	(hl)
 	dec	hl
 	rr	(hl)
-;src/gameplay.c:168: cam_px += SCROLL_SPEED;
+;src/gameplay.c:167: cam_px += SCROLL_SPEED;
 	dec	hl
 	dec	hl
 	ld	a, (hl+)
@@ -834,7 +831,7 @@ _play_level::
 	pop	hl
 	ld	a, h
 	ldhl	sp,	#27
-;src/gameplay.c:169: uint16_t curr = cam_px >> 4;
+;src/gameplay.c:168: uint16_t curr = cam_px >> 4;
 	ld	(hl-), a
 	ld	a, (hl+)
 	ld	c, a
@@ -847,7 +844,7 @@ _play_level::
 	rr	c
 	srl	b
 	rr	c
-;src/gameplay.c:171: if (curr != prev) {
+;src/gameplay.c:170: if (curr != prev) {
 	ldhl	sp,	#24
 	ld	a, (hl)
 	sub	a, c
@@ -857,12 +854,12 @@ _play_level::
 	sub	a, b
 	jr	Z, 00112$
 00257$:
-;src/gameplay.c:172: uint16_t need = curr + VIEW_MT_W;
+;src/gameplay.c:171: uint16_t need = curr + VIEW_MT_W;
 	ld	hl, #0x000a
 	add	hl, bc
 	ld	e, l
 	ld	d, h
-;src/gameplay.c:173: if (need > loaded_r && need < level_map_w) {
+;src/gameplay.c:172: if (need > loaded_r && need < level_map_w) {
 	ldhl	sp,	#19
 	ld	a, (hl+)
 	sub	a, e
@@ -876,12 +873,12 @@ _play_level::
 	ld	a, d
 	sbc	a, (hl)
 	jr	NC, 00112$
-;src/gameplay.c:174: loaded_r = need;
+;src/gameplay.c:173: loaded_r = need;
 	ldhl	sp,	#19
 	ld	a, e
 	ld	(hl+), a
 	ld	(hl), d
-;src/gameplay.c:175: draw_mt_column((uint8_t)(need % BKG_MT_W), need, level_map, level_map_w, level_map_h, level_map_bank);
+;src/gameplay.c:174: draw_mt_column((uint8_t)(need % BKG_MT_W), need, level_map, level_map_w, level_map_h, level_map_bank);
 	ld	a, e
 	and	a, #0x0f
 	ldhl	sp,	#14
@@ -905,7 +902,7 @@ _play_level::
 	push	bc
 	call	_draw_mt_column
 00112$:
-;src/gameplay.c:180: player.world_x = cam_px + PLAYER_SCREEN_X;
+;src/gameplay.c:179: player.world_x = cam_px + PLAYER_SCREEN_X;
 	ldhl	sp,	#26
 	ld	a, (hl)
 	ldhl	sp,	#22
@@ -934,16 +931,16 @@ _play_level::
 	ld	a, (hl)
 	ldhl	sp,	#1
 	ld	(hl), a
-;src/gameplay.c:182: _prev = _current_bank;
+;src/gameplay.c:181: _prev = _current_bank;
 	ldh	a, (__current_bank + 0)
 	ld	c, a
-;src/gameplay.c:183: SWITCH_ROM(level_map_bank);
+;src/gameplay.c:182: SWITCH_ROM(level_map_bank);
 	ldhl	sp,	#14
 	ld	a, (hl)
 	ldh	(__current_bank + 0), a
 	ld	a, (hl)
 	ld	(#_rROMB0),a
-;src/gameplay.c:184: died = player_update(&player, joy, level_map, level_map_w, level_map_h);
+;src/gameplay.c:183: died = player_update(&player, joy, level_map, level_map_w, level_map_h);
 	push	bc
 	ldhl	sp,	#14
 	ld	a, (hl+)
@@ -970,12 +967,12 @@ _play_level::
 	ldhl	sp,	#23
 	ld	(hl), a
 	pop	bc
-;src/gameplay.c:185: SWITCH_ROM(_prev);
+;src/gameplay.c:184: SWITCH_ROM(_prev);
 	ld	a, c
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), c
-;src/gameplay.c:188: py = player_screen_y(&player, cam_py);
+;src/gameplay.c:187: py = player_screen_y(&player, cam_py);
 ;include/player.h:52: return p->world_y - (int16_t)cam_py;
 	ldhl	sp,	#2
 	ld	a, (hl)
@@ -999,12 +996,12 @@ _play_level::
 	ld	a, d
 	sbc	a, b
 	ld	c, e
-;src/gameplay.c:189: if (py < CAM_Y_TOP_ZONE) {
+;src/gameplay.c:188: if (py < CAM_Y_TOP_ZONE) {
 	ldhl	sp,	#22
 	ld	(hl), c
 	inc	hl
 	ld	(hl), a
-;src/gameplay.c:192: if ((uint16_t)target_cam_py > cam_py_max) target_cam_py = (int16_t)cam_py_max;
+;src/gameplay.c:191: if ((uint16_t)target_cam_py > cam_py_max) target_cam_py = (int16_t)cam_py_max;
 	ldhl	sp,	#17
 	ld	a, (hl)
 	ldhl	sp,	#24
@@ -1013,7 +1010,7 @@ _play_level::
 	ld	a, (hl)
 	ldhl	sp,	#25
 	ld	(hl), a
-;src/gameplay.c:189: if (py < CAM_Y_TOP_ZONE) {
+;src/gameplay.c:188: if (py < CAM_Y_TOP_ZONE) {
 	ldhl	sp,	#22
 	ld	a, (hl+)
 	sub	a, #0x14
@@ -1034,7 +1031,7 @@ _play_level::
 	scf
 00259$:
 	jr	NC, 00124$
-;src/gameplay.c:190: int16_t target_cam_py = player.world_y - CAM_Y_TOP_ZONE;
+;src/gameplay.c:189: int16_t target_cam_py = player.world_y - CAM_Y_TOP_ZONE;
 	ldhl	sp,	#2
 	ld	a, (hl+)
 	ld	c, a
@@ -1045,13 +1042,13 @@ _play_level::
 	ld	a, b
 	adc	a, #0xff
 	ld	b, a
-;src/gameplay.c:191: if (target_cam_py < 0) target_cam_py = 0;
+;src/gameplay.c:190: if (target_cam_py < 0) target_cam_py = 0;
 	ld	h, b
 	bit	7, h
 	jr	Z, 00114$
 	ld	bc, #0x0000
 00114$:
-;src/gameplay.c:192: if ((uint16_t)target_cam_py > cam_py_max) target_cam_py = (int16_t)cam_py_max;
+;src/gameplay.c:191: if ((uint16_t)target_cam_py > cam_py_max) target_cam_py = (int16_t)cam_py_max;
 	ld	e, c
 	ld	d, b
 	ldhl	sp,	#17
@@ -1065,14 +1062,14 @@ _play_level::
 	ld	c, a
 	ld	b, (hl)
 00116$:
-;src/gameplay.c:193: cam_py = (uint16_t)target_cam_py;
+;src/gameplay.c:192: cam_py = (uint16_t)target_cam_py;
 	ldhl	sp,	#15
 	ld	a, c
 	ld	(hl+), a
 	ld	(hl), b
 	jr	00125$
 00124$:
-;src/gameplay.c:194: } else if (py > CAM_Y_BOTTOM_ZONE) {
+;src/gameplay.c:193: } else if (py > CAM_Y_BOTTOM_ZONE) {
 	ldhl	sp,	#22
 	ld	a, #0x64
 	sub	a, (hl)
@@ -1080,7 +1077,7 @@ _play_level::
 	ld	a, #0x00
 	sbc	a, (hl)
 	jr	NC, 00125$
-;src/gameplay.c:195: int16_t target_cam_py = player.world_y - CAM_Y_BOTTOM_ZONE;
+;src/gameplay.c:194: int16_t target_cam_py = player.world_y - CAM_Y_BOTTOM_ZONE;
 	ldhl	sp,	#2
 	ld	a, (hl)
 	ldhl	sp,	#22
@@ -1098,13 +1095,13 @@ _play_level::
 	ld	a, b
 	adc	a, #0xff
 	ld	b, a
-;src/gameplay.c:196: if (target_cam_py < 0) target_cam_py = 0;
+;src/gameplay.c:195: if (target_cam_py < 0) target_cam_py = 0;
 	ld	h, b
 	bit	7, h
 	jr	Z, 00118$
 	ld	bc, #0x0000
 00118$:
-;src/gameplay.c:197: if ((uint16_t)target_cam_py > cam_py_max) target_cam_py = (int16_t)cam_py_max;
+;src/gameplay.c:196: if ((uint16_t)target_cam_py > cam_py_max) target_cam_py = (int16_t)cam_py_max;
 	ld	e, c
 	ld	d, b
 	ldhl	sp,	#17
@@ -1118,32 +1115,32 @@ _play_level::
 	ld	c, a
 	ld	b, (hl)
 00120$:
-;src/gameplay.c:198: cam_py = (uint16_t)target_cam_py;
+;src/gameplay.c:197: cam_py = (uint16_t)target_cam_py;
 	ldhl	sp,	#15
 	ld	a, c
 	ld	(hl+), a
 	ld	(hl), b
 00125$:
 ;include/player.h:28: p->world_y   = start_y;
-;src/gameplay.c:201: if (died) {
+;src/gameplay.c:200: if (died) {
 	ldhl	sp,	#21
 	ld	a, (hl)
 	or	a, a
 	jr	Z, 00127$
 ;c:\gbdk\include\gb\gb.h:811: __asm__("di");
 	di
-;src/gameplay.c:204: cam_px = 0;
+;src/gameplay.c:203: cam_px = 0;
 	xor	a, a
 	ldhl	sp,	#26
 	ld	(hl+), a
 	ld	(hl), a
-;src/gameplay.c:205: cam_py = 112;
+;src/gameplay.c:204: cam_py = 112;
 	ldhl	sp,	#15
 	ld	a, #0x70
 	ld	(hl+), a
 	xor	a, a
 	ld	(hl), a
-;src/gameplay.c:206: loaded_r = BKG_MT_W - 1;
+;src/gameplay.c:205: loaded_r = BKG_MT_W - 1;
 	ldhl	sp,	#19
 	ld	a, #0x0f
 	ld	(hl+), a
@@ -1156,7 +1153,7 @@ _play_level::
 	xor	a, a
 ;include/player.h:28: p->world_y   = start_y;
 	ld	(hl+), a
-	ld	a, #0xa0
+	ld	a, #0xf0
 	ld	(hl+), a
 ;include/player.h:29: p->vel_y     = 0;
 	xor	a, a
@@ -1173,7 +1170,7 @@ _play_level::
 	ldh	(_SCX_REG + 0), a
 	ld	a, #0x70
 	ldh	(_SCY_REG + 0), a
-;src/gameplay.c:209: fill_scroll_bg(level_map, level_map_w, level_map_h, level_map_bank);
+;src/gameplay.c:208: fill_scroll_bg(level_map, level_map_w, level_map_h, level_map_bank);
 	ldhl	sp,	#14
 	ld	a, (hl-)
 	dec	hl
@@ -1194,7 +1191,7 @@ _play_level::
 	call	_fill_scroll_bg
 ;c:\gbdk\include\gb\gb.h:795: __asm__("ei");
 	ei
-;src/gameplay.c:210: enable_interrupts();
+;src/gameplay.c:209: enable_interrupts();
 00127$:
 ;include/player.h:52: return p->world_y - (int16_t)cam_py;
 	ldhl	sp,	#2
@@ -1202,7 +1199,7 @@ _play_level::
 	ldhl	sp,	#15
 	ld	c, (hl)
 	sub	a, c
-;src/gameplay.c:216: move_sprite(0, PLAYER_SCREEN_X + 8,     py + 16);
+;src/gameplay.c:215: move_sprite(0, PLAYER_SCREEN_X + 8,     py + 16);
 	ld	c, a
 	add	a, #0x10
 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
@@ -1217,13 +1214,15 @@ _play_level::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), #0x30
-;src/gameplay.c:218: move_sprite(2, PLAYER_SCREEN_X + 8,     py + 16 + 8);
+;src/gameplay.c:217: move_sprite(2, PLAYER_SCREEN_X + 8,     py + 16 + 8);
 	ld	a, c
 	add	a, #0x18
-;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	c, a
+	ld	b, c
+;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 8)
+;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+	ld	a, b
 	ld	(hl+), a
 	ld	(hl), #0x28
 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
@@ -1232,7 +1231,7 @@ _play_level::
 	ld	a, c
 	ld	(hl+), a
 	ld	(hl), #0x30
-;src/gameplay.c:221: move_bkg((uint8_t)cam_px, (uint8_t)cam_py);
+;src/gameplay.c:220: move_bkg((uint8_t)cam_px, (uint8_t)cam_py);
 	ldhl	sp,	#15
 	ld	c, (hl)
 	ldhl	sp,	#26
@@ -1241,10 +1240,10 @@ _play_level::
 ;c:\gbdk\include\gb\gb.h:1461: SCX_REG=x, SCY_REG=y;
 	ld	a, c
 	ldh	(_SCY_REG + 0), a
-;src/gameplay.c:221: move_bkg((uint8_t)cam_px, (uint8_t)cam_py);
+;src/gameplay.c:220: move_bkg((uint8_t)cam_px, (uint8_t)cam_py);
 	jp	00129$
 00130$:
-;src/gameplay.c:224: HIDE_SPRITES;
+;src/gameplay.c:223: HIDE_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	and	a, #0xfd
 	ldh	(_LCDC_REG + 0), a
@@ -1253,18 +1252,18 @@ _play_level::
 	ldh	(_SCX_REG + 0), a
 	xor	a, a
 	ldh	(_SCY_REG + 0), a
-;src/gameplay.c:226: waitpadup();
+;src/gameplay.c:225: waitpadup();
 	call	_waitpadup
 ;c:\gbdk\include\gb\gb.h:811: __asm__("di");
 	di
-;src/gameplay.c:228: setup_menu_font();
+;src/gameplay.c:227: setup_menu_font();
 	call	_setup_menu_font
 ;c:\gbdk\include\gb\gb.h:795: __asm__("ei");
 	ei
-;src/gameplay.c:230: redraw = 1;
+;src/gameplay.c:229: redraw = 1;
 	ld	hl, #_redraw
 	ld	(hl), #0x01
-;src/gameplay.c:231: }
+;src/gameplay.c:230: }
 	add	sp, #28
 	ret
 	.area _HOME
@@ -1605,7 +1604,7 @@ _draw_menu::
 	push	af
 	call	_gotoxy
 	pop	hl
-;src/gameplay.c:76: printf("GBDASH\n\n");
+;src/gameplay.c:76: printf("GBDASH BETA 01\n\n");
 	ld	de, #___str_1
 	call	_puts
 ;src/gameplay.c:77: for (uint8_t i = 0; i < MAX_LEVELS; i++) {
@@ -1625,7 +1624,7 @@ _draw_menu::
 	call	_gotoxy
 	pop	hl
 	pop	bc
-;src/gameplay.c:79: if (i == selected) printf("> %s", game_levels[i]->name);
+;src/gameplay.c:79: if (i == selected) printf("0 %s", game_levels[i]->name);
 	ld	l, c
 	ld	h, #0x00
 	add	hl, hl
@@ -1688,11 +1687,11 @@ _draw_menu::
 ;src/gameplay.c:84: }
 	ret
 ___str_1:
-	.ascii "GBDASH"
+	.ascii "GBDASH BETA 01"
 	.db 0x0a
 	.db 0x00
 ___str_2:
-	.ascii "> %s"
+	.ascii "0 %s"
 	.db 0x00
 ___str_3:
 	.ascii "  %s"

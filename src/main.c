@@ -14,6 +14,11 @@ void play_music_safe(void) {
     if (music_ready) hUGE_dosound();
 }
 
+// Interrupt handler for music. Called once per frame.
+void vbl_music_isr(void) {
+    if (music_ready) hUGE_dosound();
+}
+
 void main(void) {
     music_ready = 0;
 
@@ -25,6 +30,7 @@ void main(void) {
     hUGE_init(&song_stereoma);
     music_ready = 1;
 
+    add_VBL(vbl_music_isr);
     set_interrupts(VBL_IFLAG);
     enable_interrupts();
 
@@ -32,7 +38,6 @@ void main(void) {
 
     while (1) {
         play_music_safe();
-
         if (redraw) draw_menu();
 
         uint8_t joy = joypad();

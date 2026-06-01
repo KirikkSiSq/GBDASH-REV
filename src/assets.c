@@ -19,6 +19,11 @@ extern const uint8_t backontrack_map[];
 BANKREF_EXTERN(polargeist_map)
 extern const uint8_t polargeist_map[];
 
+BANKREF_EXTERN(dryout_map)
+extern const uint8_t dryout_map[];
+
+
+
 // Level definitions with dimensions and bank info
 const Level level_sm = {
     "STEREO MADNESS",
@@ -53,6 +58,17 @@ const Level level_pg = {
     BANK(polargeist_map)
 };
 
+const Level level_du = {
+    "DRY OUT",
+    famidash_chr_tiles,
+    dryout_map,
+    256,
+    842,
+    16,
+    0, 0,
+    BANK(dryout_map)
+};
+
 // Global level list used by the menu and gameplay systems
-const Level* const game_levels[] = { &level_sm, &level_bot, &level_pg };
-const uint8_t MAX_LEVELS = 3;
+const Level* const game_levels[] = { &level_sm, &level_bot, &level_pg, &level_du };
+const uint8_t MAX_LEVELS = sizeof(game_levels) / sizeof(game_levels[0]);
