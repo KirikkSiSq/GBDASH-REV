@@ -5,22 +5,21 @@
 BANKREF(game_levels)
 BANKREF(famidash_chr)
 
-//Bank 1
+// Main tileset for the game levels
 INCBIN(famidash_chr_tiles, "levels/famidash/famidash_chr_tiles.bin")
 INCBIN_EXTERN(famidash_chr_tiles)
 
-//level1.c
+// External map data definitions from level files
 BANKREF_EXTERN(stereomadness_map)
 extern const uint8_t stereomadness_map[];
 
-//level2.c
 BANKREF_EXTERN(backontrack_map)
 extern const uint8_t backontrack_map[];
 
-//level2.c
 BANKREF_EXTERN(polargeist_map)
 extern const uint8_t polargeist_map[];
 
+// Level definitions with dimensions and bank info
 const Level level_sm = {
     "STEREO MADNESS",
     famidash_chr_tiles,
@@ -54,6 +53,6 @@ const Level level_pg = {
     BANK(polargeist_map)
 };
 
-
+// Global level list used by the menu and gameplay systems
 const Level* const game_levels[] = { &level_sm, &level_bot, &level_pg };
 const uint8_t MAX_LEVELS = 3;

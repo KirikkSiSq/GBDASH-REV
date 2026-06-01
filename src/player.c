@@ -9,16 +9,19 @@ uint8_t player_update(
 ) NONBANKED {
     if (p->dead) return 1;
 
+    // Apply gravity
     if (!p->on_ground) {
         p->vel_y += GRAVITY;
         if (p->vel_y > MAX_FALL_SPEED) p->vel_y = MAX_FALL_SPEED;
     }
 
+    // Handle jumping
     if ((joy & J_A) && p->on_ground) {
         p->vel_y = JUMP_FORCE;
         p->on_ground = 0;
     }
 
+    // Convert fixed-point velocity to integer pixels for step-based collision
     int8_t pixels = (int8_t)(p->vel_y >> 4);
     int8_t step   = (pixels >= 0) ? 1 : -1;
     int8_t steps  = (pixels >= 0) ? pixels : -pixels;
@@ -26,10 +29,12 @@ uint8_t player_update(
 
     p->on_ground = 0;
 
+    // Sub-pixel movement and collision
     for (int8_t i = 0; i < steps; i++) {
         int16_t ny = p->world_y + step;
 
         if (step > 0) {
+            // Check floor
             uint8_t cl = col_point(p->world_x,              ny + PLAYER_SIZE, map, map_w, map_h);
             uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny + PLAYER_SIZE, map, map_w, map_h);
             if (IS_SOLID(cl) || IS_SOLID(cr)) {
@@ -39,6 +44,7 @@ uint8_t player_update(
                 break;
             }
         } else {
+            // Check ceiling
             uint8_t cl = col_point(p->world_x,              ny, map, map_w, map_h);
             uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny, map, map_w, map_h);
             if (IS_SOLID(cl) || IS_SOLID(cr)) {
@@ -51,6 +57,7 @@ uint8_t player_update(
         p->world_y = ny;
     }
 
+    // Hazard detection (spikes, etc)
     {
         uint16_t hx1 = p->world_x + PLAYER_HBOX;
         uint16_t hx2 = p->world_x + PLAYER_SIZE - PLAYER_HBOX;
@@ -66,6 +73,7 @@ uint8_t player_update(
         }
     }
 
+    // Frontal collision (walls)
     {
         uint8_t cm_l = col_point(p->world_x,              p->world_y + 7, map, map_w, map_h);
         uint8_t cm_r = col_point(p->world_x + PLAYER_SIZE, p->world_y + 7, map, map_w, map_h);
@@ -75,6 +83,7 @@ uint8_t player_update(
         }
     }
 
+    // Out of bounds (falling off screen)
     if (p->world_y > (int16_t)((uint16_t)map_h << 4)) {
         p->dead = 1;
         return 1;

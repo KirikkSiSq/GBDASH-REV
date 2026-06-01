@@ -73,7 +73,7 @@
     00000025 3E 01            [ 8]   73 	ld	a, #0x01
     00000027 C3r8Cr0F         [16]   74 	jp	00377$
     0000002A                         75 00102$:
-                                     76 ;src/player.c:12: if (!p->on_ground) {
+                                     76 ;src/player.c:13: if (!p->on_ground) {
     0000002A F8 26            [12]   77 	ldhl	sp,#38
     0000002C 2A               [ 8]   78 	ld	a, (hl+)
     0000002D 5F               [ 4]   79 	ld	e, a
@@ -93,7 +93,7 @@
     0000003F 56               [ 8]   93 	ld	d, (hl)
     00000040 1A               [ 8]   94 	ld	a, (de)
     00000041 4F               [ 4]   95 	ld	c, a
-                                     96 ;src/player.c:13: p->vel_y += GRAVITY;
+                                     96 ;src/player.c:14: p->vel_y += GRAVITY;
     00000042 F8 26            [12]   97 	ldhl	sp,#38
     00000044 2A               [ 8]   98 	ld	a, (hl+)
     00000045 5F               [ 4]   99 	ld	e, a
@@ -108,11 +108,11 @@
     00000051 7C               [ 4]  108 	ld	a, h
     00000052 F8 24            [12]  109 	ldhl	sp,	#36
     00000054 77               [ 8]  110 	ld	(hl), a
-                                    111 ;src/player.c:12: if (!p->on_ground) {
+                                    111 ;src/player.c:13: if (!p->on_ground) {
     00000055 79               [ 4]  112 	ld	a, c
     00000056 B7               [ 4]  113 	or	a, a
     00000057 20 41            [12]  114 	jr	NZ, 00106$
-                                    115 ;src/player.c:13: p->vel_y += GRAVITY;
+                                    115 ;src/player.c:14: p->vel_y += GRAVITY;
     00000059 2B               [ 8]  116 	dec	hl
     0000005A 2A               [ 8]  117 	ld	a, (hl+)
     0000005B 5F               [ 4]  118 	ld	e, a
@@ -137,7 +137,7 @@
     00000072 79               [ 4]  137 	ld	a, c
     00000073 22               [ 8]  138 	ld	(hl+), a
     00000074 70               [ 8]  139 	ld	(hl), b
-                                    140 ;src/player.c:14: if (p->vel_y > MAX_FALL_SPEED) p->vel_y = MAX_FALL_SPEED;
+                                    140 ;src/player.c:15: if (p->vel_y > MAX_FALL_SPEED) p->vel_y = MAX_FALL_SPEED;
     00000075 58               [ 4]  141 	ld	e, b
     00000076 16 00            [ 8]  142 	ld	d, #0x00
     00000078 3E 5F            [ 8]  143 	ld	a, #0x5f
@@ -164,7 +164,7 @@
     00000097 22               [ 8]  164 	ld	(hl+), a
     00000098 36 00            [12]  165 	ld	(hl), #0x00
     0000009A                        166 00106$:
-                                    167 ;src/player.c:17: if ((joy & J_A) && p->on_ground) {
+                                    167 ;src/player.c:19: if ((joy & J_A) && p->on_ground) {
     0000009A E5               [16]  168 	push	hl
     0000009B F8 27            [12]  169 	ldhl	sp,	#39
     0000009D CB 66            [12]  170 	bit	4, (hl)
@@ -177,22 +177,22 @@
     000000A7 1A               [ 8]  177 	ld	a, (de)
     000000A8 B7               [ 4]  178 	or	a, a
     000000A9 28 11            [12]  179 	jr	Z, 00108$
-                                    180 ;src/player.c:18: p->vel_y = JUMP_FORCE;
+                                    180 ;src/player.c:20: p->vel_y = JUMP_FORCE;
     000000AB F8 23            [12]  181 	ldhl	sp,	#35
     000000AD 2A               [ 8]  182 	ld	a, (hl+)
     000000AE 66               [ 8]  183 	ld	h, (hl)
     000000AF 6F               [ 4]  184 	ld	l, a
-    000000B0 3E A4            [ 8]  185 	ld	a, #0xa4
+    000000B0 3E A3            [ 8]  185 	ld	a, #0xa3
     000000B2 22               [ 8]  186 	ld	(hl+), a
     000000B3 36 FF            [12]  187 	ld	(hl), #0xff
-                                    188 ;src/player.c:19: p->on_ground = 0;
+                                    188 ;src/player.c:21: p->on_ground = 0;
     000000B5 F8 06            [12]  189 	ldhl	sp,	#6
     000000B7 2A               [ 8]  190 	ld	a, (hl+)
     000000B8 66               [ 8]  191 	ld	h, (hl)
     000000B9 6F               [ 4]  192 	ld	l, a
     000000BA 36 00            [12]  193 	ld	(hl), #0x00
     000000BC                        194 00108$:
-                                    195 ;src/player.c:22: int8_t pixels = (int8_t)(p->vel_y >> 4);
+                                    195 ;src/player.c:25: int8_t pixels = (int8_t)(p->vel_y >> 4);
     000000BC F8 23            [12]  196 	ldhl	sp,	#35
     000000BE 7E               [ 8]  197 	ld	a, (hl)
     000000BF F8 08            [12]  198 	ldhl	sp,	#8
@@ -220,7 +220,7 @@
     000000E0 CB 19            [ 8]  220 	rr	c
     000000E2 F8 28            [12]  221 	ldhl	sp,	#40
     000000E4 71               [ 8]  222 	ld	(hl), c
-                                    223 ;src/player.c:23: int8_t step   = (pixels >= 0) ? 1 : -1;
+                                    223 ;src/player.c:26: int8_t step   = (pixels >= 0) ? 1 : -1;
     000000E5 7E               [ 8]  224 	ld	a, (hl)
     000000E6 07               [ 4]  225 	rlca
     000000E7 E6 01            [ 8]  226 	and	a,#0x01
@@ -233,7 +233,7 @@
     000000F4                        233 00380$:
     000000F4 F8 0A            [12]  234 	ldhl	sp,	#10
     000000F6 77               [ 8]  235 	ld	(hl), a
-                                    236 ;src/player.c:24: int8_t steps  = (pixels >= 0) ? pixels : -pixels;
+                                    236 ;src/player.c:27: int8_t steps  = (pixels >= 0) ? pixels : -pixels;
     000000F7 F8 24            [12]  237 	ldhl	sp,	#36
     000000F9 CB 46            [12]  238 	bit	0, (hl)
     000000FB 28 05            [12]  239 	jr	Z, 00382$
@@ -246,7 +246,7 @@
     00000104 7E               [ 8]  246 	ld	a, (hl)
     00000105 F8 0B            [12]  247 	ldhl	sp,	#11
     00000107 77               [ 8]  248 	ld	(hl), a
-                                    249 ;src/player.c:25: if (steps > 16) steps = 16;
+                                    249 ;src/player.c:28: if (steps > 16) steps = 16;
     00000108 5E               [ 8]  250 	ld	e, (hl)
     00000109 3E 10            [ 8]  251 	ld	a,#0x10
     0000010B 57               [ 4]  252 	ld	d,a
@@ -266,13 +266,13 @@
     0000011F F8 0B            [12]  266 	ldhl	sp,	#11
     00000121 36 10            [12]  267 	ld	(hl), #0x10
     00000123                        268 00111$:
-                                    269 ;src/player.c:27: p->on_ground = 0;
+                                    269 ;src/player.c:30: p->on_ground = 0;
     00000123 F8 06            [12]  270 	ldhl	sp,	#6
     00000125 2A               [ 8]  271 	ld	a, (hl+)
     00000126 66               [ 8]  272 	ld	h, (hl)
     00000127 6F               [ 4]  273 	ld	l, a
     00000128 36 00            [12]  274 	ld	(hl), #0x00
-                                    275 ;src/player.c:29: for (int8_t i = 0; i < steps; i++) {
+                                    275 ;src/player.c:33: for (int8_t i = 0; i < steps; i++) {
     0000012A F8 2F            [12]  276 	ldhl	sp,	#47
     0000012C 7E               [ 8]  277 	ld	a, (hl)
     0000012D F8 0C            [12]  278 	ldhl	sp,	#12
@@ -344,7 +344,7 @@
     0000018E F8 28            [12]  344 	ldhl	sp,	#40
     00000190 36 00            [12]  345 	ld	(hl), #0x00
     00000192                        346 00375$:
-                                    347 ;src/player.c:30: int16_t ny = p->world_y + step;
+                                    347 ;src/player.c:34: int16_t ny = p->world_y + step;
     00000192 F8 26            [12]  348 	ldhl	sp,#38
     00000194 2A               [ 8]  349 	ld	a, (hl+)
     00000195 5F               [ 4]  350 	ld	e, a
@@ -359,7 +359,7 @@
     000001A1 7C               [ 4]  359 	ld	a, h
     000001A2 F8 1A            [12]  360 	ldhl	sp,	#26
     000001A4 77               [ 8]  361 	ld	(hl), a
-                                    362 ;src/player.c:33: uint8_t cl = col_point(p->world_x,              ny + PLAYER_SIZE, map, map_w, map_h);
+                                    362 ;src/player.c:38: uint8_t cl = col_point(p->world_x,              ny + PLAYER_SIZE, map, map_w, map_h);
     000001A5 F8 26            [12]  363 	ldhl	sp,	#38
     000001A7 7E               [ 8]  364 	ld	a, (hl)
     000001A8 F8 1B            [12]  365 	ldhl	sp,	#27
@@ -368,7 +368,7 @@
     000001AD 7E               [ 8]  368 	ld	a, (hl)
     000001AE F8 1C            [12]  369 	ldhl	sp,	#28
     000001B0 77               [ 8]  370 	ld	(hl), a
-                                    371 ;src/player.c:29: for (int8_t i = 0; i < steps; i++) {
+                                    371 ;src/player.c:33: for (int8_t i = 0; i < steps; i++) {
     000001B1 F8 0B            [12]  372 	ldhl	sp,	#11
     000001B3 5E               [ 8]  373 	ld	e, (hl)
     000001B4 F8 28            [12]  374 	ldhl	sp,	#40
@@ -388,7 +388,7 @@
     000001CA 37               [ 4]  388 	scf
     000001CB                        389 01119$:
     000001CB D2r2Fr05         [16]  390 	jp	NC, 00133$
-                                    391 ;src/player.c:30: int16_t ny = p->world_y + step;
+                                    391 ;src/player.c:34: int16_t ny = p->world_y + step;
     000001CE F8 19            [12]  392 	ldhl	sp,#25
     000001D0 2A               [ 8]  393 	ld	a, (hl+)
     000001D1 5F               [ 4]  394 	ld	e, a
@@ -412,7 +412,7 @@
     000001E4 F8 1D            [12]  412 	ldhl	sp,	#29
     000001E6 71               [ 8]  413 	ld	(hl), c
     000001E7 23               [ 8]  414 	inc	hl
-                                    415 ;src/player.c:33: uint8_t cl = col_point(p->world_x,              ny + PLAYER_SIZE, map, map_w, map_h);
+                                    415 ;src/player.c:38: uint8_t cl = col_point(p->world_x,              ny + PLAYER_SIZE, map, map_w, map_h);
     000001E8 32               [ 8]  416 	ld	(hl-), a
     000001E9 7E               [ 8]  417 	ld	a, (hl)
     000001EA F8 21            [12]  418 	ldhl	sp,	#33
@@ -430,7 +430,7 @@
     000001FB 22               [ 8]  430 	ld	(hl+), a
     000001FC 13               [ 8]  431 	inc	de
     000001FD 1A               [ 8]  432 	ld	a, (de)
-                                    433 ;src/player.c:34: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny + PLAYER_SIZE, map, map_w, map_h);
+                                    433 ;src/player.c:39: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny + PLAYER_SIZE, map, map_w, map_h);
     000001FE 32               [ 8]  434 	ld	(hl-), a
     000001FF 2A               [ 8]  435 	ld	a, (hl+)
     00000200 46               [ 8]  436 	ld	b, (hl)
@@ -442,12 +442,12 @@
     00000209 71               [ 8]  442 	ld	(hl), c
     0000020A 23               [ 8]  443 	inc	hl
     0000020B 77               [ 8]  444 	ld	(hl), a
-                                    445 ;src/player.c:32: if (step > 0) {
+                                    445 ;src/player.c:36: if (step > 0) {
     0000020C F8 12            [12]  446 	ldhl	sp,	#18
     0000020E 7E               [ 8]  447 	ld	a, (hl)
     0000020F B7               [ 4]  448 	or	a, a
     00000210 CAr90r03         [16]  449 	jp	Z, 00131$
-                                    450 ;src/player.c:33: uint8_t cl = col_point(p->world_x,              ny + PLAYER_SIZE, map, map_w, map_h);
+                                    450 ;src/player.c:38: uint8_t cl = col_point(p->world_x,              ny + PLAYER_SIZE, map, map_w, map_h);
     00000213 F8 21            [12]  451 	ldhl	sp,#33
     00000215 2A               [ 8]  452 	ld	a, (hl+)
     00000216 5F               [ 4]  453 	ld	e, a
@@ -478,7 +478,7 @@
     00000238 AF               [ 4]  478 	xor	a, a
     00000239 18 69            [12]  479 	jr	00172$
     0000023B                        480 00167$:
-                                    481 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                    481 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     0000023B F8 20            [12]  482 	ldhl	sp,	#32
     0000023D CB 3E            [16]  483 	srl	(hl)
     0000023F 2B               [ 8]  484 	dec	hl
@@ -495,7 +495,7 @@
     0000024F CB 3E            [16]  495 	srl	(hl)
     00000251 2B               [ 8]  496 	dec	hl
     00000252 CB 1E            [16]  497 	rr	(hl)
-                                    498 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                    498 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     00000254 59               [ 4]  499 	ld	e, c
     00000255 50               [ 4]  500 	ld	d, b
     00000256 CB 3A            [ 8]  501 	srl	d
@@ -506,7 +506,7 @@
     00000260 CB 1B            [ 8]  506 	rr	e
     00000262 CB 3A            [ 8]  507 	srl	d
     00000264 CB 1B            [ 8]  508 	rr	e
-                                    509 ;src/player.c:33: uint8_t cl = col_point(p->world_x,              ny + PLAYER_SIZE, map, map_w, map_h);
+                                    509 ;src/player.c:38: uint8_t cl = col_point(p->world_x,              ny + PLAYER_SIZE, map, map_w, map_h);
     00000266 D5               [16]  510 	push	de
     00000267 F8 21            [12]  511 	ldhl	sp,	#33
     00000269 5D               [ 4]  512 	ld	e, l
@@ -558,7 +558,7 @@
     000002A3 7E               [ 8]  558 	ld	a, (hl)
     000002A4                        559 00172$:
     000002A4 F8 20            [12]  560 	ldhl	sp,	#32
-                                    561 ;src/player.c:34: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny + PLAYER_SIZE, map, map_w, map_h);
+                                    561 ;src/player.c:39: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny + PLAYER_SIZE, map, map_w, map_h);
     000002A6 22               [ 8]  562 	ld	(hl+), a
     000002A7 2A               [ 8]  563 	ld	a, (hl+)
     000002A8 CB 7E            [12]  564 	bit	7, (hl)
@@ -568,7 +568,7 @@
     000002AE 36 00            [12]  568 	ld	(hl), #0x00
     000002B0 18 7C            [12]  569 	jr	00180$
     000002B2                        570 00175$:
-                                    571 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                    571 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     000002B2 F8 24            [12]  572 	ldhl	sp,	#36
     000002B4 CB 3E            [16]  573 	srl	(hl)
     000002B6 2B               [ 8]  574 	dec	hl
@@ -585,7 +585,7 @@
     000002C6 CB 3E            [16]  585 	srl	(hl)
     000002C8 2B               [ 8]  586 	dec	hl
     000002C9 CB 1E            [16]  587 	rr	(hl)
-                                    588 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                    588 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     000002CB 2B               [ 8]  589 	dec	hl
     000002CC CB 3E            [16]  590 	srl	(hl)
     000002CE 2B               [ 8]  591 	dec	hl
@@ -602,7 +602,7 @@
     000002DE CB 3E            [16]  602 	srl	(hl)
     000002E0 2B               [ 8]  603 	dec	hl
     000002E1 CB 1E            [16]  604 	rr	(hl)
-                                    605 ;src/player.c:34: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny + PLAYER_SIZE, map, map_w, map_h);
+                                    605 ;src/player.c:39: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny + PLAYER_SIZE, map, map_w, map_h);
     000002E3 F8 23            [12]  606 	ldhl	sp,	#35
     000002E5 5D               [ 4]  607 	ld	e, l
     000002E6 54               [ 4]  608 	ld	d, h
@@ -662,7 +662,7 @@
     0000032B F8 24            [12]  662 	ldhl	sp,	#36
     0000032D 77               [ 8]  663 	ld	(hl), a
     0000032E                        664 00180$:
-                                    665 ;src/player.c:35: if (IS_SOLID(cl) || IS_SOLID(cr)) {
+                                    665 ;src/player.c:40: if (IS_SOLID(cl) || IS_SOLID(cr)) {
     0000032E F8 20            [12]  666 	ldhl	sp,	#32
     00000330 7E               [ 8]  667 	ld	a, (hl)
     00000331 D6 07            [ 8]  668 	sub	a, #0x07
@@ -696,7 +696,7 @@
     00000362 D6 06            [ 8]  696 	sub	a, #0x06
     00000364 C2r1Dr05         [16]  697 	jp	NZ, 00132$
     00000367                        698 00112$:
-                                    699 ;src/player.c:36: p->world_y   = ((ny + PLAYER_SIZE) & ~15) - PLAYER_SIZE - 1;
+                                    699 ;src/player.c:41: p->world_y   = ((ny + PLAYER_SIZE) & ~15) - PLAYER_SIZE - 1;
     00000367 F8 02            [12]  700 	ldhl	sp,	#2
     00000369 2A               [ 8]  701 	ld	a, (hl+)
     0000036A E6 F0            [ 8]  702 	and	a, #0xf0
@@ -715,7 +715,7 @@
     0000037B 79               [ 4]  715 	ld	a, c
     0000037C 22               [ 8]  716 	ld	(hl+), a
     0000037D 70               [ 8]  717 	ld	(hl), b
-                                    718 ;src/player.c:37: p->vel_y     = 0;
+                                    718 ;src/player.c:42: p->vel_y     = 0;
     0000037E F8 08            [12]  719 	ldhl	sp,	#8
     00000380 2A               [ 8]  720 	ld	a, (hl+)
     00000381 66               [ 8]  721 	ld	h, (hl)
@@ -723,16 +723,16 @@
     00000383 AF               [ 4]  723 	xor	a, a
     00000384 22               [ 8]  724 	ld	(hl+), a
     00000385 77               [ 8]  725 	ld	(hl), a
-                                    726 ;src/player.c:38: p->on_ground = 1;
+                                    726 ;src/player.c:43: p->on_ground = 1;
     00000386 F8 06            [12]  727 	ldhl	sp,	#6
     00000388 2A               [ 8]  728 	ld	a, (hl+)
     00000389 66               [ 8]  729 	ld	h, (hl)
     0000038A 6F               [ 4]  730 	ld	l, a
     0000038B 36 01            [12]  731 	ld	(hl), #0x01
-                                    732 ;src/player.c:39: break;
+                                    732 ;src/player.c:44: break;
     0000038D C3r2Fr05         [16]  733 	jp	00133$
     00000390                        734 00131$:
-                                    735 ;src/player.c:42: uint8_t cl = col_point(p->world_x,              ny, map, map_w, map_h);
+                                    735 ;src/player.c:48: uint8_t cl = col_point(p->world_x,              ny, map, map_w, map_h);
     00000390 F8 1F            [12]  736 	ldhl	sp,	#31
     00000392 7E               [ 8]  737 	ld	a, (hl)
     00000393 F8 02            [12]  738 	ldhl	sp,	#2
@@ -746,7 +746,7 @@
     0000039F 07               [ 4]  746 	rlca
     000003A0 E6 01            [ 8]  747 	and	a,#0x01
     000003A2 F8 1F            [12]  748 	ldhl	sp,	#31
-                                    749 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                    749 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     000003A4 32               [ 8]  750 	ld	(hl-), a
     000003A5 2B               [ 8]  751 	dec	hl
     000003A6 2A               [ 8]  752 	ld	a, (hl+)
@@ -772,7 +772,7 @@
     000003C0 CB 3E            [16]  772 	srl	(hl)
     000003C2 2B               [ 8]  773 	dec	hl
     000003C3 CB 1E            [16]  774 	rr	(hl)
-                                    775 ;src/player.c:42: uint8_t cl = col_point(p->world_x,              ny, map, map_w, map_h);
+                                    775 ;src/player.c:48: uint8_t cl = col_point(p->world_x,              ny, map, map_w, map_h);
     000003C5 2B               [ 8]  776 	dec	hl
     000003C6 7E               [ 8]  777 	ld	a, (hl)
     000003C7 B7               [ 4]  778 	or	a, a
@@ -781,7 +781,7 @@
     000003CC 36 00            [12]  781 	ld	(hl), #0x00
     000003CE 18 75            [12]  782 	jr	00188$
     000003D0                        783 00183$:
-                                    784 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                    784 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     000003D0 F8 02            [12]  785 	ldhl	sp,	#2
     000003D2 3A               [ 8]  786 	ld	a, (hl-)
     000003D3 2B               [ 8]  787 	dec	hl
@@ -805,7 +805,7 @@
     000003EC CB 3E            [16]  805 	srl	(hl)
     000003EE 2B               [ 8]  806 	dec	hl
     000003EF CB 1E            [16]  807 	rr	(hl)
-                                    808 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                    808 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     000003F1 F8 20            [12]  809 	ldhl	sp,	#32
     000003F3 7E               [ 8]  810 	ld	a, (hl)
     000003F4 F8 02            [12]  811 	ldhl	sp,	#2
@@ -814,7 +814,7 @@
     000003F9 7E               [ 8]  814 	ld	a, (hl)
     000003FA F8 03            [12]  815 	ldhl	sp,	#3
     000003FC 77               [ 8]  816 	ld	(hl), a
-                                    817 ;src/player.c:42: uint8_t cl = col_point(p->world_x,              ny, map, map_w, map_h);
+                                    817 ;src/player.c:48: uint8_t cl = col_point(p->world_x,              ny, map, map_w, map_h);
     000003FD F8 00            [12]  818 	ldhl	sp,	#0
     000003FF 5D               [ 4]  819 	ld	e, l
     00000400 54               [ 4]  820 	ld	d, h
@@ -872,7 +872,7 @@
     00000442 F8 22            [12]  872 	ldhl	sp,	#34
     00000444 77               [ 8]  873 	ld	(hl), a
     00000445                        874 00188$:
-                                    875 ;src/player.c:43: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny, map, map_w, map_h);
+                                    875 ;src/player.c:49: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny, map, map_w, map_h);
     00000445 F8 1F            [12]  876 	ldhl	sp,	#31
     00000447 7E               [ 8]  877 	ld	a, (hl)
     00000448 B7               [ 4]  878 	or	a, a
@@ -881,7 +881,7 @@
     0000044D 36 00            [12]  881 	ld	(hl), #0x00
     0000044F 18 64            [12]  882 	jr	00196$
     00000451                        883 00191$:
-                                    884 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                    884 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     00000451 F8 24            [12]  885 	ldhl	sp,	#36
     00000453 CB 3E            [16]  886 	srl	(hl)
     00000455 2B               [ 8]  887 	dec	hl
@@ -898,8 +898,8 @@
     00000465 CB 3E            [16]  898 	srl	(hl)
     00000467 2B               [ 8]  899 	dec	hl
     00000468 CB 1E            [16]  900 	rr	(hl)
-                                    901 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
-                                    902 ;src/player.c:43: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny, map, map_w, map_h);
+                                    901 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
+                                    902 ;src/player.c:49: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny, map, map_w, map_h);
     0000046A F8 23            [12]  903 	ldhl	sp,	#35
     0000046C 5D               [ 4]  904 	ld	e, l
     0000046D 54               [ 4]  905 	ld	d, h
@@ -959,7 +959,7 @@
     000004B2 F8 24            [12]  959 	ldhl	sp,	#36
     000004B4 77               [ 8]  960 	ld	(hl), a
     000004B5                        961 00196$:
-                                    962 ;src/player.c:44: if (IS_SOLID(cl) || IS_SOLID(cr)) {
+                                    962 ;src/player.c:50: if (IS_SOLID(cl) || IS_SOLID(cr)) {
     000004B5 F8 22            [12]  963 	ldhl	sp,	#34
     000004B7 7E               [ 8]  964 	ld	a, (hl)
     000004B8 D6 07            [ 8]  965 	sub	a, #0x07
@@ -993,7 +993,7 @@
     000004E9 D6 06            [ 8]  993 	sub	a, #0x06
     000004EB 20 30            [12]  994 	jr	NZ, 00132$
     000004ED                        995 00121$:
-                                    996 ;src/player.c:45: p->world_y = ((ny >> 4) + 1) << 4;
+                                    996 ;src/player.c:51: p->world_y = ((ny >> 4) + 1) << 4;
     000004ED F8 1D            [12]  997 	ldhl	sp,#29
     000004EF 2A               [ 8]  998 	ld	a, (hl+)
     000004F0 4F               [ 4]  999 	ld	c, a
@@ -1022,7 +1022,7 @@
     00000510 79               [ 4] 1022 	ld	a, c
     00000511 22               [ 8] 1023 	ld	(hl+), a
     00000512 70               [ 8] 1024 	ld	(hl), b
-                                   1025 ;src/player.c:46: p->vel_y   = 0;
+                                   1025 ;src/player.c:52: p->vel_y   = 0;
     00000513 F8 08            [12] 1026 	ldhl	sp,	#8
     00000515 2A               [ 8] 1027 	ld	a, (hl+)
     00000516 66               [ 8] 1028 	ld	h, (hl)
@@ -1030,10 +1030,10 @@
     00000518 AF               [ 4] 1030 	xor	a, a
     00000519 22               [ 8] 1031 	ld	(hl+), a
     0000051A 77               [ 8] 1032 	ld	(hl), a
-                                   1033 ;src/player.c:47: break;
+                                   1033 ;src/player.c:53: break;
     0000051B 18 12            [12] 1034 	jr	00133$
     0000051D                       1035 00132$:
-                                   1036 ;src/player.c:51: p->world_y = ny;
+                                   1036 ;src/player.c:57: p->world_y = ny;
     0000051D F8 19            [12] 1037 	ldhl	sp,	#25
     0000051F 2A               [ 8] 1038 	ld	a, (hl+)
     00000520 5F               [ 4] 1039 	ld	e, a
@@ -1044,12 +1044,12 @@
     00000526 13               [ 8] 1044 	inc	de
     00000527 7E               [ 8] 1045 	ld	a, (hl)
     00000528 12               [ 8] 1046 	ld	(de), a
-                                   1047 ;src/player.c:29: for (int8_t i = 0; i < steps; i++) {
+                                   1047 ;src/player.c:33: for (int8_t i = 0; i < steps; i++) {
     00000529 F8 28            [12] 1048 	ldhl	sp,	#40
     0000052B 34               [12] 1049 	inc	(hl)
     0000052C C3r92r01         [16] 1050 	jp	00375$
     0000052F                       1051 00133$:
-                                   1052 ;src/player.c:55: uint16_t hx1 = p->world_x + PLAYER_HBOX;
+                                   1052 ;src/player.c:62: uint16_t hx1 = p->world_x + PLAYER_HBOX;
     0000052F F8 1B            [12] 1053 	ldhl	sp,#27
     00000531 2A               [ 8] 1054 	ld	a, (hl+)
     00000532 5F               [ 4] 1055 	ld	e, a
@@ -1077,7 +1077,7 @@
     0000054E F8 1B            [12] 1077 	ldhl	sp,	#27
     00000550 71               [ 8] 1078 	ld	(hl), c
     00000551 23               [ 8] 1079 	inc	hl
-                                   1080 ;src/player.c:56: uint16_t hx2 = p->world_x + PLAYER_SIZE - PLAYER_HBOX;
+                                   1080 ;src/player.c:63: uint16_t hx2 = p->world_x + PLAYER_SIZE - PLAYER_HBOX;
     00000552 22               [ 8] 1081 	ld	(hl+), a
     00000553 2A               [ 8] 1082 	ld	a, (hl+)
     00000554 5F               [ 4] 1083 	ld	e, a
@@ -1090,7 +1090,7 @@
     0000055E 71               [ 8] 1090 	ld	(hl), c
     0000055F 23               [ 8] 1091 	inc	hl
     00000560 77               [ 8] 1092 	ld	(hl), a
-                                   1093 ;src/player.c:57: int16_t  hy1 = p->world_y + PLAYER_HBOX;
+                                   1093 ;src/player.c:64: int16_t  hy1 = p->world_y + PLAYER_HBOX;
     00000561 F8 19            [12] 1094 	ldhl	sp,#25
     00000563 2A               [ 8] 1095 	ld	a, (hl+)
     00000564 5F               [ 4] 1096 	ld	e, a
@@ -1115,7 +1115,7 @@
     0000057D 19               [ 8] 1115 	add	hl, de
     0000057E 4D               [ 4] 1116 	ld	c, l
     0000057F 44               [ 4] 1117 	ld	b, h
-                                   1118 ;src/player.c:58: int16_t  hy2 = p->world_y + PLAYER_SIZE - PLAYER_HBOX;
+                                   1118 ;src/player.c:65: int16_t  hy2 = p->world_y + PLAYER_SIZE - PLAYER_HBOX;
     00000580 F8 06            [12] 1119 	ldhl	sp,#6
     00000582 2A               [ 8] 1120 	ld	a, (hl+)
     00000583 5F               [ 4] 1121 	ld	e, a
@@ -1128,7 +1128,7 @@
     0000058D 73               [ 8] 1128 	ld	(hl), e
     0000058E 23               [ 8] 1129 	inc	hl
     0000058F 77               [ 8] 1130 	ld	(hl), a
-                                   1131 ;src/player.c:60: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
+                                   1131 ;src/player.c:67: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
     00000590 F8 0C            [12] 1132 	ldhl	sp,	#12
     00000592 3A               [ 8] 1133 	ld	a, (hl-)
     00000593 2B               [ 8] 1134 	dec	hl
@@ -1153,13 +1153,13 @@
     000005AE 7E               [ 8] 1153 	ld	a, (hl)
     000005AF F8 16            [12] 1154 	ldhl	sp,	#22
     000005B1 77               [ 8] 1155 	ld	(hl), a
-                                   1156 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   1156 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     000005B2 78               [ 4] 1157 	ld	a, b
     000005B3 07               [ 4] 1158 	rlca
     000005B4 E6 01            [ 8] 1159 	and	a,#0x01
     000005B6 F8 28            [12] 1160 	ldhl	sp,	#40
     000005B8 77               [ 8] 1161 	ld	(hl), a
-                                   1162 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   1162 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     000005B9 F8 1B            [12] 1163 	ldhl	sp,	#27
     000005BB 7E               [ 8] 1164 	ld	a, (hl)
     000005BC F8 17            [12] 1165 	ldhl	sp,	#23
@@ -1183,7 +1183,7 @@
     000005D7 CB 3E            [16] 1183 	srl	(hl)
     000005D9 2B               [ 8] 1184 	dec	hl
     000005DA CB 1E            [16] 1185 	rr	(hl)
-                                   1186 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   1186 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     000005DC 23               [ 8] 1187 	inc	hl
     000005DD 23               [ 8] 1188 	inc	hl
     000005DE 79               [ 4] 1189 	ld	a, c
@@ -1204,7 +1204,7 @@
     000005F3 CB 3E            [16] 1204 	srl	(hl)
     000005F5 2B               [ 8] 1205 	dec	hl
     000005F6 CB 1E            [16] 1206 	rr	(hl)
-                                   1207 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   1207 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     000005F8 F8 28            [12] 1208 	ldhl	sp,	#40
     000005FA 7E               [ 8] 1209 	ld	a, (hl)
     000005FB B7               [ 4] 1210 	or	a, a
@@ -1212,7 +1212,7 @@
     000005FE 0E 00            [ 8] 1212 	ld	c, #0x00
     00000600 18 4F            [12] 1213 	jr	00204$
     00000602                       1214 00199$:
-                                   1215 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   1215 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     00000602 F8 17            [12] 1216 	ldhl	sp,	#23
     00000604 7E               [ 8] 1217 	ld	a, (hl)
     00000605 F8 1B            [12] 1218 	ldhl	sp,	#27
@@ -1221,12 +1221,12 @@
     0000060A 7E               [ 8] 1221 	ld	a, (hl)
     0000060B F8 1C            [12] 1222 	ldhl	sp,	#28
     0000060D 77               [ 8] 1223 	ld	(hl), a
-                                   1224 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   1224 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     0000060E F8 19            [12] 1225 	ldhl	sp,	#25
     00000610 2A               [ 8] 1226 	ld	a, (hl+)
     00000611 5F               [ 4] 1227 	ld	e, a
     00000612 56               [ 8] 1228 	ld	d, (hl)
-                                   1229 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   1229 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     00000613 D5               [16] 1230 	push	de
     00000614 F8 1D            [12] 1231 	ldhl	sp,	#29
     00000616 5D               [ 4] 1232 	ld	e, l
@@ -1251,7 +1251,7 @@
     0000062C 0E 07            [ 8] 1251 	ld	c, #0x07
     0000062E 18 21            [12] 1252 	jr	00204$
     00000630                       1253 00202$:
-                                   1254 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   1254 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     00000630 F8 0E            [12] 1255 	ldhl	sp,	#14
     00000632 2A               [ 8] 1256 	ld	a, (hl+)
     00000633 4F               [ 4] 1257 	ld	c, a
@@ -1272,19 +1272,19 @@
     00000646 4D               [ 4] 1272 	ld	c, l
     00000647 44               [ 4] 1273 	ld	b, h
     00000648 0A               [ 8] 1274 	ld	a, (bc)
-                                   1275 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   1275 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     00000649 6F               [ 4] 1276 	ld	l, a
     0000064A 26 00            [ 8] 1277 	ld	h, #0x00
     0000064C 11r00r00         [12] 1278 	ld	de, #_famidash_metatile_collision
     0000064F 19               [ 8] 1279 	add	hl, de
     00000650 4E               [ 8] 1280 	ld	c, (hl)
-                                   1281 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   1281 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     00000651                       1282 00204$:
-                                   1283 ;src/player.c:60: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
+                                   1283 ;src/player.c:67: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
     00000651 79               [ 4] 1284 	ld	a, c
     00000652 D6 08            [ 8] 1285 	sub	a, #0x08
     00000654 CArB8r0D         [16] 1286 	jp	Z, 00134$
-                                   1287 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   1287 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     00000657 F8 28            [12] 1288 	ldhl	sp,	#40
     00000659 7E               [ 8] 1289 	ld	a, (hl)
     0000065A B7               [ 4] 1290 	or	a, a
@@ -1292,7 +1292,7 @@
     0000065D 0E 00            [ 8] 1292 	ld	c, #0x00
     0000065F 18 4F            [12] 1293 	jr	00212$
     00000661                       1294 00207$:
-                                   1295 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   1295 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     00000661 F8 17            [12] 1296 	ldhl	sp,	#23
     00000663 7E               [ 8] 1297 	ld	a, (hl)
     00000664 F8 1B            [12] 1298 	ldhl	sp,	#27
@@ -1301,12 +1301,12 @@
     00000669 7E               [ 8] 1301 	ld	a, (hl)
     0000066A F8 1C            [12] 1302 	ldhl	sp,	#28
     0000066C 77               [ 8] 1303 	ld	(hl), a
-                                   1304 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   1304 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     0000066D F8 19            [12] 1305 	ldhl	sp,	#25
     0000066F 2A               [ 8] 1306 	ld	a, (hl+)
     00000670 5F               [ 4] 1307 	ld	e, a
     00000671 56               [ 8] 1308 	ld	d, (hl)
-                                   1309 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   1309 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     00000672 D5               [16] 1310 	push	de
     00000673 F8 1D            [12] 1311 	ldhl	sp,	#29
     00000675 5D               [ 4] 1312 	ld	e, l
@@ -1331,7 +1331,7 @@
     0000068B 0E 07            [ 8] 1331 	ld	c, #0x07
     0000068D 18 21            [12] 1332 	jr	00212$
     0000068F                       1333 00210$:
-                                   1334 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   1334 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     0000068F F8 13            [12] 1335 	ldhl	sp,	#19
     00000691 2A               [ 8] 1336 	ld	a, (hl+)
     00000692 4F               [ 4] 1337 	ld	c, a
@@ -1352,19 +1352,19 @@
     000006A5 4D               [ 4] 1352 	ld	c, l
     000006A6 44               [ 4] 1353 	ld	b, h
     000006A7 0A               [ 8] 1354 	ld	a, (bc)
-                                   1355 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   1355 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     000006A8 6F               [ 4] 1356 	ld	l, a
     000006A9 26 00            [ 8] 1357 	ld	h, #0x00
     000006AB 11r00r00         [12] 1358 	ld	de, #_famidash_metatile_collision
     000006AE 19               [ 8] 1359 	add	hl, de
     000006AF 4E               [ 8] 1360 	ld	c, (hl)
-                                   1361 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   1361 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     000006B0                       1362 00212$:
-                                   1363 ;src/player.c:60: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
+                                   1363 ;src/player.c:67: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
     000006B0 79               [ 4] 1364 	ld	a, c
     000006B1 D6 03            [ 8] 1365 	sub	a, #0x03
     000006B3 CArB8r0D         [16] 1366 	jp	Z, 00134$
-                                   1367 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   1367 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     000006B6 F8 28            [12] 1368 	ldhl	sp,	#40
     000006B8 7E               [ 8] 1369 	ld	a, (hl)
     000006B9 B7               [ 4] 1370 	or	a, a
@@ -1372,7 +1372,7 @@
     000006BC 0E 00            [ 8] 1372 	ld	c, #0x00
     000006BE 18 4F            [12] 1373 	jr	00220$
     000006C0                       1374 00215$:
-                                   1375 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   1375 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     000006C0 F8 17            [12] 1376 	ldhl	sp,	#23
     000006C2 7E               [ 8] 1377 	ld	a, (hl)
     000006C3 F8 1B            [12] 1378 	ldhl	sp,	#27
@@ -1381,12 +1381,12 @@
     000006C8 7E               [ 8] 1381 	ld	a, (hl)
     000006C9 F8 1C            [12] 1382 	ldhl	sp,	#28
     000006CB 77               [ 8] 1383 	ld	(hl), a
-                                   1384 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   1384 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     000006CC F8 19            [12] 1385 	ldhl	sp,	#25
     000006CE 2A               [ 8] 1386 	ld	a, (hl+)
     000006CF 5F               [ 4] 1387 	ld	e, a
     000006D0 56               [ 8] 1388 	ld	d, (hl)
-                                   1389 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   1389 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     000006D1 D5               [16] 1390 	push	de
     000006D2 F8 1D            [12] 1391 	ldhl	sp,	#29
     000006D4 5D               [ 4] 1392 	ld	e, l
@@ -1411,7 +1411,7 @@
     000006EA 0E 07            [ 8] 1411 	ld	c, #0x07
     000006EC 18 21            [12] 1412 	jr	00220$
     000006EE                       1413 00218$:
-                                   1414 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   1414 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     000006EE F8 13            [12] 1415 	ldhl	sp,	#19
     000006F0 2A               [ 8] 1416 	ld	a, (hl+)
     000006F1 4F               [ 4] 1417 	ld	c, a
@@ -1433,18 +1433,18 @@
     00000705 44               [ 4] 1433 	ld	b, h
     00000706 0A               [ 8] 1434 	ld	a, (bc)
     00000707 6F               [ 4] 1435 	ld	l, a
-                                   1436 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   1436 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     00000708 26 00            [ 8] 1437 	ld	h, #0x00
     0000070A 11r00r00         [12] 1438 	ld	de, #_famidash_metatile_collision
     0000070D 19               [ 8] 1439 	add	hl, de
     0000070E 4E               [ 8] 1440 	ld	c, (hl)
-                                   1441 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   1441 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     0000070F                       1442 00220$:
-                                   1443 ;src/player.c:60: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
+                                   1443 ;src/player.c:67: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
     0000070F 79               [ 4] 1444 	ld	a, c
     00000710 D6 04            [ 8] 1445 	sub	a, #0x04
     00000712 CArB8r0D         [16] 1446 	jp	Z, 00134$
-                                   1447 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   1447 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     00000715 F8 28            [12] 1448 	ldhl	sp,	#40
     00000717 7E               [ 8] 1449 	ld	a, (hl)
     00000718 B7               [ 4] 1450 	or	a, a
@@ -1452,7 +1452,7 @@
     0000071B 0E 00            [ 8] 1452 	ld	c, #0x00
     0000071D 18 4F            [12] 1453 	jr	00228$
     0000071F                       1454 00223$:
-                                   1455 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   1455 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     0000071F F8 17            [12] 1456 	ldhl	sp,	#23
     00000721 7E               [ 8] 1457 	ld	a, (hl)
     00000722 F8 1B            [12] 1458 	ldhl	sp,	#27
@@ -1461,12 +1461,12 @@
     00000727 7E               [ 8] 1461 	ld	a, (hl)
     00000728 F8 1C            [12] 1462 	ldhl	sp,	#28
     0000072A 77               [ 8] 1463 	ld	(hl), a
-                                   1464 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   1464 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     0000072B F8 19            [12] 1465 	ldhl	sp,	#25
     0000072D 2A               [ 8] 1466 	ld	a, (hl+)
     0000072E 5F               [ 4] 1467 	ld	e, a
     0000072F 56               [ 8] 1468 	ld	d, (hl)
-                                   1469 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   1469 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     00000730 D5               [16] 1470 	push	de
     00000731 F8 1D            [12] 1471 	ldhl	sp,	#29
     00000733 5D               [ 4] 1472 	ld	e, l
@@ -1491,7 +1491,7 @@
     00000749 0E 07            [ 8] 1491 	ld	c, #0x07
     0000074B 18 21            [12] 1492 	jr	00228$
     0000074D                       1493 00226$:
-                                   1494 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   1494 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     0000074D F8 13            [12] 1495 	ldhl	sp,	#19
     0000074F 2A               [ 8] 1496 	ld	a, (hl+)
     00000750 4F               [ 4] 1497 	ld	c, a
@@ -1513,18 +1513,18 @@
     00000764 44               [ 4] 1513 	ld	b, h
     00000765 0A               [ 8] 1514 	ld	a, (bc)
     00000766 6F               [ 4] 1515 	ld	l, a
-                                   1516 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   1516 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     00000767 26 00            [ 8] 1517 	ld	h, #0x00
     00000769 11r00r00         [12] 1518 	ld	de, #_famidash_metatile_collision
     0000076C 19               [ 8] 1519 	add	hl, de
     0000076D 4E               [ 8] 1520 	ld	c, (hl)
-                                   1521 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   1521 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     0000076E                       1522 00228$:
-                                   1523 ;src/player.c:60: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
+                                   1523 ;src/player.c:67: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
     0000076E 79               [ 4] 1524 	ld	a, c
     0000076F D6 02            [ 8] 1525 	sub	a, #0x02
     00000771 CArB8r0D         [16] 1526 	jp	Z, 00134$
-                                   1527 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   1527 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     00000774 F8 28            [12] 1528 	ldhl	sp,	#40
     00000776 7E               [ 8] 1529 	ld	a, (hl)
     00000777 B7               [ 4] 1530 	or	a, a
@@ -1532,7 +1532,7 @@
     0000077A 1E 00            [ 8] 1532 	ld	e, #0x00
     0000077C 18 4F            [12] 1533 	jr	00236$
     0000077E                       1534 00231$:
-                                   1535 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   1535 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     0000077E F8 17            [12] 1536 	ldhl	sp,	#23
     00000780 7E               [ 8] 1537 	ld	a, (hl)
     00000781 F8 1B            [12] 1538 	ldhl	sp,	#27
@@ -1541,12 +1541,12 @@
     00000786 7E               [ 8] 1541 	ld	a, (hl)
     00000787 F8 1C            [12] 1542 	ldhl	sp,	#28
     00000789 77               [ 8] 1543 	ld	(hl), a
-                                   1544 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   1544 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     0000078A F8 19            [12] 1545 	ldhl	sp,	#25
     0000078C 2A               [ 8] 1546 	ld	a, (hl+)
     0000078D 5F               [ 4] 1547 	ld	e, a
     0000078E 56               [ 8] 1548 	ld	d, (hl)
-                                   1549 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   1549 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     0000078F D5               [16] 1550 	push	de
     00000790 F8 1D            [12] 1551 	ldhl	sp,	#29
     00000792 5D               [ 4] 1552 	ld	e, l
@@ -1571,7 +1571,7 @@
     000007A8 1E 07            [ 8] 1571 	ld	e, #0x07
     000007AA 18 21            [12] 1572 	jr	00236$
     000007AC                       1573 00234$:
-                                   1574 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   1574 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     000007AC F8 13            [12] 1575 	ldhl	sp,	#19
     000007AE 2A               [ 8] 1576 	ld	a, (hl+)
     000007AF 4F               [ 4] 1577 	ld	c, a
@@ -1592,18 +1592,18 @@
     000007C2 4D               [ 4] 1592 	ld	c, l
     000007C3 44               [ 4] 1593 	ld	b, h
     000007C4 0A               [ 8] 1594 	ld	a, (bc)
-                                   1595 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   1595 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     000007C5 6F               [ 4] 1596 	ld	l, a
     000007C6 26 00            [ 8] 1597 	ld	h, #0x00
     000007C8 11r00r00         [12] 1598 	ld	de, #_famidash_metatile_collision
     000007CB 19               [ 8] 1599 	add	hl, de
     000007CC 5E               [ 8] 1600 	ld	e, (hl)
-                                   1601 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   1601 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     000007CD                       1602 00236$:
-                                   1603 ;src/player.c:60: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
+                                   1603 ;src/player.c:67: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
     000007CD 1D               [ 4] 1604 	dec	e
     000007CE CArB8r0D         [16] 1605 	jp	Z, 00134$
-                                   1606 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   1606 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     000007D1 F8 20            [12] 1607 	ldhl	sp,	#32
     000007D3 CB 3E            [16] 1608 	srl	(hl)
     000007D5 2B               [ 8] 1609 	dec	hl
@@ -1620,7 +1620,7 @@
     000007E5 CB 3E            [16] 1620 	srl	(hl)
     000007E7 2B               [ 8] 1621 	dec	hl
     000007E8 CB 1E            [16] 1622 	rr	(hl)
-                                   1623 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   1623 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     000007EA F8 28            [12] 1624 	ldhl	sp,	#40
     000007EC 7E               [ 8] 1625 	ld	a, (hl)
     000007ED B7               [ 4] 1626 	or	a, a
@@ -1628,7 +1628,7 @@
     000007F0 0E 00            [ 8] 1628 	ld	c, #0x00
     000007F2 18 4F            [12] 1629 	jr	00244$
     000007F4                       1630 00239$:
-                                   1631 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   1631 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     000007F4 F8 1F            [12] 1632 	ldhl	sp,	#31
     000007F6 7E               [ 8] 1633 	ld	a, (hl)
     000007F7 F8 1B            [12] 1634 	ldhl	sp,	#27
@@ -1637,12 +1637,12 @@
     000007FC 7E               [ 8] 1637 	ld	a, (hl)
     000007FD F8 1C            [12] 1638 	ldhl	sp,	#28
     000007FF 77               [ 8] 1639 	ld	(hl), a
-                                   1640 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   1640 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     00000800 F8 19            [12] 1641 	ldhl	sp,	#25
     00000802 2A               [ 8] 1642 	ld	a, (hl+)
     00000803 5F               [ 4] 1643 	ld	e, a
     00000804 56               [ 8] 1644 	ld	d, (hl)
-                                   1645 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   1645 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     00000805 D5               [16] 1646 	push	de
     00000806 F8 1D            [12] 1647 	ldhl	sp,	#29
     00000808 5D               [ 4] 1648 	ld	e, l
@@ -1667,7 +1667,7 @@
     0000081E 0E 07            [ 8] 1667 	ld	c, #0x07
     00000820 18 21            [12] 1668 	jr	00244$
     00000822                       1669 00242$:
-                                   1670 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   1670 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     00000822 F8 13            [12] 1671 	ldhl	sp,	#19
     00000824 2A               [ 8] 1672 	ld	a, (hl+)
     00000825 4F               [ 4] 1673 	ld	c, a
@@ -1688,19 +1688,19 @@
     00000838 4D               [ 4] 1688 	ld	c, l
     00000839 44               [ 4] 1689 	ld	b, h
     0000083A 0A               [ 8] 1690 	ld	a, (bc)
-                                   1691 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   1691 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     0000083B 6F               [ 4] 1692 	ld	l, a
     0000083C 26 00            [ 8] 1693 	ld	h, #0x00
     0000083E 11r00r00         [12] 1694 	ld	de, #_famidash_metatile_collision
     00000841 19               [ 8] 1695 	add	hl, de
     00000842 4E               [ 8] 1696 	ld	c, (hl)
-                                   1697 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   1697 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     00000843                       1698 00244$:
-                                   1699 ;src/player.c:61: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
+                                   1699 ;src/player.c:68: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
     00000843 79               [ 4] 1700 	ld	a, c
     00000844 D6 08            [ 8] 1701 	sub	a, #0x08
     00000846 CArB8r0D         [16] 1702 	jp	Z, 00134$
-                                   1703 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   1703 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     00000849 F8 28            [12] 1704 	ldhl	sp,	#40
     0000084B 7E               [ 8] 1705 	ld	a, (hl)
     0000084C B7               [ 4] 1706 	or	a, a
@@ -1708,7 +1708,7 @@
     0000084F 0E 00            [ 8] 1708 	ld	c, #0x00
     00000851 18 4F            [12] 1709 	jr	00252$
     00000853                       1710 00247$:
-                                   1711 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   1711 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     00000853 F8 1F            [12] 1712 	ldhl	sp,	#31
     00000855 7E               [ 8] 1713 	ld	a, (hl)
     00000856 F8 1B            [12] 1714 	ldhl	sp,	#27
@@ -1717,12 +1717,12 @@
     0000085B 7E               [ 8] 1717 	ld	a, (hl)
     0000085C F8 1C            [12] 1718 	ldhl	sp,	#28
     0000085E 77               [ 8] 1719 	ld	(hl), a
-                                   1720 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   1720 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     0000085F F8 19            [12] 1721 	ldhl	sp,	#25
     00000861 2A               [ 8] 1722 	ld	a, (hl+)
     00000862 5F               [ 4] 1723 	ld	e, a
     00000863 56               [ 8] 1724 	ld	d, (hl)
-                                   1725 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   1725 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     00000864 D5               [16] 1726 	push	de
     00000865 F8 1D            [12] 1727 	ldhl	sp,	#29
     00000867 5D               [ 4] 1728 	ld	e, l
@@ -1747,7 +1747,7 @@
     0000087D 0E 07            [ 8] 1747 	ld	c, #0x07
     0000087F 18 21            [12] 1748 	jr	00252$
     00000881                       1749 00250$:
-                                   1750 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   1750 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     00000881 F8 13            [12] 1751 	ldhl	sp,	#19
     00000883 2A               [ 8] 1752 	ld	a, (hl+)
     00000884 4F               [ 4] 1753 	ld	c, a
@@ -1768,19 +1768,19 @@
     00000897 4D               [ 4] 1768 	ld	c, l
     00000898 44               [ 4] 1769 	ld	b, h
     00000899 0A               [ 8] 1770 	ld	a, (bc)
-                                   1771 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   1771 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     0000089A 6F               [ 4] 1772 	ld	l, a
     0000089B 26 00            [ 8] 1773 	ld	h, #0x00
     0000089D 11r00r00         [12] 1774 	ld	de, #_famidash_metatile_collision
     000008A0 19               [ 8] 1775 	add	hl, de
     000008A1 4E               [ 8] 1776 	ld	c, (hl)
-                                   1777 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   1777 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     000008A2                       1778 00252$:
-                                   1779 ;src/player.c:61: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
+                                   1779 ;src/player.c:68: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
     000008A2 79               [ 4] 1780 	ld	a, c
     000008A3 D6 03            [ 8] 1781 	sub	a, #0x03
     000008A5 CArB8r0D         [16] 1782 	jp	Z, 00134$
-                                   1783 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   1783 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     000008A8 F8 28            [12] 1784 	ldhl	sp,	#40
     000008AA 7E               [ 8] 1785 	ld	a, (hl)
     000008AB B7               [ 4] 1786 	or	a, a
@@ -1788,7 +1788,7 @@
     000008AE 0E 00            [ 8] 1788 	ld	c, #0x00
     000008B0 18 4F            [12] 1789 	jr	00260$
     000008B2                       1790 00255$:
-                                   1791 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   1791 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     000008B2 F8 1F            [12] 1792 	ldhl	sp,	#31
     000008B4 7E               [ 8] 1793 	ld	a, (hl)
     000008B5 F8 1B            [12] 1794 	ldhl	sp,	#27
@@ -1797,12 +1797,12 @@
     000008BA 7E               [ 8] 1797 	ld	a, (hl)
     000008BB F8 1C            [12] 1798 	ldhl	sp,	#28
     000008BD 77               [ 8] 1799 	ld	(hl), a
-                                   1800 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   1800 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     000008BE F8 19            [12] 1801 	ldhl	sp,	#25
     000008C0 2A               [ 8] 1802 	ld	a, (hl+)
     000008C1 5F               [ 4] 1803 	ld	e, a
     000008C2 56               [ 8] 1804 	ld	d, (hl)
-                                   1805 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   1805 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     000008C3 D5               [16] 1806 	push	de
     000008C4 F8 1D            [12] 1807 	ldhl	sp,	#29
     000008C6 5D               [ 4] 1808 	ld	e, l
@@ -1827,7 +1827,7 @@
     000008DC 0E 07            [ 8] 1827 	ld	c, #0x07
     000008DE 18 21            [12] 1828 	jr	00260$
     000008E0                       1829 00258$:
-                                   1830 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   1830 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     000008E0 F8 13            [12] 1831 	ldhl	sp,	#19
     000008E2 2A               [ 8] 1832 	ld	a, (hl+)
     000008E3 4F               [ 4] 1833 	ld	c, a
@@ -1848,19 +1848,19 @@
     000008F6 4D               [ 4] 1848 	ld	c, l
     000008F7 44               [ 4] 1849 	ld	b, h
     000008F8 0A               [ 8] 1850 	ld	a, (bc)
-                                   1851 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   1851 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     000008F9 6F               [ 4] 1852 	ld	l, a
     000008FA 26 00            [ 8] 1853 	ld	h, #0x00
     000008FC 11r00r00         [12] 1854 	ld	de, #_famidash_metatile_collision
     000008FF 19               [ 8] 1855 	add	hl, de
     00000900 4E               [ 8] 1856 	ld	c, (hl)
-                                   1857 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   1857 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     00000901                       1858 00260$:
-                                   1859 ;src/player.c:61: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
+                                   1859 ;src/player.c:68: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
     00000901 79               [ 4] 1860 	ld	a, c
     00000902 D6 04            [ 8] 1861 	sub	a, #0x04
     00000904 CArB8r0D         [16] 1862 	jp	Z, 00134$
-                                   1863 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   1863 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     00000907 F8 28            [12] 1864 	ldhl	sp,	#40
     00000909 7E               [ 8] 1865 	ld	a, (hl)
     0000090A B7               [ 4] 1866 	or	a, a
@@ -1868,7 +1868,7 @@
     0000090D 0E 00            [ 8] 1868 	ld	c, #0x00
     0000090F 18 4F            [12] 1869 	jr	00268$
     00000911                       1870 00263$:
-                                   1871 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   1871 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     00000911 F8 1F            [12] 1872 	ldhl	sp,	#31
     00000913 7E               [ 8] 1873 	ld	a, (hl)
     00000914 F8 1B            [12] 1874 	ldhl	sp,	#27
@@ -1877,12 +1877,12 @@
     00000919 7E               [ 8] 1877 	ld	a, (hl)
     0000091A F8 1C            [12] 1878 	ldhl	sp,	#28
     0000091C 77               [ 8] 1879 	ld	(hl), a
-                                   1880 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   1880 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     0000091D F8 19            [12] 1881 	ldhl	sp,	#25
     0000091F 2A               [ 8] 1882 	ld	a, (hl+)
     00000920 5F               [ 4] 1883 	ld	e, a
     00000921 56               [ 8] 1884 	ld	d, (hl)
-                                   1885 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   1885 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     00000922 D5               [16] 1886 	push	de
     00000923 F8 1D            [12] 1887 	ldhl	sp,	#29
     00000925 5D               [ 4] 1888 	ld	e, l
@@ -1907,7 +1907,7 @@
     0000093B 0E 07            [ 8] 1907 	ld	c, #0x07
     0000093D 18 21            [12] 1908 	jr	00268$
     0000093F                       1909 00266$:
-                                   1910 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   1910 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     0000093F F8 13            [12] 1911 	ldhl	sp,	#19
     00000941 2A               [ 8] 1912 	ld	a, (hl+)
     00000942 4F               [ 4] 1913 	ld	c, a
@@ -1928,19 +1928,19 @@
     00000955 4D               [ 4] 1928 	ld	c, l
     00000956 44               [ 4] 1929 	ld	b, h
     00000957 0A               [ 8] 1930 	ld	a, (bc)
-                                   1931 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   1931 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     00000958 6F               [ 4] 1932 	ld	l, a
     00000959 26 00            [ 8] 1933 	ld	h, #0x00
     0000095B 11r00r00         [12] 1934 	ld	de, #_famidash_metatile_collision
     0000095E 19               [ 8] 1935 	add	hl, de
     0000095F 4E               [ 8] 1936 	ld	c, (hl)
-                                   1937 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   1937 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     00000960                       1938 00268$:
-                                   1939 ;src/player.c:61: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
+                                   1939 ;src/player.c:68: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
     00000960 79               [ 4] 1940 	ld	a, c
     00000961 D6 02            [ 8] 1941 	sub	a, #0x02
     00000963 CArB8r0D         [16] 1942 	jp	Z, 00134$
-                                   1943 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   1943 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     00000966 F8 28            [12] 1944 	ldhl	sp,	#40
     00000968 7E               [ 8] 1945 	ld	a, (hl)
     00000969 B7               [ 4] 1946 	or	a, a
@@ -1948,7 +1948,7 @@
     0000096C 36 00            [12] 1948 	ld	(hl), #0x00
     0000096E 18 5F            [12] 1949 	jr	00276$
     00000970                       1950 00271$:
-                                   1951 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   1951 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     00000970 F8 1F            [12] 1952 	ldhl	sp,	#31
     00000972 7E               [ 8] 1953 	ld	a, (hl)
     00000973 F8 11            [12] 1954 	ldhl	sp,	#17
@@ -1957,7 +1957,7 @@
     00000978 7E               [ 8] 1957 	ld	a, (hl)
     00000979 F8 12            [12] 1958 	ldhl	sp,	#18
     0000097B 77               [ 8] 1959 	ld	(hl), a
-                                   1960 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   1960 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     0000097C F8 19            [12] 1961 	ldhl	sp,	#25
     0000097E 2A               [ 8] 1962 	ld	a, (hl+)
     0000097F 23               [ 8] 1963 	inc	hl
@@ -1965,7 +1965,7 @@
     00000981 2A               [ 8] 1965 	ld	a, (hl+)
     00000982 23               [ 8] 1966 	inc	hl
     00000983 77               [ 8] 1967 	ld	(hl), a
-                                   1968 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   1968 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     00000984 F8 11            [12] 1969 	ldhl	sp,	#17
     00000986 5D               [ 4] 1970 	ld	e, l
     00000987 54               [ 4] 1971 	ld	d, h
@@ -1993,7 +1993,7 @@
     000009A2 36 07            [12] 1993 	ld	(hl), #0x07
     000009A4 18 29            [12] 1994 	jr	00276$
     000009A6                       1995 00274$:
-                                   1996 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   1996 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     000009A6 F8 13            [12] 1997 	ldhl	sp,	#19
     000009A8 2A               [ 8] 1998 	ld	a, (hl+)
     000009A9 4F               [ 4] 1999 	ld	c, a
@@ -2018,7 +2018,7 @@
     000009C1 4D               [ 4] 2018 	ld	c, l
     000009C2 44               [ 4] 2019 	ld	b, h
     000009C3 0A               [ 8] 2020 	ld	a, (bc)
-                                   2021 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   2021 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     000009C4 6F               [ 4] 2022 	ld	l, a
     000009C5 26 00            [ 8] 2023 	ld	h, #0x00
     000009C7 11r00r00         [12] 2024 	ld	de, #_famidash_metatile_collision
@@ -2026,14 +2026,14 @@
     000009CB 7E               [ 8] 2026 	ld	a, (hl)
     000009CC F8 28            [12] 2027 	ldhl	sp,	#40
     000009CE 77               [ 8] 2028 	ld	(hl), a
-                                   2029 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   2029 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     000009CF                       2030 00276$:
-                                   2031 ;src/player.c:61: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
+                                   2031 ;src/player.c:68: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
     000009CF F8 28            [12] 2032 	ldhl	sp,	#40
     000009D1 7E               [ 8] 2033 	ld	a, (hl)
     000009D2 3D               [ 4] 2034 	dec	a
     000009D3 CArB8r0D         [16] 2035 	jp	Z, 00134$
-                                   2036 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   2036 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     000009D6 F8 08            [12] 2037 	ldhl	sp,	#8
     000009D8 2A               [ 8] 2038 	ld	a, (hl+)
     000009D9 7E               [ 8] 2039 	ld	a, (hl)
@@ -2041,7 +2041,7 @@
     000009DB E6 01            [ 8] 2041 	and	a,#0x01
     000009DD F8 28            [12] 2042 	ldhl	sp,	#40
     000009DF 77               [ 8] 2043 	ld	(hl), a
-                                   2044 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   2044 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     000009E0 F8 08            [12] 2045 	ldhl	sp,	#8
     000009E2 2A               [ 8] 2046 	ld	a, (hl+)
     000009E3 4F               [ 4] 2047 	ld	c, a
@@ -2065,7 +2065,7 @@
     000009FC CB 3E            [16] 2065 	srl	(hl)
     000009FE 2B               [ 8] 2066 	dec	hl
     000009FF CB 1E            [16] 2067 	rr	(hl)
-                                   2068 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   2068 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     00000A01 F8 28            [12] 2069 	ldhl	sp,	#40
     00000A03 7E               [ 8] 2070 	ld	a, (hl)
     00000A04 B7               [ 4] 2071 	or	a, a
@@ -2073,7 +2073,7 @@
     00000A07 0E 00            [ 8] 2073 	ld	c, #0x00
     00000A09 18 4F            [12] 2074 	jr	00284$
     00000A0B                       2075 00279$:
-                                   2076 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   2076 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     00000A0B F8 17            [12] 2077 	ldhl	sp,	#23
     00000A0D 7E               [ 8] 2078 	ld	a, (hl)
     00000A0E F8 1B            [12] 2079 	ldhl	sp,	#27
@@ -2082,12 +2082,12 @@
     00000A13 7E               [ 8] 2082 	ld	a, (hl)
     00000A14 F8 1C            [12] 2083 	ldhl	sp,	#28
     00000A16 77               [ 8] 2084 	ld	(hl), a
-                                   2085 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   2085 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     00000A17 F8 19            [12] 2086 	ldhl	sp,	#25
     00000A19 2A               [ 8] 2087 	ld	a, (hl+)
     00000A1A 5F               [ 4] 2088 	ld	e, a
     00000A1B 56               [ 8] 2089 	ld	d, (hl)
-                                   2090 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   2090 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     00000A1C D5               [16] 2091 	push	de
     00000A1D F8 1D            [12] 2092 	ldhl	sp,	#29
     00000A1F 5D               [ 4] 2093 	ld	e, l
@@ -2112,7 +2112,7 @@
     00000A35 0E 07            [ 8] 2112 	ld	c, #0x07
     00000A37 18 21            [12] 2113 	jr	00284$
     00000A39                       2114 00282$:
-                                   2115 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   2115 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     00000A39 F8 13            [12] 2116 	ldhl	sp,	#19
     00000A3B 2A               [ 8] 2117 	ld	a, (hl+)
     00000A3C 4F               [ 4] 2118 	ld	c, a
@@ -2133,19 +2133,19 @@
     00000A4F 4D               [ 4] 2133 	ld	c, l
     00000A50 44               [ 4] 2134 	ld	b, h
     00000A51 0A               [ 8] 2135 	ld	a, (bc)
-                                   2136 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   2136 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     00000A52 6F               [ 4] 2137 	ld	l, a
     00000A53 26 00            [ 8] 2138 	ld	h, #0x00
     00000A55 11r00r00         [12] 2139 	ld	de, #_famidash_metatile_collision
     00000A58 19               [ 8] 2140 	add	hl, de
     00000A59 4E               [ 8] 2141 	ld	c, (hl)
-                                   2142 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   2142 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     00000A5A                       2143 00284$:
-                                   2144 ;src/player.c:62: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
+                                   2144 ;src/player.c:69: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
     00000A5A 79               [ 4] 2145 	ld	a, c
     00000A5B D6 08            [ 8] 2146 	sub	a, #0x08
     00000A5D CArB8r0D         [16] 2147 	jp	Z, 00134$
-                                   2148 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   2148 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     00000A60 F8 28            [12] 2149 	ldhl	sp,	#40
     00000A62 7E               [ 8] 2150 	ld	a, (hl)
     00000A63 B7               [ 4] 2151 	or	a, a
@@ -2153,7 +2153,7 @@
     00000A66 0E 00            [ 8] 2153 	ld	c, #0x00
     00000A68 18 4F            [12] 2154 	jr	00292$
     00000A6A                       2155 00287$:
-                                   2156 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   2156 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     00000A6A F8 17            [12] 2157 	ldhl	sp,	#23
     00000A6C 7E               [ 8] 2158 	ld	a, (hl)
     00000A6D F8 1B            [12] 2159 	ldhl	sp,	#27
@@ -2162,12 +2162,12 @@
     00000A72 7E               [ 8] 2162 	ld	a, (hl)
     00000A73 F8 1C            [12] 2163 	ldhl	sp,	#28
     00000A75 77               [ 8] 2164 	ld	(hl), a
-                                   2165 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   2165 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     00000A76 F8 19            [12] 2166 	ldhl	sp,	#25
     00000A78 2A               [ 8] 2167 	ld	a, (hl+)
     00000A79 5F               [ 4] 2168 	ld	e, a
     00000A7A 56               [ 8] 2169 	ld	d, (hl)
-                                   2170 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   2170 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     00000A7B D5               [16] 2171 	push	de
     00000A7C F8 1D            [12] 2172 	ldhl	sp,	#29
     00000A7E 5D               [ 4] 2173 	ld	e, l
@@ -2192,7 +2192,7 @@
     00000A94 0E 07            [ 8] 2192 	ld	c, #0x07
     00000A96 18 21            [12] 2193 	jr	00292$
     00000A98                       2194 00290$:
-                                   2195 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   2195 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     00000A98 F8 13            [12] 2196 	ldhl	sp,	#19
     00000A9A 2A               [ 8] 2197 	ld	a, (hl+)
     00000A9B 4F               [ 4] 2198 	ld	c, a
@@ -2213,19 +2213,19 @@
     00000AAE 4D               [ 4] 2213 	ld	c, l
     00000AAF 44               [ 4] 2214 	ld	b, h
     00000AB0 0A               [ 8] 2215 	ld	a, (bc)
-                                   2216 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   2216 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     00000AB1 6F               [ 4] 2217 	ld	l, a
     00000AB2 26 00            [ 8] 2218 	ld	h, #0x00
     00000AB4 11r00r00         [12] 2219 	ld	de, #_famidash_metatile_collision
     00000AB7 19               [ 8] 2220 	add	hl, de
     00000AB8 4E               [ 8] 2221 	ld	c, (hl)
-                                   2222 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   2222 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     00000AB9                       2223 00292$:
-                                   2224 ;src/player.c:62: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
+                                   2224 ;src/player.c:69: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
     00000AB9 79               [ 4] 2225 	ld	a, c
     00000ABA D6 03            [ 8] 2226 	sub	a, #0x03
     00000ABC CArB8r0D         [16] 2227 	jp	Z, 00134$
-                                   2228 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   2228 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     00000ABF F8 28            [12] 2229 	ldhl	sp,	#40
     00000AC1 7E               [ 8] 2230 	ld	a, (hl)
     00000AC2 B7               [ 4] 2231 	or	a, a
@@ -2233,7 +2233,7 @@
     00000AC5 0E 00            [ 8] 2233 	ld	c, #0x00
     00000AC7 18 4F            [12] 2234 	jr	00300$
     00000AC9                       2235 00295$:
-                                   2236 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   2236 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     00000AC9 F8 17            [12] 2237 	ldhl	sp,	#23
     00000ACB 7E               [ 8] 2238 	ld	a, (hl)
     00000ACC F8 1B            [12] 2239 	ldhl	sp,	#27
@@ -2242,12 +2242,12 @@
     00000AD1 7E               [ 8] 2242 	ld	a, (hl)
     00000AD2 F8 1C            [12] 2243 	ldhl	sp,	#28
     00000AD4 77               [ 8] 2244 	ld	(hl), a
-                                   2245 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   2245 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     00000AD5 F8 19            [12] 2246 	ldhl	sp,	#25
     00000AD7 2A               [ 8] 2247 	ld	a, (hl+)
     00000AD8 5F               [ 4] 2248 	ld	e, a
     00000AD9 56               [ 8] 2249 	ld	d, (hl)
-                                   2250 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   2250 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     00000ADA D5               [16] 2251 	push	de
     00000ADB F8 1D            [12] 2252 	ldhl	sp,	#29
     00000ADD 5D               [ 4] 2253 	ld	e, l
@@ -2272,7 +2272,7 @@
     00000AF3 0E 07            [ 8] 2272 	ld	c, #0x07
     00000AF5 18 21            [12] 2273 	jr	00300$
     00000AF7                       2274 00298$:
-                                   2275 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   2275 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     00000AF7 F8 13            [12] 2276 	ldhl	sp,	#19
     00000AF9 2A               [ 8] 2277 	ld	a, (hl+)
     00000AFA 4F               [ 4] 2278 	ld	c, a
@@ -2293,19 +2293,19 @@
     00000B0D 4D               [ 4] 2293 	ld	c, l
     00000B0E 44               [ 4] 2294 	ld	b, h
     00000B0F 0A               [ 8] 2295 	ld	a, (bc)
-                                   2296 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   2296 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     00000B10 6F               [ 4] 2297 	ld	l, a
     00000B11 26 00            [ 8] 2298 	ld	h, #0x00
     00000B13 11r00r00         [12] 2299 	ld	de, #_famidash_metatile_collision
     00000B16 19               [ 8] 2300 	add	hl, de
     00000B17 4E               [ 8] 2301 	ld	c, (hl)
-                                   2302 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   2302 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     00000B18                       2303 00300$:
-                                   2304 ;src/player.c:62: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
+                                   2304 ;src/player.c:69: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
     00000B18 79               [ 4] 2305 	ld	a, c
     00000B19 D6 04            [ 8] 2306 	sub	a, #0x04
     00000B1B CArB8r0D         [16] 2307 	jp	Z, 00134$
-                                   2308 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   2308 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     00000B1E F8 28            [12] 2309 	ldhl	sp,	#40
     00000B20 7E               [ 8] 2310 	ld	a, (hl)
     00000B21 B7               [ 4] 2311 	or	a, a
@@ -2313,7 +2313,7 @@
     00000B24 0E 00            [ 8] 2313 	ld	c, #0x00
     00000B26 18 4F            [12] 2314 	jr	00308$
     00000B28                       2315 00303$:
-                                   2316 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   2316 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     00000B28 F8 17            [12] 2317 	ldhl	sp,	#23
     00000B2A 7E               [ 8] 2318 	ld	a, (hl)
     00000B2B F8 1B            [12] 2319 	ldhl	sp,	#27
@@ -2322,12 +2322,12 @@
     00000B30 7E               [ 8] 2322 	ld	a, (hl)
     00000B31 F8 1C            [12] 2323 	ldhl	sp,	#28
     00000B33 77               [ 8] 2324 	ld	(hl), a
-                                   2325 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   2325 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     00000B34 F8 19            [12] 2326 	ldhl	sp,	#25
     00000B36 2A               [ 8] 2327 	ld	a, (hl+)
     00000B37 5F               [ 4] 2328 	ld	e, a
     00000B38 56               [ 8] 2329 	ld	d, (hl)
-                                   2330 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   2330 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     00000B39 D5               [16] 2331 	push	de
     00000B3A F8 1D            [12] 2332 	ldhl	sp,	#29
     00000B3C 5D               [ 4] 2333 	ld	e, l
@@ -2352,7 +2352,7 @@
     00000B52 0E 07            [ 8] 2352 	ld	c, #0x07
     00000B54 18 21            [12] 2353 	jr	00308$
     00000B56                       2354 00306$:
-                                   2355 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   2355 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     00000B56 F8 13            [12] 2356 	ldhl	sp,	#19
     00000B58 2A               [ 8] 2357 	ld	a, (hl+)
     00000B59 4F               [ 4] 2358 	ld	c, a
@@ -2373,19 +2373,19 @@
     00000B6C 4D               [ 4] 2373 	ld	c, l
     00000B6D 44               [ 4] 2374 	ld	b, h
     00000B6E 0A               [ 8] 2375 	ld	a, (bc)
-                                   2376 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   2376 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     00000B6F 6F               [ 4] 2377 	ld	l, a
     00000B70 26 00            [ 8] 2378 	ld	h, #0x00
     00000B72 11r00r00         [12] 2379 	ld	de, #_famidash_metatile_collision
     00000B75 19               [ 8] 2380 	add	hl, de
     00000B76 4E               [ 8] 2381 	ld	c, (hl)
-                                   2382 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   2382 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     00000B77                       2383 00308$:
-                                   2384 ;src/player.c:62: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
+                                   2384 ;src/player.c:69: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
     00000B77 79               [ 4] 2385 	ld	a, c
     00000B78 D6 02            [ 8] 2386 	sub	a, #0x02
     00000B7A CArB8r0D         [16] 2387 	jp	Z, 00134$
-                                   2388 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   2388 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     00000B7D F8 28            [12] 2389 	ldhl	sp,	#40
     00000B7F 7E               [ 8] 2390 	ld	a, (hl)
     00000B80 B7               [ 4] 2391 	or	a, a
@@ -2393,7 +2393,7 @@
     00000B83 0E 00            [ 8] 2393 	ld	c, #0x00
     00000B85 18 4F            [12] 2394 	jr	00316$
     00000B87                       2395 00311$:
-                                   2396 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   2396 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     00000B87 F8 17            [12] 2397 	ldhl	sp,	#23
     00000B89 7E               [ 8] 2398 	ld	a, (hl)
     00000B8A F8 1B            [12] 2399 	ldhl	sp,	#27
@@ -2402,12 +2402,12 @@
     00000B8F 7E               [ 8] 2402 	ld	a, (hl)
     00000B90 F8 1C            [12] 2403 	ldhl	sp,	#28
     00000B92 77               [ 8] 2404 	ld	(hl), a
-                                   2405 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   2405 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     00000B93 F8 19            [12] 2406 	ldhl	sp,	#25
     00000B95 2A               [ 8] 2407 	ld	a, (hl+)
     00000B96 5F               [ 4] 2408 	ld	e, a
     00000B97 56               [ 8] 2409 	ld	d, (hl)
-                                   2410 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   2410 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     00000B98 D5               [16] 2411 	push	de
     00000B99 F8 1D            [12] 2412 	ldhl	sp,	#29
     00000B9B 5D               [ 4] 2413 	ld	e, l
@@ -2432,7 +2432,7 @@
     00000BB1 0E 07            [ 8] 2432 	ld	c, #0x07
     00000BB3 18 21            [12] 2433 	jr	00316$
     00000BB5                       2434 00314$:
-                                   2435 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   2435 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     00000BB5 F8 13            [12] 2436 	ldhl	sp,	#19
     00000BB7 2A               [ 8] 2437 	ld	a, (hl+)
     00000BB8 4F               [ 4] 2438 	ld	c, a
@@ -2453,18 +2453,18 @@
     00000BCB 4D               [ 4] 2453 	ld	c, l
     00000BCC 44               [ 4] 2454 	ld	b, h
     00000BCD 0A               [ 8] 2455 	ld	a, (bc)
-                                   2456 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   2456 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     00000BCE 6F               [ 4] 2457 	ld	l, a
     00000BCF 26 00            [ 8] 2458 	ld	h, #0x00
     00000BD1 11r00r00         [12] 2459 	ld	de, #_famidash_metatile_collision
     00000BD4 19               [ 8] 2460 	add	hl, de
     00000BD5 4E               [ 8] 2461 	ld	c, (hl)
-                                   2462 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   2462 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     00000BD6                       2463 00316$:
-                                   2464 ;src/player.c:62: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
+                                   2464 ;src/player.c:69: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
     00000BD6 0D               [ 4] 2465 	dec	c
     00000BD7 CArB8r0D         [16] 2466 	jp	Z, 00134$
-                                   2467 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   2467 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     00000BDA F8 28            [12] 2468 	ldhl	sp,	#40
     00000BDC 7E               [ 8] 2469 	ld	a, (hl)
     00000BDD B7               [ 4] 2470 	or	a, a
@@ -2472,7 +2472,7 @@
     00000BE0 0E 00            [ 8] 2472 	ld	c, #0x00
     00000BE2 18 4F            [12] 2473 	jr	00324$
     00000BE4                       2474 00319$:
-                                   2475 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   2475 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     00000BE4 F8 1F            [12] 2476 	ldhl	sp,	#31
     00000BE6 7E               [ 8] 2477 	ld	a, (hl)
     00000BE7 F8 1B            [12] 2478 	ldhl	sp,	#27
@@ -2481,12 +2481,12 @@
     00000BEC 7E               [ 8] 2481 	ld	a, (hl)
     00000BED F8 1C            [12] 2482 	ldhl	sp,	#28
     00000BEF 77               [ 8] 2483 	ld	(hl), a
-                                   2484 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   2484 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     00000BF0 F8 19            [12] 2485 	ldhl	sp,	#25
     00000BF2 2A               [ 8] 2486 	ld	a, (hl+)
     00000BF3 5F               [ 4] 2487 	ld	e, a
     00000BF4 56               [ 8] 2488 	ld	d, (hl)
-                                   2489 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   2489 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     00000BF5 D5               [16] 2490 	push	de
     00000BF6 F8 1D            [12] 2491 	ldhl	sp,	#29
     00000BF8 5D               [ 4] 2492 	ld	e, l
@@ -2511,7 +2511,7 @@
     00000C0E 0E 07            [ 8] 2511 	ld	c, #0x07
     00000C10 18 21            [12] 2512 	jr	00324$
     00000C12                       2513 00322$:
-                                   2514 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   2514 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     00000C12 F8 13            [12] 2515 	ldhl	sp,	#19
     00000C14 2A               [ 8] 2516 	ld	a, (hl+)
     00000C15 4F               [ 4] 2517 	ld	c, a
@@ -2532,19 +2532,19 @@
     00000C28 4D               [ 4] 2532 	ld	c, l
     00000C29 44               [ 4] 2533 	ld	b, h
     00000C2A 0A               [ 8] 2534 	ld	a, (bc)
-                                   2535 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   2535 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     00000C2B 6F               [ 4] 2536 	ld	l, a
     00000C2C 26 00            [ 8] 2537 	ld	h, #0x00
     00000C2E 11r00r00         [12] 2538 	ld	de, #_famidash_metatile_collision
     00000C31 19               [ 8] 2539 	add	hl, de
     00000C32 4E               [ 8] 2540 	ld	c, (hl)
-                                   2541 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   2541 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     00000C33                       2542 00324$:
-                                   2543 ;src/player.c:63: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
+                                   2543 ;src/player.c:70: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
     00000C33 79               [ 4] 2544 	ld	a, c
     00000C34 D6 08            [ 8] 2545 	sub	a, #0x08
     00000C36 CArB8r0D         [16] 2546 	jp	Z, 00134$
-                                   2547 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   2547 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     00000C39 F8 28            [12] 2548 	ldhl	sp,	#40
     00000C3B 7E               [ 8] 2549 	ld	a, (hl)
     00000C3C B7               [ 4] 2550 	or	a, a
@@ -2552,7 +2552,7 @@
     00000C3F 0E 00            [ 8] 2552 	ld	c, #0x00
     00000C41 18 4F            [12] 2553 	jr	00332$
     00000C43                       2554 00327$:
-                                   2555 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   2555 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     00000C43 F8 1F            [12] 2556 	ldhl	sp,	#31
     00000C45 7E               [ 8] 2557 	ld	a, (hl)
     00000C46 F8 1B            [12] 2558 	ldhl	sp,	#27
@@ -2561,12 +2561,12 @@
     00000C4B 7E               [ 8] 2561 	ld	a, (hl)
     00000C4C F8 1C            [12] 2562 	ldhl	sp,	#28
     00000C4E 77               [ 8] 2563 	ld	(hl), a
-                                   2564 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   2564 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     00000C4F F8 19            [12] 2565 	ldhl	sp,	#25
     00000C51 2A               [ 8] 2566 	ld	a, (hl+)
     00000C52 5F               [ 4] 2567 	ld	e, a
     00000C53 56               [ 8] 2568 	ld	d, (hl)
-                                   2569 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   2569 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     00000C54 D5               [16] 2570 	push	de
     00000C55 F8 1D            [12] 2571 	ldhl	sp,	#29
     00000C57 5D               [ 4] 2572 	ld	e, l
@@ -2591,7 +2591,7 @@
     00000C6D 0E 07            [ 8] 2591 	ld	c, #0x07
     00000C6F 18 21            [12] 2592 	jr	00332$
     00000C71                       2593 00330$:
-                                   2594 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   2594 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     00000C71 F8 13            [12] 2595 	ldhl	sp,	#19
     00000C73 2A               [ 8] 2596 	ld	a, (hl+)
     00000C74 4F               [ 4] 2597 	ld	c, a
@@ -2612,19 +2612,19 @@
     00000C87 4D               [ 4] 2612 	ld	c, l
     00000C88 44               [ 4] 2613 	ld	b, h
     00000C89 0A               [ 8] 2614 	ld	a, (bc)
-                                   2615 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   2615 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     00000C8A 6F               [ 4] 2616 	ld	l, a
     00000C8B 26 00            [ 8] 2617 	ld	h, #0x00
     00000C8D 11r00r00         [12] 2618 	ld	de, #_famidash_metatile_collision
     00000C90 19               [ 8] 2619 	add	hl, de
     00000C91 4E               [ 8] 2620 	ld	c, (hl)
-                                   2621 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   2621 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     00000C92                       2622 00332$:
-                                   2623 ;src/player.c:63: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
+                                   2623 ;src/player.c:70: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
     00000C92 79               [ 4] 2624 	ld	a, c
     00000C93 D6 03            [ 8] 2625 	sub	a, #0x03
     00000C95 CArB8r0D         [16] 2626 	jp	Z, 00134$
-                                   2627 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   2627 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     00000C98 F8 28            [12] 2628 	ldhl	sp,	#40
     00000C9A 7E               [ 8] 2629 	ld	a, (hl)
     00000C9B B7               [ 4] 2630 	or	a, a
@@ -2632,7 +2632,7 @@
     00000C9E 0E 00            [ 8] 2632 	ld	c, #0x00
     00000CA0 18 4F            [12] 2633 	jr	00340$
     00000CA2                       2634 00335$:
-                                   2635 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   2635 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     00000CA2 F8 1F            [12] 2636 	ldhl	sp,	#31
     00000CA4 7E               [ 8] 2637 	ld	a, (hl)
     00000CA5 F8 1B            [12] 2638 	ldhl	sp,	#27
@@ -2641,12 +2641,12 @@
     00000CAA 7E               [ 8] 2641 	ld	a, (hl)
     00000CAB F8 1C            [12] 2642 	ldhl	sp,	#28
     00000CAD 77               [ 8] 2643 	ld	(hl), a
-                                   2644 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   2644 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     00000CAE F8 19            [12] 2645 	ldhl	sp,	#25
     00000CB0 2A               [ 8] 2646 	ld	a, (hl+)
     00000CB1 5F               [ 4] 2647 	ld	e, a
     00000CB2 56               [ 8] 2648 	ld	d, (hl)
-                                   2649 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   2649 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     00000CB3 D5               [16] 2650 	push	de
     00000CB4 F8 1D            [12] 2651 	ldhl	sp,	#29
     00000CB6 5D               [ 4] 2652 	ld	e, l
@@ -2671,7 +2671,7 @@
     00000CCC 0E 07            [ 8] 2671 	ld	c, #0x07
     00000CCE 18 21            [12] 2672 	jr	00340$
     00000CD0                       2673 00338$:
-                                   2674 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   2674 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     00000CD0 F8 13            [12] 2675 	ldhl	sp,	#19
     00000CD2 2A               [ 8] 2676 	ld	a, (hl+)
     00000CD3 4F               [ 4] 2677 	ld	c, a
@@ -2692,19 +2692,19 @@
     00000CE6 4D               [ 4] 2692 	ld	c, l
     00000CE7 44               [ 4] 2693 	ld	b, h
     00000CE8 0A               [ 8] 2694 	ld	a, (bc)
-                                   2695 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   2695 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     00000CE9 6F               [ 4] 2696 	ld	l, a
     00000CEA 26 00            [ 8] 2697 	ld	h, #0x00
     00000CEC 11r00r00         [12] 2698 	ld	de, #_famidash_metatile_collision
     00000CEF 19               [ 8] 2699 	add	hl, de
     00000CF0 4E               [ 8] 2700 	ld	c, (hl)
-                                   2701 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   2701 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     00000CF1                       2702 00340$:
-                                   2703 ;src/player.c:63: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
+                                   2703 ;src/player.c:70: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
     00000CF1 79               [ 4] 2704 	ld	a, c
     00000CF2 D6 04            [ 8] 2705 	sub	a, #0x04
     00000CF4 CArB8r0D         [16] 2706 	jp	Z, 00134$
-                                   2707 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   2707 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     00000CF7 F8 28            [12] 2708 	ldhl	sp,	#40
     00000CF9 7E               [ 8] 2709 	ld	a, (hl)
     00000CFA B7               [ 4] 2710 	or	a, a
@@ -2712,7 +2712,7 @@
     00000CFD 0E 00            [ 8] 2712 	ld	c, #0x00
     00000CFF 18 4F            [12] 2713 	jr	00348$
     00000D01                       2714 00343$:
-                                   2715 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   2715 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     00000D01 F8 1F            [12] 2716 	ldhl	sp,	#31
     00000D03 7E               [ 8] 2717 	ld	a, (hl)
     00000D04 F8 1B            [12] 2718 	ldhl	sp,	#27
@@ -2721,12 +2721,12 @@
     00000D09 7E               [ 8] 2721 	ld	a, (hl)
     00000D0A F8 1C            [12] 2722 	ldhl	sp,	#28
     00000D0C 77               [ 8] 2723 	ld	(hl), a
-                                   2724 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   2724 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     00000D0D F8 19            [12] 2725 	ldhl	sp,	#25
     00000D0F 2A               [ 8] 2726 	ld	a, (hl+)
     00000D10 5F               [ 4] 2727 	ld	e, a
     00000D11 56               [ 8] 2728 	ld	d, (hl)
-                                   2729 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   2729 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     00000D12 D5               [16] 2730 	push	de
     00000D13 F8 1D            [12] 2731 	ldhl	sp,	#29
     00000D15 5D               [ 4] 2732 	ld	e, l
@@ -2751,7 +2751,7 @@
     00000D2B 0E 07            [ 8] 2751 	ld	c, #0x07
     00000D2D 18 21            [12] 2752 	jr	00348$
     00000D2F                       2753 00346$:
-                                   2754 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   2754 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     00000D2F F8 13            [12] 2755 	ldhl	sp,	#19
     00000D31 2A               [ 8] 2756 	ld	a, (hl+)
     00000D32 4F               [ 4] 2757 	ld	c, a
@@ -2772,19 +2772,19 @@
     00000D45 4D               [ 4] 2772 	ld	c, l
     00000D46 44               [ 4] 2773 	ld	b, h
     00000D47 0A               [ 8] 2774 	ld	a, (bc)
-                                   2775 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   2775 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     00000D48 6F               [ 4] 2776 	ld	l, a
     00000D49 26 00            [ 8] 2777 	ld	h, #0x00
     00000D4B 11r00r00         [12] 2778 	ld	de, #_famidash_metatile_collision
     00000D4E 19               [ 8] 2779 	add	hl, de
     00000D4F 4E               [ 8] 2780 	ld	c, (hl)
-                                   2781 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   2781 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     00000D50                       2782 00348$:
-                                   2783 ;src/player.c:63: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
+                                   2783 ;src/player.c:70: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
     00000D50 79               [ 4] 2784 	ld	a, c
     00000D51 D6 02            [ 8] 2785 	sub	a, #0x02
     00000D53 28 63            [12] 2786 	jr	Z, 00134$
-                                   2787 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   2787 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     00000D55 F8 28            [12] 2788 	ldhl	sp,	#40
     00000D57 7E               [ 8] 2789 	ld	a, (hl)
     00000D58 B7               [ 4] 2790 	or	a, a
@@ -2792,8 +2792,8 @@
     00000D5B 36 00            [12] 2792 	ld	(hl), #0x00
     00000D5D 18 53            [12] 2793 	jr	00356$
     00000D5F                       2794 00351$:
-                                   2795 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
-                                   2796 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   2795 ;include/collision.h:44: uint16_t mx = world_px >> 4;
+                                   2796 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     00000D5F F8 19            [12] 2797 	ldhl	sp,	#25
     00000D61 2A               [ 8] 2798 	ld	a, (hl+)
     00000D62 23               [ 8] 2799 	inc	hl
@@ -2801,7 +2801,7 @@
     00000D64 2A               [ 8] 2801 	ld	a, (hl+)
     00000D65 23               [ 8] 2802 	inc	hl
     00000D66 77               [ 8] 2803 	ld	(hl), a
-                                   2804 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   2804 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     00000D67 F8 1F            [12] 2805 	ldhl	sp,	#31
     00000D69 5D               [ 4] 2806 	ld	e, l
     00000D6A 54               [ 4] 2807 	ld	d, h
@@ -2829,7 +2829,7 @@
     00000D85 36 07            [12] 2829 	ld	(hl), #0x07
     00000D87 18 29            [12] 2830 	jr	00356$
     00000D89                       2831 00354$:
-                                   2832 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   2832 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     00000D89 F8 13            [12] 2833 	ldhl	sp,	#19
     00000D8B 2A               [ 8] 2834 	ld	a, (hl+)
     00000D8C 4F               [ 4] 2835 	ld	c, a
@@ -2854,7 +2854,7 @@
     00000DA4 4D               [ 4] 2854 	ld	c, l
     00000DA5 44               [ 4] 2855 	ld	b, h
     00000DA6 0A               [ 8] 2856 	ld	a, (bc)
-                                   2857 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   2857 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     00000DA7 6F               [ 4] 2858 	ld	l, a
     00000DA8 26 00            [ 8] 2859 	ld	h, #0x00
     00000DAA 11r00r00         [12] 2860 	ld	de, #_famidash_metatile_collision
@@ -2862,25 +2862,25 @@
     00000DAE 7E               [ 8] 2862 	ld	a, (hl)
     00000DAF F8 28            [12] 2863 	ldhl	sp,	#40
     00000DB1 77               [ 8] 2864 	ld	(hl), a
-                                   2865 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   2865 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     00000DB2                       2866 00356$:
-                                   2867 ;src/player.c:63: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
+                                   2867 ;src/player.c:70: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
     00000DB2 F8 28            [12] 2868 	ldhl	sp,	#40
     00000DB4 7E               [ 8] 2869 	ld	a, (hl)
     00000DB5 3D               [ 4] 2870 	dec	a
     00000DB6 20 0B            [12] 2871 	jr	NZ, 00135$
     00000DB8                       2872 00134$:
-                                   2873 ;src/player.c:64: p->dead = 1;
+                                   2873 ;src/player.c:71: p->dead = 1;
     00000DB8 F8 04            [12] 2874 	ldhl	sp,	#4
     00000DBA 2A               [ 8] 2875 	ld	a, (hl+)
     00000DBB 66               [ 8] 2876 	ld	h, (hl)
     00000DBC 6F               [ 4] 2877 	ld	l, a
-                                   2878 ;src/player.c:65: return 1;
+                                   2878 ;src/player.c:72: return 1;
     00000DBD 3E 01            [ 8] 2879 	ld	a,#0x01
     00000DBF 77               [ 8] 2880 	ld	(hl),a
     00000DC0 C3r8Cr0F         [16] 2881 	jp	00377$
     00000DC3                       2882 00135$:
-                                   2883 ;src/player.c:70: uint8_t cm_l = col_point(p->world_x,              p->world_y + 7, map, map_w, map_h);
+                                   2883 ;src/player.c:78: uint8_t cm_l = col_point(p->world_x,              p->world_y + 7, map, map_w, map_h);
     00000DC3 F8 06            [12] 2884 	ldhl	sp,#6
     00000DC5 2A               [ 8] 2885 	ld	a, (hl+)
     00000DC6 5F               [ 4] 2886 	ld	e, a
@@ -2915,7 +2915,7 @@
     00000DEF AF               [ 4] 2915 	xor	a, a
     00000DF0 18 6C            [12] 2916 	jr	00364$
     00000DF2                       2917 00359$:
-                                   2918 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   2918 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     00000DF2 F8 24            [12] 2919 	ldhl	sp,	#36
     00000DF4 CB 3E            [16] 2920 	srl	(hl)
     00000DF6 2B               [ 8] 2921 	dec	hl
@@ -2932,7 +2932,7 @@
     00000E06 CB 3E            [16] 2932 	srl	(hl)
     00000E08 2B               [ 8] 2933 	dec	hl
     00000E09 CB 1E            [16] 2934 	rr	(hl)
-                                   2935 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   2935 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     00000E0B F8 1F            [12] 2936 	ldhl	sp,	#31
     00000E0D 2A               [ 8] 2937 	ld	a, (hl+)
     00000E0E 5F               [ 4] 2938 	ld	e, a
@@ -2945,7 +2945,7 @@
     00000E1A CB 1B            [ 8] 2945 	rr	e
     00000E1C CB 3A            [ 8] 2946 	srl	d
     00000E1E CB 1B            [ 8] 2947 	rr	e
-                                   2948 ;src/player.c:70: uint8_t cm_l = col_point(p->world_x,              p->world_y + 7, map, map_w, map_h);
+                                   2948 ;src/player.c:78: uint8_t cm_l = col_point(p->world_x,              p->world_y + 7, map, map_w, map_h);
     00000E20 D5               [16] 2949 	push	de
     00000E21 F8 25            [12] 2950 	ldhl	sp,	#37
     00000E23 5D               [ 4] 2951 	ld	e, l
@@ -2998,7 +2998,7 @@
     00000E5E                       2998 00364$:
     00000E5E F8 28            [12] 2999 	ldhl	sp,	#40
     00000E60 77               [ 8] 3000 	ld	(hl), a
-                                   3001 ;src/player.c:71: uint8_t cm_r = col_point(p->world_x + PLAYER_SIZE, p->world_y + 7, map, map_w, map_h);
+                                   3001 ;src/player.c:79: uint8_t cm_r = col_point(p->world_x + PLAYER_SIZE, p->world_y + 7, map, map_w, map_h);
     00000E61 F8 1D            [12] 3002 	ldhl	sp,#29
     00000E63 2A               [ 8] 3003 	ld	a, (hl+)
     00000E64 5F               [ 4] 3004 	ld	e, a
@@ -3021,7 +3021,7 @@
     00000E7C 36 00            [12] 3021 	ld	(hl), #0x00
     00000E7E C3r12r0F         [16] 3022 	jp	00372$
     00000E81                       3023 00367$:
-                                   3024 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   3024 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     00000E81 F8 23            [12] 3025 	ldhl	sp,	#35
     00000E83 7E               [ 8] 3026 	ld	a, (hl)
     00000E84 F8 1F            [12] 3027 	ldhl	sp,	#31
@@ -3045,7 +3045,7 @@
     00000E9F CB 3E            [16] 3045 	srl	(hl)
     00000EA1 2B               [ 8] 3046 	dec	hl
     00000EA2 CB 1E            [16] 3047 	rr	(hl)
-                                   3048 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   3048 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     00000EA4 F8 1B            [12] 3049 	ldhl	sp,	#27
     00000EA6 7E               [ 8] 3050 	ld	a, (hl)
     00000EA7 F8 23            [12] 3051 	ldhl	sp,	#35
@@ -3069,7 +3069,7 @@
     00000EC2 CB 3E            [16] 3069 	srl	(hl)
     00000EC4 2B               [ 8] 3070 	dec	hl
     00000EC5 CB 1E            [16] 3071 	rr	(hl)
-                                   3072 ;src/player.c:71: uint8_t cm_r = col_point(p->world_x + PLAYER_SIZE, p->world_y + 7, map, map_w, map_h);
+                                   3072 ;src/player.c:79: uint8_t cm_r = col_point(p->world_x + PLAYER_SIZE, p->world_y + 7, map, map_w, map_h);
     00000EC7 F8 1F            [12] 3073 	ldhl	sp,	#31
     00000EC9 5D               [ 4] 3074 	ld	e, l
     00000ECA 54               [ 4] 3075 	ld	d, h
@@ -3129,7 +3129,7 @@
     00000F0F F8 24            [12] 3129 	ldhl	sp,	#36
     00000F11 77               [ 8] 3130 	ld	(hl), a
     00000F12                       3131 00372$:
-                                   3132 ;src/player.c:72: if (IS_SOLID(cm_l) || IS_SOLID(cm_r)) {
+                                   3132 ;src/player.c:80: if (IS_SOLID(cm_l) || IS_SOLID(cm_r)) {
     00000F12 F8 28            [12] 3133 	ldhl	sp,	#40
     00000F14 7E               [ 8] 3134 	ld	a, (hl)
     00000F15 D6 07            [ 8] 3135 	sub	a, #0x07
@@ -3163,17 +3163,17 @@
     00000F46 D6 06            [ 8] 3163 	sub	a, #0x06
     00000F48 20 0A            [12] 3164 	jr	NZ, 00156$
     00000F4A                       3165 00155$:
-                                   3166 ;src/player.c:73: p->dead = 1;
+                                   3166 ;src/player.c:81: p->dead = 1;
     00000F4A F8 04            [12] 3167 	ldhl	sp,	#4
     00000F4C 2A               [ 8] 3168 	ld	a, (hl+)
     00000F4D 66               [ 8] 3169 	ld	h, (hl)
     00000F4E 6F               [ 4] 3170 	ld	l, a
-                                   3171 ;src/player.c:74: return 1;
+                                   3171 ;src/player.c:82: return 1;
     00000F4F 3E 01            [ 8] 3172 	ld	a,#0x01
     00000F51 77               [ 8] 3173 	ld	(hl),a
     00000F52 18 38            [12] 3174 	jr	00377$
     00000F54                       3175 00156$:
-                                   3176 ;src/player.c:78: if (p->world_y > (int16_t)((uint16_t)map_h << 4)) {
+                                   3176 ;src/player.c:87: if (p->world_y > (int16_t)((uint16_t)map_h << 4)) {
     00000F54 F8 0A            [12] 3177 	ldhl	sp,	#10
     00000F56 2A               [ 8] 3178 	ld	a, (hl+)
     00000F57 46               [ 8] 3179 	ld	b, (hl)
@@ -3207,20 +3207,20 @@
     00000F7E 37               [ 4] 3207 	scf
     00000F7F                       3208 01170$:
     00000F7F 30 0A            [12] 3209 	jr	NC, 00165$
-                                   3210 ;src/player.c:79: p->dead = 1;
+                                   3210 ;src/player.c:88: p->dead = 1;
     00000F81 F8 04            [12] 3211 	ldhl	sp,	#4
     00000F83 2A               [ 8] 3212 	ld	a, (hl+)
     00000F84 66               [ 8] 3213 	ld	h, (hl)
     00000F85 6F               [ 4] 3214 	ld	l, a
-                                   3215 ;src/player.c:80: return 1;
+                                   3215 ;src/player.c:89: return 1;
     00000F86 3E 01            [ 8] 3216 	ld	a,#0x01
     00000F88 77               [ 8] 3217 	ld	(hl),a
     00000F89 18 01            [12] 3218 	jr	00377$
     00000F8B                       3219 00165$:
-                                   3220 ;src/player.c:83: return 0;
+                                   3220 ;src/player.c:92: return 0;
     00000F8B AF               [ 4] 3221 	xor	a, a
     00000F8C                       3222 00377$:
-                                   3223 ;src/player.c:84: }
+                                   3223 ;src/player.c:93: }
     00000F8C E8 29            [16] 3224 	add	sp, #41
     00000F8E E1               [12] 3225 	pop	hl
     00000F8F E8 06            [16] 3226 	add	sp, #6
@@ -3230,20 +3230,20 @@
                                    3230 ; code
                                    3231 ;--------------------------------------------------------
                                    3232 	.area _CODE
-                                   3233 ;include/collision.h:39: static inline uint8_t col_of(uint8_t tile_id) {
+                                   3233 ;include/collision.h:31: static inline uint8_t col_of(uint8_t tile_id) {
                                    3234 ;	---------------------------------
                                    3235 ; Function col_of
                                    3236 ; ---------------------------------
     00000000                       3237 _col_of:
     00000000 4F               [ 4] 3238 	ld	c, a
-                                   3239 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   3239 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     00000001 21r00r00         [12] 3240 	ld	hl, #_famidash_metatile_collision
     00000004 06 00            [ 8] 3241 	ld	b, #0x00
     00000006 09               [ 8] 3242 	add	hl, bc
     00000007 7E               [ 8] 3243 	ld	a, (hl)
-                                   3244 ;include/collision.h:41: }
+                                   3244 ;include/collision.h:33: }
     00000008 C9               [16] 3245 	ret
-                                   3246 ;include/collision.h:46: static inline uint8_t col_at(
+                                   3246 ;include/collision.h:36: static inline uint8_t col_at(
                                    3247 ;	---------------------------------
                                    3248 ; Function col_at
                                    3249 ; ---------------------------------
@@ -3253,14 +3253,14 @@
     0000000D 7B               [ 4] 3253 	ld	a, e
     0000000E 22               [ 8] 3254 	ld	(hl+), a
     0000000F 72               [ 8] 3255 	ld	(hl), d
-                                   3256 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   3256 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     00000010 60               [ 4] 3257 	ld	h, b
     00000011 CB 7C            [ 8] 3258 	bit	7, h
     00000013 28 03            [12] 3259 	jr	Z, 00102$
     00000015 AF               [ 4] 3260 	xor	a, a
     00000016 18 6E            [12] 3261 	jr	00107$
     00000018                       3262 00102$:
-                                   3263 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   3263 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     00000018 F8 02            [12] 3264 	ldhl	sp,	#2
     0000001A 3A               [ 8] 3265 	ld	a, (hl-)
     0000001B 2B               [ 8] 3266 	dec	hl
@@ -3284,7 +3284,7 @@
     00000034 CB 3E            [16] 3284 	srl	(hl)
     00000036 2B               [ 8] 3285 	dec	hl
     00000037 CB 1E            [16] 3286 	rr	(hl)
-                                   3287 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   3287 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     00000039 59               [ 4] 3288 	ld	e, c
     0000003A 50               [ 4] 3289 	ld	d, b
     0000003B CB 3A            [ 8] 3290 	srl	d
@@ -3295,7 +3295,7 @@
     00000045 CB 1B            [ 8] 3295 	rr	e
     00000047 CB 3A            [ 8] 3296 	srl	d
     00000049 CB 1B            [ 8] 3297 	rr	e
-                                   3298 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   3298 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     0000004B D5               [16] 3299 	push	de
     0000004C F8 02            [12] 3300 	ldhl	sp,	#2
     0000004E 5D               [ 4] 3301 	ld	e, l
@@ -3320,7 +3320,7 @@
     00000064 3E 07            [ 8] 3320 	ld	a, #0x07
     00000066 18 1E            [12] 3321 	jr	00107$
     00000068                       3322 00104$:
-                                   3323 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   3323 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     00000068 F8 08            [12] 3324 	ldhl	sp,	#8
     0000006A 2A               [ 8] 3325 	ld	a, (hl+)
     0000006B 4F               [ 4] 3326 	ld	c, a
@@ -3340,30 +3340,30 @@
     0000007C 44               [ 4] 3340 	ld	b, h
     0000007D 0A               [ 8] 3341 	ld	a, (bc)
     0000007E 4F               [ 4] 3342 	ld	c, a
-                                   3343 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   3343 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     0000007F 21r00r00         [12] 3344 	ld	hl, #_famidash_metatile_collision
     00000082 06 00            [ 8] 3345 	ld	b, #0x00
     00000084 09               [ 8] 3346 	add	hl, bc
     00000085 7E               [ 8] 3347 	ld	a, (hl)
-                                   3348 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   3348 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     00000086                       3349 00107$:
-                                   3350 ;include/collision.h:58: }
+                                   3350 ;include/collision.h:49: }
     00000086 E8 04            [16] 3351 	add	sp, #4
     00000088 E1               [12] 3352 	pop	hl
     00000089 E8 06            [16] 3353 	add	sp, #6
     0000008B E9               [ 4] 3354 	jp	(hl)
-                                   3355 ;include/player.h:25: static inline void player_init(Player *p, uint16_t start_x, int16_t start_y) {
+                                   3355 ;include/player.h:26: static inline void player_init(Player *p, uint16_t start_x, int16_t start_y) {
                                    3356 ;	---------------------------------
                                    3357 ; Function player_init
                                    3358 ; ---------------------------------
     0000008C                       3359 _player_init:
-                                   3360 ;include/player.h:26: p->world_x   = start_x;
+                                   3360 ;include/player.h:27: p->world_x   = start_x;
     0000008C 6B               [ 4] 3361 	ld	l, e
     0000008D 62               [ 4] 3362 	ld	h, d
     0000008E 79               [ 4] 3363 	ld	a, c
     0000008F 22               [ 8] 3364 	ld	(hl+), a
     00000090 70               [ 8] 3365 	ld	(hl), b
-                                   3366 ;include/player.h:27: p->world_y   = start_y;
+                                   3366 ;include/player.h:28: p->world_y   = start_y;
     00000091 4B               [ 4] 3367 	ld	c, e
     00000092 42               [ 4] 3368 	ld	b, d
     00000093 03               [ 8] 3369 	inc	bc
@@ -3374,25 +3374,25 @@
     00000099 03               [ 8] 3374 	inc	bc
     0000009A 7E               [ 8] 3375 	ld	a, (hl)
     0000009B 02               [ 8] 3376 	ld	(bc), a
-                                   3377 ;include/player.h:28: p->vel_y     = 0;
+                                   3377 ;include/player.h:29: p->vel_y     = 0;
     0000009C 21 04 00         [12] 3378 	ld	hl, #0x0004
     0000009F 19               [ 8] 3379 	add	hl, de
     000000A0 AF               [ 4] 3380 	xor	a, a
     000000A1 22               [ 8] 3381 	ld	(hl+), a
     000000A2 77               [ 8] 3382 	ld	(hl), a
-                                   3383 ;include/player.h:29: p->on_ground = 0;
+                                   3383 ;include/player.h:30: p->on_ground = 0;
     000000A3 21 06 00         [12] 3384 	ld	hl, #0x0006
     000000A6 19               [ 8] 3385 	add	hl, de
     000000A7 36 00            [12] 3386 	ld	(hl), #0x00
-                                   3387 ;include/player.h:30: p->dead      = 0;
+                                   3387 ;include/player.h:31: p->dead      = 0;
     000000A9 21 07 00         [12] 3388 	ld	hl, #0x0007
     000000AC 19               [ 8] 3389 	add	hl, de
     000000AD 36 00            [12] 3390 	ld	(hl), #0x00
-                                   3391 ;include/player.h:31: }
+                                   3391 ;include/player.h:32: }
     000000AF E1               [12] 3392 	pop	hl
     000000B0 F1               [12] 3393 	pop	af
     000000B1 E9               [ 4] 3394 	jp	(hl)
-                                   3395 ;include/player.h:33: static inline uint8_t col_point(
+                                   3395 ;include/player.h:35: static inline uint8_t col_point(
                                    3396 ;	---------------------------------
                                    3397 ; Function col_point
                                    3398 ; ---------------------------------
@@ -3402,7 +3402,7 @@
     000000B6 7B               [ 4] 3402 	ld	a, e
     000000B7 22               [ 8] 3403 	ld	(hl+), a
     000000B8 72               [ 8] 3404 	ld	(hl), d
-                                   3405 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   3405 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     000000B9 F8 0C            [12] 3406 	ldhl	sp,	#12
     000000BB 7E               [ 8] 3407 	ld	a, (hl)
     000000BC F8 00            [12] 3408 	ldhl	sp,	#0
@@ -3419,14 +3419,14 @@
     000000CD 7E               [ 8] 3419 	ld	a, (hl)
     000000CE F8 03            [12] 3420 	ldhl	sp,	#3
     000000D0 77               [ 8] 3421 	ld	(hl), a
-                                   3422 ;include/collision.h:53: if (world_py < 0) return COL_NONE;            // above map = sky
+                                   3422 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
     000000D1 60               [ 4] 3423 	ld	h, b
     000000D2 CB 7C            [ 8] 3424 	bit	7, h
     000000D4 28 04            [12] 3425 	jr	Z, 00102$
     000000D6 0E 00            [ 8] 3426 	ld	c, #0x00
     000000D8 18 6E            [12] 3427 	jr	00107$
     000000DA                       3428 00102$:
-                                   3429 ;include/collision.h:54: uint16_t mx = world_px >> 4;                  // pixel → metatile col
+                                   3429 ;include/collision.h:44: uint16_t mx = world_px >> 4;
     000000DA F8 06            [12] 3430 	ldhl	sp,	#6
     000000DC 3A               [ 8] 3431 	ld	a, (hl-)
     000000DD 2B               [ 8] 3432 	dec	hl
@@ -3450,7 +3450,7 @@
     000000F6 CB 3E            [16] 3450 	srl	(hl)
     000000F8 2B               [ 8] 3451 	dec	hl
     000000F9 CB 1E            [16] 3452 	rr	(hl)
-                                   3453 ;include/collision.h:55: uint16_t my = (uint16_t)world_py >> 4;        // pixel → metatile row
+                                   3453 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
     000000FB 59               [ 4] 3454 	ld	e, c
     000000FC 50               [ 4] 3455 	ld	d, b
     000000FD CB 3A            [ 8] 3456 	srl	d
@@ -3461,7 +3461,7 @@
     00000107 CB 1B            [ 8] 3461 	rr	e
     00000109 CB 3A            [ 8] 3462 	srl	d
     0000010B CB 1B            [ 8] 3463 	rr	e
-                                   3464 ;include/collision.h:56: if (mx >= map_w || my >= map_h) return COL_ALL; // out of bounds = solid
+                                   3464 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
     0000010D D5               [16] 3465 	push	de
     0000010E F8 06            [12] 3466 	ldhl	sp,	#6
     00000110 5D               [ 4] 3467 	ld	e, l
@@ -3486,7 +3486,7 @@
     00000126 0E 07            [ 8] 3486 	ld	c, #0x07
     00000128 18 1E            [12] 3487 	jr	00107$
     0000012A                       3488 00105$:
-                                   3489 ;include/collision.h:57: return col_of(map[(uint16_t)my * map_w + mx]);
+                                   3489 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
     0000012A C1               [12] 3490 	pop	bc
     0000012B C5               [16] 3491 	push	bc
     0000012C CDr00r00         [24] 3492 	call	__mulint
@@ -3506,25 +3506,25 @@
     0000013E 44               [ 4] 3506 	ld	b, h
     0000013F 0A               [ 8] 3507 	ld	a, (bc)
     00000140 4F               [ 4] 3508 	ld	c, a
-                                   3509 ;include/collision.h:40: return famidash_metatile_collision[tile_id];
+                                   3509 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
     00000141 21r00r00         [12] 3510 	ld	hl, #_famidash_metatile_collision
     00000144 06 00            [ 8] 3511 	ld	b, #0x00
     00000146 09               [ 8] 3512 	add	hl, bc
     00000147 4E               [ 8] 3513 	ld	c, (hl)
-                                   3514 ;include/player.h:37: return col_at(px, py, map, map_w, map_h);
+                                   3514 ;include/player.h:39: return col_at(px, py, map, map_w, map_h);
     00000148                       3515 00107$:
     00000148 79               [ 4] 3516 	ld	a, c
-                                   3517 ;include/player.h:38: }
+                                   3517 ;include/player.h:40: }
     00000149 E8 08            [16] 3518 	add	sp, #8
     0000014B E1               [12] 3519 	pop	hl
     0000014C E8 06            [16] 3520 	add	sp, #6
     0000014E E9               [ 4] 3521 	jp	(hl)
-                                   3522 ;include/player.h:48: static inline int16_t player_screen_y(const Player *p, uint16_t cam_py) {
+                                   3522 ;include/player.h:51: static inline int16_t player_screen_y(const Player *p, uint16_t cam_py) {
                                    3523 ;	---------------------------------
                                    3524 ; Function player_screen_y
                                    3525 ; ---------------------------------
     0000014F                       3526 _player_screen_y:
-                                   3527 ;include/player.h:49: return p->world_y - (int16_t)cam_py;
+                                   3527 ;include/player.h:52: return p->world_y - (int16_t)cam_py;
     0000014F 6B               [ 4] 3528 	ld	l, e
     00000150 62               [ 4] 3529 	ld	h, d
     00000151 23               [ 8] 3530 	inc	hl
@@ -3536,7 +3536,7 @@
     00000157 7D               [ 4] 3536 	ld	a, l
     00000158 98               [ 4] 3537 	sbc	a, b
     00000159 47               [ 4] 3538 	ld	b, a
-                                   3539 ;include/player.h:50: }
+                                   3539 ;include/player.h:53: }
     0000015A C9               [16] 3540 	ret
                                    3541 	.area _CODE
                                    3542 	.area _INITIALIZER

@@ -9,12 +9,15 @@ uint8_t selected = 0;
 
 extern const hUGESong_t song_stereoma;
 
+// Checks if driver is initialized
 void play_music_safe(void) {
     if (music_ready) hUGE_dosound();
 }
 
 void main(void) {
     music_ready = 0;
+
+    // Enable sound hardware
     NR52_REG = 0x80;
     NR51_REG = 0xFF;
     NR50_REG = 0x77;
@@ -29,9 +32,12 @@ void main(void) {
 
     while (1) {
         play_music_safe();
+
         if (redraw) draw_menu();
+
         uint8_t joy = joypad();
 
+        // Level selection handling
         if (joy & J_UP) {
             if (selected > 0) { selected--; redraw = 1; }
             waitpadup();

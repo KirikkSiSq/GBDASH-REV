@@ -6,10 +6,10 @@
 #include "collision.h"
 
 #define PLAYER_SCREEN_X   32
-#define PLAYER_SIZE       15    // full hitbox (16px-1) used for solid collision
-#define PLAYER_HBOX       4     // inset for hazard hitbox - 2px forgiveness each side
+#define PLAYER_SIZE       15    // Box size for wall/floor collision
+#define PLAYER_HBOX       4     // Inset for spike/hazard collision
 
-// Fixed-point physics (1 unit = 1/16th pixel)
+// Physics constants using 4.4 fixed-point (16 units = 1 pixel)
 #define GRAVITY           9
 #define JUMP_FORCE       -93
 #define MAX_FALL_SPEED    95
@@ -22,6 +22,7 @@ typedef struct {
     uint8_t  dead;
 } Player;
 
+// Reset player state to starting position
 static inline void player_init(Player *p, uint16_t start_x, int16_t start_y) {
     p->world_x   = start_x;
     p->world_y   = start_y;
@@ -30,6 +31,7 @@ static inline void player_init(Player *p, uint16_t start_x, int16_t start_y) {
     p->dead      = 0;
 }
 
+// Wrapper for checking collision at a specific pixel point
 static inline uint8_t col_point(
     uint16_t px, int16_t py,
     const uint8_t *map, uint16_t map_w, uint16_t map_h
@@ -45,6 +47,7 @@ uint8_t player_update(
     uint16_t map_h
 ) NONBANKED;
 
+// Returns player's Y position relative to the camera
 static inline int16_t player_screen_y(const Player *p, uint16_t cam_py) {
     return p->world_y - (int16_t)cam_py;
 }

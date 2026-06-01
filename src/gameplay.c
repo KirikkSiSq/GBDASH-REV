@@ -11,11 +11,12 @@
 #include "famidash_metatiles.h"
 #include "hUGEDriver.h"
 
+// 2x2 sprite for the player cube
 const uint8_t cube_tiles[] = {
-        0xFF,0xFF,0xFF,0x00,0xFF,0x00,0xFF,0x00,0xFF,0x00,0xFF,0x00,0xFF,0x00,0xFF,0xFF,
-        0xFF,0xFF,0x00,0xFF,0x00,0xFF,0x00,0xFF,0x00,0xFF,0x00,0xFF,0x00,0xFF,0xFF,0xFF,
-        0xFF,0xFF,0xFF,0x00,0xFF,0x00,0xFF,0x00,0xFF,0x00,0xFF,0x00,0xFF,0x00,0xFF,0xFF,
-        0xFF,0xFF,0x00,0xFF,0x00,0xFF,0x00,0xFF,0x00,0xFF,0x00,0xFF,0x00,0xFF,0xFF,0xFF
+        0xFF,0xFF,0xC0,0xC0,0x90,0xD0,0x90,0x90,0x88,0x88,0x84,0x84,0x80,0x80,0x80,0x80,
+        0xFF,0xFF,0x03,0x03,0x09,0x0B,0x09,0x09,0x11,0x11,0x21,0x21,0x01,0x01,0x01,0x01,
+        0x80,0x80,0x80,0x80,0x84,0x84,0x88,0x88,0x90,0x90,0x90,0xD0,0xC0,0xC0,0xFF,0xFF,
+        0x01,0x01,0x01,0x01,0x21,0x21,0x11,0x11,0x09,0x09,0x09,0x0B,0x03,0x03,0xFF,0xFF,
 };
 
 #define BKG_MT_W  16
@@ -31,6 +32,7 @@ void setup_menu_font(void) NONBANKED {
     font_set(font_load(font_min));
 }
 
+// Loads tileset into VRAM. Handles splitting if tiles > 128.
 void load_bkg_tileset(const uint8_t* tiles, uint16_t tile_count) NONBANKED {
     if (tile_count == 256u) {
         set_bkg_data(0, 128, tiles);
@@ -40,6 +42,7 @@ void load_bkg_tileset(const uint8_t* tiles, uint16_t tile_count) NONBANKED {
     }
 }
 
+// Draws a vertical column of metatiles to the background map
 void draw_mt_column(uint8_t ring_col, uint16_t map_col,
     const uint8_t* map, uint16_t map_w, uint16_t map_h,
     uint8_t map_bank) NONBANKED {
@@ -59,6 +62,7 @@ void draw_mt_column(uint8_t ring_col, uint16_t map_col,
     SWITCH_ROM(_prev);
 }
 
+// Initial fill of the background scroll area
 void fill_scroll_bg(const uint8_t* map, uint16_t map_w, uint16_t map_h, uint8_t map_bank) NONBANKED {
     uint16_t cols = (map_w < BKG_MT_W) ? map_w : BKG_MT_W;
     for (uint16_t c = 0; c < cols; c++) {
@@ -126,6 +130,7 @@ void play_level(uint8_t idx) NONBANKED {
 
     player_init(&player, 32, 160);
 
+    // Setup GBDK graphics state
     disable_interrupts();
     DISPLAY_OFF;
     _prev = _current_bank;
@@ -157,10 +162,12 @@ void play_level(uint8_t idx) NONBANKED {
         uint8_t joy = joypad();
         if (joy & J_START) break;
 
+        // X-axis Scrolling logic
         if (cam_px < ((level_map_w - VIEW_MT_W) << 4)) {
             uint16_t prev = cam_px >> 4;
             cam_px += SCROLL_SPEED;
             uint16_t curr = cam_px >> 4;
+            // Load next column if we crossed a metatile boundary
             if (curr != prev) {
                 uint16_t need = curr + VIEW_MT_W;
                 if (need > loaded_r && need < level_map_w) {
@@ -177,6 +184,7 @@ void play_level(uint8_t idx) NONBANKED {
         died = player_update(&player, joy, level_map, level_map_w, level_map_h);
         SWITCH_ROM(_prev);
 
+        // Simple camera Y following
         py = player_screen_y(&player, cam_py);
         if (py < CAM_Y_TOP_ZONE) {
             int16_t target_cam_py = player.world_y - CAM_Y_TOP_ZONE;
@@ -191,6 +199,7 @@ void play_level(uint8_t idx) NONBANKED {
         }
 
         if (died) {
+            // Restart level on death
             disable_interrupts();
             cam_px = 0;
             cam_py = 112;
@@ -203,6 +212,7 @@ void play_level(uint8_t idx) NONBANKED {
 
         py = player_screen_y(&player, cam_py);
 
+        // Update sprite positions
         move_sprite(0, PLAYER_SCREEN_X + 8,     py + 16);
         move_sprite(1, PLAYER_SCREEN_X + 8 + 8, py + 16);
         move_sprite(2, PLAYER_SCREEN_X + 8,     py + 16 + 8);
