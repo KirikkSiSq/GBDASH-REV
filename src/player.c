@@ -17,8 +17,13 @@ uint8_t player_update(
         if (p->vel_y > MAX_FALL_SPEED) p->vel_y = MAX_FALL_SPEED;
     }
 
-    // Handle jumping
-    if ((joy & J_A) && p->on_ground) {
+    // Handle jumping (in noclip, jump works mid-air like a jetpack)
+    // In noclip: A always jumps / gives upward boost regardless of ground state.
+    if (player_noclip) {
+        if (joy & J_A) {
+            p->vel_y = JUMP_FORCE;
+        }
+    } else if ((joy & J_A) && p->on_ground) {
         p->vel_y = JUMP_FORCE;
         p->on_ground = 0;
     }
@@ -35,24 +40,26 @@ uint8_t player_update(
     for (int8_t i = 0; i < steps; i++) {
         int16_t ny = p->world_y + step;
 
-        if (step > 0) {
-            // Check floor
-            uint8_t cl = col_point(p->world_x,              ny + PLAYER_SIZE, map, map_w, map_h);
-            uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny + PLAYER_SIZE, map, map_w, map_h);
-            if (IS_SOLID(cl) || IS_SOLID(cr)) {
-                p->world_y   = ((ny + PLAYER_SIZE) & ~15) - PLAYER_SIZE - 1;
-                p->vel_y     = 0;
-                p->on_ground = 1;
-                break;
-            }
-        } else {
-            // Check ceiling
-            uint8_t cl = col_point(p->world_x,              ny, map, map_w, map_h);
-            uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny, map, map_w, map_h);
-            if (IS_SOLID(cl) || IS_SOLID(cr)) {
-                p->world_y = ((ny >> 4) + 1) << 4;
-                p->vel_y   = 0;
-                break;
+        if (!player_noclip) {
+            if (step > 0) {
+                // Check floor
+                uint8_t cl = col_point(p->world_x,              ny + PLAYER_SIZE, map, map_w, map_h);
+                uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny + PLAYER_SIZE, map, map_w, map_h);
+                if (IS_SOLID(cl) || IS_SOLID(cr)) {
+                    p->world_y   = ((ny + PLAYER_SIZE) & ~15) - PLAYER_SIZE - 1;
+                    p->vel_y     = 0;
+                    p->on_ground = 1;
+                    break;
+                }
+            } else {
+                // Check ceiling
+                uint8_t cl = col_point(p->world_x,              ny, map, map_w, map_h);
+                uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny, map, map_w, map_h);
+                if (IS_SOLID(cl) || IS_SOLID(cr)) {
+                    p->world_y = ((ny >> 4) + 1) << 4;
+                    p->vel_y   = 0;
+                    break;
+                }
             }
         }
 

@@ -57,14 +57,14 @@
                                      57 ; Home
                                      58 ;--------------------------------------------------------
                                      59 	.area _HOME
-                                     60 ;src/gameplay.c:32: void setup_menu_font(void) NONBANKED {
+                                     60 ;src/gameplay.c:33: void setup_menu_font(void) NONBANKED {
                                      61 ;	---------------------------------
                                      62 ; Function setup_menu_font
                                      63 ; ---------------------------------
     00000000                         64 _setup_menu_font::
-                                     65 ;src/gameplay.c:33: font_init();
+                                     65 ;src/gameplay.c:34: font_init();
     00000000 CDr00r00         [24]   66 	call	_font_init
-                                     67 ;src/gameplay.c:34: font_set(font_load(font_min));
+                                     67 ;src/gameplay.c:35: font_set(font_load(font_min));
     00000003 11r00r00         [12]   68 	ld	de, #_font_min
     00000006 D5               [16]   69 	push	de
     00000007 CDr00r00         [24]   70 	call	_font_load
@@ -72,7 +72,7 @@
     0000000B D5               [16]   72 	push	de
     0000000C CDr00r00         [24]   73 	call	_font_set
     0000000F E1               [12]   74 	pop	hl
-                                     75 ;src/gameplay.c:35: }
+                                     75 ;src/gameplay.c:36: }
     00000010 C9               [16]   76 	ret
     00000011                         77 _cube_tiles:
     00000011 FF                      78 	.db #0xff	; 255
@@ -139,12 +139,12 @@
     0000004E 03                     139 	.db #0x03	; 3
     0000004F FF                     140 	.db #0xff	; 255
     00000050 FF                     141 	.db #0xff	; 255
-                                    142 ;src/gameplay.c:38: void load_bkg_tileset(const uint8_t* tiles, uint16_t tile_count) NONBANKED {
+                                    142 ;src/gameplay.c:39: void load_bkg_tileset(const uint8_t* tiles, uint16_t tile_count) NONBANKED {
                                     143 ;	---------------------------------
                                     144 ; Function load_bkg_tileset
                                     145 ; ---------------------------------
     00000051                        146 _load_bkg_tileset::
-                                    147 ;src/gameplay.c:39: if (tile_count == 256u) {
+                                    147 ;src/gameplay.c:40: if (tile_count == 256u) {
     00000051 69               [ 4]  148 	ld	l, c
     00000052 60               [ 4]  149 	ld	h, b
     00000053 7D               [ 4]  150 	ld	a, l
@@ -152,7 +152,7 @@
     00000055 20 1E            [12]  152 	jr	NZ, 00102$
     00000057 25               [ 4]  153 	dec	h
     00000058 20 1B            [12]  154 	jr	NZ, 00102$
-                                    155 ;src/gameplay.c:40: set_bkg_data(0, 128, tiles);
+                                    155 ;src/gameplay.c:41: set_bkg_data(0, 128, tiles);
     0000005A D5               [16]  156 	push	de
     0000005B D5               [16]  157 	push	de
     0000005C 21 00 80         [12]  158 	ld	hl, #0x8000
@@ -160,7 +160,7 @@
     00000060 CDr00r00         [24]  160 	call	_set_bkg_data
     00000063 E8 04            [16]  161 	add	sp, #4
     00000065 D1               [12]  162 	pop	de
-                                    163 ;src/gameplay.c:41: set_bkg_data(128, 128, tiles + (128u * 16u));
+                                    163 ;src/gameplay.c:42: set_bkg_data(128, 128, tiles + (128u * 16u));
     00000066 21 00 08         [12]  164 	ld	hl, #0x0800
     00000069 19               [ 8]  165 	add	hl, de
     0000006A E5               [16]  166 	push	hl
@@ -170,7 +170,7 @@
     00000072 E8 04            [16]  170 	add	sp, #4
     00000074 C9               [16]  171 	ret
     00000075                        172 00102$:
-                                    173 ;src/gameplay.c:43: set_bkg_data(0, (uint8_t)tile_count, tiles);
+                                    173 ;src/gameplay.c:44: set_bkg_data(0, (uint8_t)tile_count, tiles);
     00000075 79               [ 4]  174 	ld	a, c
     00000076 D5               [16]  175 	push	de
     00000077 67               [ 4]  176 	ld	h, a
@@ -178,9 +178,9 @@
     0000007A E5               [16]  178 	push	hl
     0000007B CDr00r00         [24]  179 	call	_set_bkg_data
     0000007E E8 04            [16]  180 	add	sp, #4
-                                    181 ;src/gameplay.c:45: }
+                                    181 ;src/gameplay.c:46: }
     00000080 C9               [16]  182 	ret
-                                    183 ;src/gameplay.c:48: void draw_mt_column(uint8_t ring_col, uint16_t map_col,
+                                    183 ;src/gameplay.c:49: void draw_mt_column(uint8_t ring_col, uint16_t map_col,
                                     184 ;	---------------------------------
                                     185 ; Function draw_mt_column
                                     186 ; ---------------------------------
@@ -190,19 +190,19 @@
     00000085 73               [ 8]  190 	ld	(hl), e
     00000086 23               [ 8]  191 	inc	hl
     00000087 72               [ 8]  192 	ld	(hl), d
-                                    193 ;src/gameplay.c:52: uint8_t bx = ring_col << 1;
+                                    193 ;src/gameplay.c:53: uint8_t bx = ring_col << 1;
     00000088 87               [ 4]  194 	add	a, a
     00000089 F8 02            [12]  195 	ldhl	sp,	#2
-                                    196 ;src/gameplay.c:54: uint8_t _prev = _current_bank;
+                                    196 ;src/gameplay.c:55: uint8_t _prev = _current_bank;
     0000008B 22               [ 8]  197 	ld	(hl+), a
     0000008C F0r00            [12]  198 	ldh	a, (__current_bank + 0)
     0000008E 77               [ 8]  199 	ld	(hl), a
-                                    200 ;src/gameplay.c:55: SWITCH_ROM(map_bank);
+                                    200 ;src/gameplay.c:56: SWITCH_ROM(map_bank);
     0000008F F8 12            [12]  201 	ldhl	sp,	#18
     00000091 7E               [ 8]  202 	ld	a, (hl)
     00000092 E0r00            [12]  203 	ldh	(__current_bank + 0), a
     00000094 EAr00r00         [16]  204 	ld	(#_rROMB0),a
-                                    205 ;src/gameplay.c:57: for (uint8_t r = 0; r < map_h && r < BKG_MT_H; r++) {
+                                    205 ;src/gameplay.c:58: for (uint8_t r = 0; r < map_h && r < BKG_MT_H; r++) {
     00000097 F8 09            [12]  206 	ldhl	sp,	#9
     00000099 36 00            [12]  207 	ld	(hl), #0x00
     0000009B                        208 00104$:
@@ -226,7 +226,7 @@
     000000B4 7E               [ 8]  226 	ld	a, (hl)
     000000B5 D6 10            [ 8]  227 	sub	a, #0x10
     000000B7 D2r66r01         [16]  228 	jp	NC, 00101$
-                                    229 ;src/gameplay.c:58: uint8_t mt = map[(uint16_t)r * map_w + map_col];
+                                    229 ;src/gameplay.c:59: uint8_t mt = map[(uint16_t)r * map_w + map_col];
     000000BA F8 0E            [12]  230 	ldhl	sp,	#14
     000000BC 2A               [ 8]  231 	ld	a, (hl+)
     000000BD 4F               [ 4]  232 	ld	c, a
@@ -268,14 +268,14 @@
     000000E9 1A               [ 8]  268 	ld	a, (de)
     000000EA F8 05            [12]  269 	ldhl	sp,	#5
     000000EC 77               [ 8]  270 	ld	(hl), a
-                                    271 ;src/gameplay.c:59: uint8_t by = (r & (BKG_MT_H - 1)) << 1;
+                                    271 ;src/gameplay.c:60: uint8_t by = (r & (BKG_MT_H - 1)) << 1;
     000000ED F8 09            [12]  272 	ldhl	sp,	#9
     000000EF 7E               [ 8]  273 	ld	a, (hl)
     000000F0 E6 0F            [ 8]  274 	and	a, #0x0f
     000000F2 F8 06            [12]  275 	ldhl	sp,	#6
     000000F4 77               [ 8]  276 	ld	(hl), a
     000000F5 CB 26            [16]  277 	sla	(hl)
-                                    278 ;src/gameplay.c:60: set_bkg_tiles(bx, by, 2, 1, &metatiles[mt][0]);
+                                    278 ;src/gameplay.c:61: set_bkg_tiles(bx, by, 2, 1, &metatiles[mt][0]);
     000000F7 2B               [ 8]  279 	dec	hl
     000000F8 3A               [ 8]  280 	ld	a, (hl-)
     000000F9 22               [ 8]  281 	ld	(hl+), a
@@ -321,7 +321,7 @@
     0000012F 33               [ 8]  321 	inc	sp
     00000130 CDr00r00         [24]  322 	call	_set_bkg_tiles
     00000133 E8 06            [16]  323 	add	sp, #6
-                                    324 ;src/gameplay.c:61: set_bkg_tiles(bx, by + 1, 2, 1, &metatiles[mt][2]);
+                                    324 ;src/gameplay.c:62: set_bkg_tiles(bx, by + 1, 2, 1, &metatiles[mt][2]);
     00000135 D1               [12]  325 	pop	de
     00000136 D5               [16]  326 	push	de
     00000137 21 02 00         [12]  327 	ld	hl, #0x0002
@@ -355,23 +355,23 @@
     0000015A 33               [ 8]  355 	inc	sp
     0000015B CDr00r00         [24]  356 	call	_set_bkg_tiles
     0000015E E8 06            [16]  357 	add	sp, #6
-                                    358 ;src/gameplay.c:57: for (uint8_t r = 0; r < map_h && r < BKG_MT_H; r++) {
+                                    358 ;src/gameplay.c:58: for (uint8_t r = 0; r < map_h && r < BKG_MT_H; r++) {
     00000160 F8 09            [12]  359 	ldhl	sp,	#9
     00000162 34               [12]  360 	inc	(hl)
     00000163 C3r9Br00         [16]  361 	jp	00104$
     00000166                        362 00101$:
-                                    363 ;src/gameplay.c:64: SWITCH_ROM(_prev);
+                                    363 ;src/gameplay.c:65: SWITCH_ROM(_prev);
     00000166 F8 03            [12]  364 	ldhl	sp,	#3
     00000168 7E               [ 8]  365 	ld	a, (hl)
     00000169 E0r00            [12]  366 	ldh	(__current_bank + 0), a
     0000016B 7E               [ 8]  367 	ld	a, (hl)
     0000016C EAr00r00         [16]  368 	ld	(#_rROMB0),a
-                                    369 ;src/gameplay.c:65: }
+                                    369 ;src/gameplay.c:66: }
     0000016F E8 0A            [16]  370 	add	sp, #10
     00000171 E1               [12]  371 	pop	hl
     00000172 E8 07            [16]  372 	add	sp, #7
     00000174 E9               [ 4]  373 	jp	(hl)
-                                    374 ;src/gameplay.c:68: void fill_scroll_bg(const uint8_t* map, uint16_t map_w, uint16_t map_h, uint8_t map_bank) NONBANKED {
+                                    374 ;src/gameplay.c:69: void fill_scroll_bg(const uint8_t* map, uint16_t map_w, uint16_t map_h, uint8_t map_bank) NONBANKED {
                                     375 ;	---------------------------------
                                     376 ; Function fill_scroll_bg
                                     377 ; ---------------------------------
@@ -381,7 +381,7 @@
     00000179 7B               [ 4]  381 	ld	a, e
     0000017A 22               [ 8]  382 	ld	(hl+), a
     0000017B 72               [ 8]  383 	ld	(hl), d
-                                    384 ;src/gameplay.c:69: uint16_t cols = (map_w < BKG_MT_W) ? map_w : BKG_MT_W;
+                                    384 ;src/gameplay.c:70: uint16_t cols = (map_w < BKG_MT_W) ? map_w : BKG_MT_W;
     0000017C 59               [ 4]  385 	ld	e, c
     0000017D 50               [ 4]  386 	ld	d, b
     0000017E 7B               [ 4]  387 	ld	a, e
@@ -394,7 +394,7 @@
     00000188 F8 00            [12]  394 	ldhl	sp,	#0
     0000018A 7B               [ 4]  395 	ld	a, e
     0000018B 22               [ 8]  396 	ld	(hl+), a
-                                    397 ;src/gameplay.c:70: for (uint16_t c = 0; c < cols; c++) {
+                                    397 ;src/gameplay.c:71: for (uint16_t c = 0; c < cols; c++) {
     0000018C 11 00 00         [12]  398 	ld	de, #0x0000
     0000018F 73               [ 8]  399 	ld	(hl), e
     00000190                        400 00103$:
@@ -405,7 +405,7 @@
     00000195 7A               [ 4]  405 	ld	a, d
     00000196 9E               [ 8]  406 	sbc	a, (hl)
     00000197 30 23            [12]  407 	jr	NC, 00105$
-                                    408 ;src/gameplay.c:71: draw_mt_column((uint8_t)(c % BKG_MT_W), c, map, map_w, map_h, map_bank);
+                                    408 ;src/gameplay.c:72: draw_mt_column((uint8_t)(c % BKG_MT_W), c, map, map_w, map_h, map_bank);
     00000199 7B               [ 4]  409 	ld	a, e
     0000019A E6 0F            [ 8]  410 	and	a, #0x0f
     0000019C C5               [16]  411 	push	bc
@@ -432,31 +432,31 @@
     000001B4 CDr81r00         [24]  432 	call	_draw_mt_column
     000001B7 D1               [12]  433 	pop	de
     000001B8 C1               [12]  434 	pop	bc
-                                    435 ;src/gameplay.c:70: for (uint16_t c = 0; c < cols; c++) {
+                                    435 ;src/gameplay.c:71: for (uint16_t c = 0; c < cols; c++) {
     000001B9 13               [ 8]  436 	inc	de
     000001BA 18 D4            [12]  437 	jr	00103$
     000001BC                        438 00105$:
-                                    439 ;src/gameplay.c:73: }
+                                    439 ;src/gameplay.c:74: }
     000001BC E8 04            [16]  440 	add	sp, #4
     000001BE E1               [12]  441 	pop	hl
     000001BF E8 03            [16]  442 	add	sp, #3
     000001C1 E9               [ 4]  443 	jp	(hl)
-                                    444 ;src/gameplay.c:88: void play_level(uint8_t idx) NONBANKED {
+                                    444 ;src/gameplay.c:89: void play_level(uint8_t idx) NONBANKED {
                                     445 ;	---------------------------------
                                     446 ; Function play_level
                                     447 ; ---------------------------------
     000001C2                        448 _play_level::
     000001C2 E8 E0            [16]  449 	add	sp, #-32
     000001C4 5F               [ 4]  450 	ld	e, a
-                                    451 ;src/gameplay.c:89: uint8_t prev_game_bank = _current_bank;
+                                    451 ;src/gameplay.c:90: uint8_t prev_game_bank = _current_bank;
     000001C5 F0r00            [12]  452 	ldh	a, (__current_bank + 0)
     000001C7 F8 1F            [12]  453 	ldhl	sp,	#31
     000001C9 77               [ 8]  454 	ld	(hl), a
-                                    455 ;src/gameplay.c:102: SWITCH_ROM(BANK(game_levels));
+                                    455 ;src/gameplay.c:103: SWITCH_ROM(BANK(game_levels));
     000001CA 3Er00            [ 8]  456 	ld	a, #<(___bank_game_levels)
     000001CC E0r00            [12]  457 	ldh	(__current_bank + 0), a
     000001CE EAr00r00         [16]  458 	ld	(#_rROMB0),a
-                                    459 ;src/gameplay.c:103: l = game_levels[idx];
+                                    459 ;src/gameplay.c:104: l = game_levels[idx];
     000001D1 01r00r00         [12]  460 	ld	bc, #_game_levels+0
     000001D4 6B               [ 4]  461 	ld	l, e
     000001D5 26 00            [ 8]  462 	ld	h, #0x00
@@ -465,7 +465,7 @@
     000001D9 2A               [ 8]  465 	ld	a, (hl+)
     000001DA 4F               [ 4]  466 	ld	c, a
     000001DB 46               [ 8]  467 	ld	b, (hl)
-                                    468 ;src/gameplay.c:105: level_tiles = l->tiles;
+                                    468 ;src/gameplay.c:106: level_tiles = l->tiles;
     000001DC 69               [ 4]  469 	ld	l, c
     000001DD 60               [ 4]  470 	ld	h, b
     000001DE 23               [ 8]  471 	inc	hl
@@ -478,7 +478,7 @@
     000001E6 13               [ 8]  478 	inc	de
     000001E7 1A               [ 8]  479 	ld	a, (de)
     000001E8 77               [ 8]  480 	ld	(hl), a
-                                    481 ;src/gameplay.c:106: level_map = l->map;
+                                    481 ;src/gameplay.c:107: level_map = l->map;
     000001E9 21 04 00         [12]  482 	ld	hl, #0x0004
     000001EC 09               [ 8]  483 	add	hl, bc
     000001ED 5D               [ 4]  484 	ld	e, l
@@ -489,7 +489,7 @@
     000001F3 13               [ 8]  489 	inc	de
     000001F4 1A               [ 8]  490 	ld	a, (de)
     000001F5 77               [ 8]  491 	ld	(hl), a
-                                    492 ;src/gameplay.c:107: level_tile_count = l->tile_count;
+                                    492 ;src/gameplay.c:108: level_tile_count = l->tile_count;
     000001F6 21 06 00         [12]  493 	ld	hl, #0x0006
     000001F9 09               [ 8]  494 	add	hl, bc
     000001FA 5D               [ 4]  495 	ld	e, l
@@ -500,7 +500,7 @@
     00000200 13               [ 8]  500 	inc	de
     00000201 1A               [ 8]  501 	ld	a, (de)
     00000202 77               [ 8]  502 	ld	(hl), a
-                                    503 ;src/gameplay.c:108: level_map_w = l->map_width;
+                                    503 ;src/gameplay.c:109: level_map_w = l->map_width;
     00000203 21 08 00         [12]  504 	ld	hl, #0x0008
     00000206 09               [ 8]  505 	add	hl, bc
     00000207 5D               [ 4]  506 	ld	e, l
@@ -511,7 +511,7 @@
     0000020D 13               [ 8]  511 	inc	de
     0000020E 1A               [ 8]  512 	ld	a, (de)
     0000020F 77               [ 8]  513 	ld	(hl), a
-                                    514 ;src/gameplay.c:109: level_map_h = l->map_height;
+                                    514 ;src/gameplay.c:110: level_map_h = l->map_height;
     00000210 21 0A 00         [12]  515 	ld	hl, #0x000a
     00000213 09               [ 8]  516 	add	hl, bc
     00000214 5D               [ 4]  517 	ld	e, l
@@ -522,33 +522,33 @@
     0000021A 13               [ 8]  522 	inc	de
     0000021B 1A               [ 8]  523 	ld	a, (de)
     0000021C 77               [ 8]  524 	ld	(hl), a
-                                    525 ;src/gameplay.c:110: level_tiles_bank = BANK(famidash_chr);
+                                    525 ;src/gameplay.c:111: level_tiles_bank = BANK(famidash_chr);
     0000021D F8 1D            [12]  526 	ldhl	sp,	#29
     0000021F 36r00            [12]  527 	ld	(hl), #<(___bank_famidash_chr)
-                                    528 ;src/gameplay.c:113: level_map_bank = l->map_bank;
+                                    528 ;src/gameplay.c:114: level_map_bank = l->map_bank;
     00000221 21 0E 00         [12]  529 	ld	hl, #0x000e
     00000224 09               [ 8]  530 	add	hl, bc
     00000225 7E               [ 8]  531 	ld	a, (hl)
     00000226 F8 0E            [12]  532 	ldhl	sp,	#14
     00000228 77               [ 8]  533 	ld	(hl), a
-                                    534 ;src/gameplay.c:114: SWITCH_ROM(prev_game_bank);
+                                    534 ;src/gameplay.c:115: SWITCH_ROM(prev_game_bank);
     00000229 F8 1F            [12]  535 	ldhl	sp,	#31
     0000022B 7E               [ 8]  536 	ld	a, (hl)
     0000022C E0r00            [12]  537 	ldh	(__current_bank + 0), a
     0000022E 7E               [ 8]  538 	ld	a, (hl)
     0000022F EAr00r00         [16]  539 	ld	(#_rROMB0),a
-                                    540 ;src/gameplay.c:120: uint16_t cam_px = 0;
+                                    540 ;src/gameplay.c:121: uint16_t cam_px = 0;
     00000232 AF               [ 4]  541 	xor	a, a
     00000233 F8 1E            [12]  542 	ldhl	sp,	#30
     00000235 22               [ 8]  543 	ld	(hl+), a
     00000236 77               [ 8]  544 	ld	(hl), a
-                                    545 ;src/gameplay.c:121: uint16_t cam_py = 112;
+                                    545 ;src/gameplay.c:122: uint16_t cam_py = 112;
     00000237 F8 0F            [12]  546 	ldhl	sp,	#15
     00000239 3E 70            [ 8]  547 	ld	a, #0x70
     0000023B 22               [ 8]  548 	ld	(hl+), a
     0000023C AF               [ 4]  549 	xor	a, a
     0000023D 77               [ 8]  550 	ld	(hl), a
-                                    551 ;src/gameplay.c:122: uint16_t cam_py_max = (level_map_h << 4);
+                                    551 ;src/gameplay.c:123: uint16_t cam_py_max = (level_map_h << 4);
     0000023E F8 0C            [12]  552 	ldhl	sp,	#12
     00000240 2A               [ 8]  553 	ld	a, (hl+)
     00000241 4E               [ 8]  554 	ld	c, (hl)
@@ -560,7 +560,7 @@
     00000249 CB 11            [ 8]  560 	rl	c
     0000024B 87               [ 4]  561 	add	a, a
     0000024C CB 11            [ 8]  562 	rl	c
-                                    563 ;src/gameplay.c:123: if (cam_py_max > 144u) cam_py_max -= 144u;
+                                    563 ;src/gameplay.c:124: if (cam_py_max > 144u) cam_py_max -= 144u;
     0000024E F8 17            [12]  564 	ldhl	sp,	#23
     00000250 22               [ 8]  565 	ld	(hl+), a
     00000251 79               [ 4]  566 	ld	a, c
@@ -588,19 +588,19 @@
     0000026E 77               [ 8]  588 	ld	(hl), a
     0000026F 18 05            [12]  589 	jr	00103$
     00000271                        590 00102$:
-                                    591 ;src/gameplay.c:124: else cam_py_max = 0;
+                                    591 ;src/gameplay.c:125: else cam_py_max = 0;
     00000271 AF               [ 4]  592 	xor	a, a
     00000272 F8 11            [12]  593 	ldhl	sp,	#17
     00000274 22               [ 8]  594 	ld	(hl+), a
     00000275 77               [ 8]  595 	ld	(hl), a
     00000276                        596 00103$:
-                                    597 ;src/gameplay.c:125: uint16_t loaded_r = BKG_MT_W - 1;
+                                    597 ;src/gameplay.c:126: uint16_t loaded_r = BKG_MT_W - 1;
     00000276 F8 13            [12]  598 	ldhl	sp,	#19
     00000278 3E 0F            [ 8]  599 	ld	a, #0x0f
     0000027A 22               [ 8]  600 	ld	(hl+), a
     0000027B AF               [ 4]  601 	xor	a, a
     0000027C 77               [ 8]  602 	ld	(hl), a
-                                    603 ;src/gameplay.c:133: player_init(&player, 32, 240);
+                                    603 ;src/gameplay.c:134: player_init(&player, 32, 240);
                                     604 ;include/player.h:29: p->world_x   = start_x;
     0000027D F8 00            [12]  605 	ldhl	sp,	#0
     0000027F 3E 20            [ 8]  606 	ld	a, #0x20
@@ -622,18 +622,18 @@
     0000028E 36 00            [12]  622 	ld	(hl), #0x00
                                     623 ;c:\gbdk\include\gb\gb.h:811: __asm__("di");
     00000290 F3               [ 4]  624 	di
-                                    625 ;src/gameplay.c:137: DISPLAY_OFF;
+                                    625 ;src/gameplay.c:138: DISPLAY_OFF;
     00000291 CDr00r00         [24]  626 	call	_display_off
-                                    627 ;src/gameplay.c:138: _prev = _current_bank;
+                                    627 ;src/gameplay.c:139: _prev = _current_bank;
     00000294 F0r00            [12]  628 	ldh	a, (__current_bank + 0)
     00000296 5F               [ 4]  629 	ld	e, a
-                                    630 ;src/gameplay.c:139: SWITCH_ROM(level_tiles_bank);
+                                    630 ;src/gameplay.c:140: SWITCH_ROM(level_tiles_bank);
     00000297 F8 1D            [12]  631 	ldhl	sp,	#29
     00000299 7E               [ 8]  632 	ld	a, (hl)
     0000029A E0r00            [12]  633 	ldh	(__current_bank + 0), a
     0000029C 7E               [ 8]  634 	ld	a, (hl)
     0000029D EAr00r00         [16]  635 	ld	(#_rROMB0),a
-                                    636 ;src/gameplay.c:140: load_bkg_tileset(level_tiles, level_tile_count);
+                                    636 ;src/gameplay.c:141: load_bkg_tileset(level_tiles, level_tile_count);
     000002A0 D5               [16]  637 	push	de
     000002A1 F8 1D            [12]  638 	ldhl	sp,	#29
     000002A3 2A               [ 8]  639 	ld	a, (hl+)
@@ -645,12 +645,12 @@
     000002AA 56               [ 8]  645 	ld	d, (hl)
     000002AB CDr51r00         [24]  646 	call	_load_bkg_tileset
     000002AE D1               [12]  647 	pop	de
-                                    648 ;src/gameplay.c:141: SWITCH_ROM(_prev);
+                                    648 ;src/gameplay.c:142: SWITCH_ROM(_prev);
     000002AF 7B               [ 4]  649 	ld	a, e
     000002B0 E0r00            [12]  650 	ldh	(__current_bank + 0), a
     000002B2 21r00r00         [12]  651 	ld	hl, #_rROMB0
     000002B5 73               [ 8]  652 	ld	(hl), e
-                                    653 ;src/gameplay.c:143: set_sprite_data(0, 4, cube_tiles);
+                                    653 ;src/gameplay.c:144: set_sprite_data(0, 4, cube_tiles);
     000002B6 11r11r00         [12]  654 	ld	de, #_cube_tiles
     000002B9 D5               [16]  655 	push	de
     000002BA 21 00 04         [12]  656 	ld	hl, #0x400
@@ -671,7 +671,7 @@
     000002D8 E0r00            [12]  671 	ldh	(_SCX_REG + 0), a
     000002DA 3E 70            [ 8]  672 	ld	a, #0x70
     000002DC E0r00            [12]  673 	ldh	(_SCY_REG + 0), a
-                                    674 ;src/gameplay.c:148: fill_scroll_bg(level_map, level_map_w, level_map_h, level_map_bank);
+                                    674 ;src/gameplay.c:149: fill_scroll_bg(level_map, level_map_w, level_map_h, level_map_bank);
     000002DE F8 0E            [12]  675 	ldhl	sp,	#14
     000002E0 3A               [ 8]  676 	ld	a, (hl-)
     000002E1 2B               [ 8]  677 	dec	hl
@@ -690,53 +690,53 @@
     000002F0 5F               [ 4]  690 	ld	e, a
     000002F1 56               [ 8]  691 	ld	d, (hl)
     000002F2 CDr75r01         [24]  692 	call	_fill_scroll_bg
-                                    693 ;src/gameplay.c:150: BGP_REG = 0xE4;
+                                    693 ;src/gameplay.c:151: BGP_REG = 0xE4;
     000002F5 3E E4            [ 8]  694 	ld	a, #0xe4
     000002F7 E0r00            [12]  695 	ldh	(_BGP_REG + 0), a
-                                    696 ;src/gameplay.c:151: OBP0_REG = 0xE4;
+                                    696 ;src/gameplay.c:152: OBP0_REG = 0xE4;
     000002F9 3E E4            [ 8]  697 	ld	a, #0xe4
     000002FB E0r00            [12]  698 	ldh	(_OBP0_REG + 0), a
-                                    699 ;src/gameplay.c:152: SPRITES_8x8;
+                                    699 ;src/gameplay.c:153: SPRITES_8x8;
     000002FD F0r00            [12]  700 	ldh	a, (_LCDC_REG + 0)
     000002FF E6 FB            [ 8]  701 	and	a, #0xfb
     00000301 E0r00            [12]  702 	ldh	(_LCDC_REG + 0), a
-                                    703 ;src/gameplay.c:154: SHOW_BKG;
+                                    703 ;src/gameplay.c:155: SHOW_BKG;
     00000303 F0r00            [12]  704 	ldh	a, (_LCDC_REG + 0)
     00000305 F6 01            [ 8]  705 	or	a, #0x01
     00000307 E0r00            [12]  706 	ldh	(_LCDC_REG + 0), a
-                                    707 ;src/gameplay.c:155: SHOW_SPRITES;
+                                    707 ;src/gameplay.c:156: SHOW_SPRITES;
     00000309 F0r00            [12]  708 	ldh	a, (_LCDC_REG + 0)
     0000030B F6 02            [ 8]  709 	or	a, #0x02
     0000030D E0r00            [12]  710 	ldh	(_LCDC_REG + 0), a
-                                    711 ;src/gameplay.c:156: DISPLAY_ON;
+                                    711 ;src/gameplay.c:157: DISPLAY_ON;
     0000030F F0r00            [12]  712 	ldh	a, (_LCDC_REG + 0)
     00000311 F6 80            [ 8]  713 	or	a, #0x80
     00000313 E0r00            [12]  714 	ldh	(_LCDC_REG + 0), a
                                     715 ;c:\gbdk\include\gb\gb.h:795: __asm__("ei");
     00000315 FB               [ 4]  716 	ei
-                                    717 ;src/gameplay.c:159: waitpadup();
+                                    717 ;src/gameplay.c:160: waitpadup();
     00000316 CDr00r00         [24]  718 	call	_waitpadup
-                                    719 ;src/gameplay.c:161: uint16_t scroll_acc = 0;
+                                    719 ;src/gameplay.c:162: uint16_t scroll_acc = 0;
     00000319 F8 15            [12]  720 	ldhl	sp,	#21
-                                    721 ;src/gameplay.c:162: uint8_t prev_joy = 0;
+                                    721 ;src/gameplay.c:163: uint8_t prev_joy = 0;
     0000031B AF               [ 4]  722 	xor	a, a
     0000031C 22               [ 8]  723 	ld	(hl+), a
     0000031D 77               [ 8]  724 	ld	(hl), a
-                                    725 ;src/gameplay.c:163: while (1) {
+                                    725 ;src/gameplay.c:164: while (1) {
     0000031E                        726 00132$:
-                                    727 ;src/gameplay.c:164: wait_vbl_done();
+                                    727 ;src/gameplay.c:165: wait_vbl_done();
     0000031E CDr00r00         [24]  728 	call	_wait_vbl_done
-                                    729 ;src/gameplay.c:165: uint8_t joy = joypad();
+                                    729 ;src/gameplay.c:166: uint8_t joy = joypad();
     00000321 CDr00r00         [24]  730 	call	_joypad
     00000324 F8 17            [12]  731 	ldhl	sp,	#23
     00000326 77               [ 8]  732 	ld	(hl), a
-                                    733 ;src/gameplay.c:166: if (joy & J_START) break;
+                                    733 ;src/gameplay.c:167: if (joy & J_START) break;
     00000327 E5               [16]  734 	push	hl
     00000328 F8 19            [12]  735 	ldhl	sp,	#25
     0000032A CB 7E            [12]  736 	bit	7, (hl)
     0000032C E1               [12]  737 	pop	hl
-    0000032D C2r51r06         [16]  738 	jp	NZ, 00133$
-                                    739 ;src/gameplay.c:169: if ((joy & J_B) && !(prev_joy & J_B)) {
+    0000032D C2r54r06         [16]  738 	jp	NZ, 00133$
+                                    739 ;src/gameplay.c:170: if ((joy & J_B) && !(prev_joy & J_B)) {
     00000330 E5               [16]  740 	push	hl
     00000331 F8 19            [12]  741 	ldhl	sp,	#25
     00000333 CB 6E            [12]  742 	bit	5, (hl)
@@ -747,7 +747,7 @@
     0000033B CB 6E            [12]  747 	bit	5, (hl)
     0000033D E1               [12]  748 	pop	hl
     0000033E 20 0A            [12]  749 	jr	NZ, 00107$
-                                    750 ;src/gameplay.c:170: player_noclip = !player_noclip;
+                                    750 ;src/gameplay.c:171: player_noclip = !player_noclip;
     00000340 21r00r00         [12]  751 	ld	hl, #_player_noclip
     00000343 7E               [ 8]  752 	ld	a, (hl)
     00000344 D6 01            [ 8]  753 	sub	a, #0x01
@@ -755,11 +755,11 @@
     00000348 17               [ 4]  755 	rla
     00000349 77               [ 8]  756 	ld	(hl), a
     0000034A                        757 00107$:
-                                    758 ;src/gameplay.c:172: prev_joy = joy;
+                                    758 ;src/gameplay.c:173: prev_joy = joy;
     0000034A F8 17            [12]  759 	ldhl	sp,	#23
     0000034C 3A               [ 8]  760 	ld	a, (hl-)
     0000034D 77               [ 8]  761 	ld	(hl), a
-                                    762 ;src/gameplay.c:175: if (cam_px < ((level_map_w - VIEW_MT_W) << 4)) {
+                                    762 ;src/gameplay.c:176: if (cam_px < ((level_map_w - VIEW_MT_W) << 4)) {
     0000034E F8 0A            [12]  763 	ldhl	sp,	#10
     00000350 2A               [ 8]  764 	ld	a, (hl+)
     00000351 4F               [ 4]  765 	ld	c, a
@@ -785,7 +785,7 @@
     00000368 7A               [ 4]  785 	ld	a, d
     00000369 98               [ 4]  786 	sbc	a, b
     0000036A D2r81r04         [16]  787 	jp	NC, 00115$
-                                    788 ;src/gameplay.c:176: uint16_t prev = cam_px >> 4;
+                                    788 ;src/gameplay.c:177: uint16_t prev = cam_px >> 4;
     0000036D 2B               [ 8]  789 	dec	hl
     0000036E 7E               [ 8]  790 	ld	a, (hl)
     0000036F F8 1A            [12]  791 	ldhl	sp,	#26
@@ -809,7 +809,7 @@
     0000038A CB 3E            [16]  809 	srl	(hl)
     0000038C 2B               [ 8]  810 	dec	hl
     0000038D CB 1E            [16]  811 	rr	(hl)
-                                    812 ;src/gameplay.c:177: scroll_acc += SCROLL_SPEED_FP;
+                                    812 ;src/gameplay.c:178: scroll_acc += SCROLL_SPEED_FP;
     0000038F F8 15            [12]  813 	ldhl	sp,	#21
     00000391 7E               [ 8]  814 	ld	a, (hl)
     00000392 F8 1C            [12]  815 	ldhl	sp,	#28
@@ -819,7 +819,7 @@
     00000397 2A               [ 8]  819 	ld	a, (hl+)
     00000398 5F               [ 4]  820 	ld	e, a
     00000399 56               [ 8]  821 	ld	d, (hl)
-    0000039A 21 20 03         [12]  822 	ld	hl, #0x0320
+    0000039A 21 80 03         [12]  822 	ld	hl, #0x0380
     0000039D 19               [ 8]  823 	add	hl, de
     0000039E E5               [16]  824 	push	hl
     0000039F 7D               [ 4]  825 	ld	a, l
@@ -836,7 +836,7 @@
     000003AE 7E               [ 8]  836 	ld	a, (hl)
     000003AF F8 1D            [12]  837 	ldhl	sp,	#29
     000003B1 77               [ 8]  838 	ld	(hl), a
-                                    839 ;src/gameplay.c:178: cam_px += scroll_acc >> 8;
+                                    839 ;src/gameplay.c:179: cam_px += scroll_acc >> 8;
     000003B2 7E               [ 8]  840 	ld	a, (hl)
     000003B3 F8 18            [12]  841 	ldhl	sp,	#24
     000003B5 22               [ 8]  842 	ld	(hl+), a
@@ -858,7 +858,7 @@
     000003C7 7C               [ 4]  858 	ld	a, h
     000003C8 F8 1F            [12]  859 	ldhl	sp,	#31
     000003CA 77               [ 8]  860 	ld	(hl), a
-                                    861 ;src/gameplay.c:179: scroll_acc &= 0xFF;
+                                    861 ;src/gameplay.c:180: scroll_acc &= 0xFF;
     000003CB F8 1C            [12]  862 	ldhl	sp,	#28
     000003CD 2A               [ 8]  863 	ld	a, (hl+)
     000003CE 4E               [ 8]  864 	ld	c, (hl)
@@ -869,7 +869,7 @@
     000003D3 7E               [ 8]  869 	ld	a, (hl)
     000003D4 F8 15            [12]  870 	ldhl	sp,	#21
     000003D6 77               [ 8]  871 	ld	(hl), a
-                                    872 ;src/gameplay.c:180: uint16_t curr = cam_px >> 4;
+                                    872 ;src/gameplay.c:181: uint16_t curr = cam_px >> 4;
     000003D7 F8 1E            [12]  873 	ldhl	sp,	#30
     000003D9 3A               [ 8]  874 	ld	a, (hl-)
     000003DA 2B               [ 8]  875 	dec	hl
@@ -893,7 +893,7 @@
     000003F3 CB 3E            [16]  893 	srl	(hl)
     000003F5 2B               [ 8]  894 	dec	hl
     000003F6 CB 1E            [16]  895 	rr	(hl)
-                                    896 ;src/gameplay.c:182: if (curr != prev) {
+                                    896 ;src/gameplay.c:183: if (curr != prev) {
     000003F8 2B               [ 8]  897 	dec	hl
     000003F9 2B               [ 8]  898 	dec	hl
     000003FA 2A               [ 8]  899 	ld	a, (hl+)
@@ -906,7 +906,7 @@
     00000402 96               [ 8]  906 	sub	a, (hl)
     00000403 28 7C            [12]  907 	jr	Z, 00115$
     00000405                        908 00276$:
-                                    909 ;src/gameplay.c:183: uint16_t need = curr + VIEW_MT_W;
+                                    909 ;src/gameplay.c:184: uint16_t need = curr + VIEW_MT_W;
     00000405 F8 1C            [12]  910 	ldhl	sp,	#28
     00000407 3A               [ 8]  911 	ld	a, (hl-)
     00000408 2B               [ 8]  912 	dec	hl
@@ -935,7 +935,7 @@
     00000426 7E               [ 8]  935 	ld	a, (hl)
     00000427 F8 19            [12]  936 	ldhl	sp,	#25
     00000429 77               [ 8]  937 	ld	(hl), a
-                                    938 ;src/gameplay.c:184: if (need > loaded_r && need < level_map_w) {
+                                    938 ;src/gameplay.c:185: if (need > loaded_r && need < level_map_w) {
     0000042A F8 13            [12]  939 	ldhl	sp,	#19
     0000042C 5D               [ 4]  940 	ld	e, l
     0000042D 54               [ 4]  941 	ld	d, h
@@ -958,7 +958,7 @@
     00000442 1A               [ 8]  958 	ld	a, (de)
     00000443 9E               [ 8]  959 	sbc	a, (hl)
     00000444 30 3B            [12]  960 	jr	NC, 00115$
-                                    961 ;src/gameplay.c:185: loaded_r = need;
+                                    961 ;src/gameplay.c:186: loaded_r = need;
     00000446 F8 18            [12]  962 	ldhl	sp,	#24
     00000448 7E               [ 8]  963 	ld	a, (hl)
     00000449 F8 13            [12]  964 	ldhl	sp,	#19
@@ -967,7 +967,7 @@
     0000044E 7E               [ 8]  967 	ld	a, (hl)
     0000044F F8 14            [12]  968 	ldhl	sp,	#20
     00000451 77               [ 8]  969 	ld	(hl), a
-                                    970 ;src/gameplay.c:186: draw_mt_column((uint8_t)(need % BKG_MT_W), need, level_map, level_map_w, level_map_h, level_map_bank);
+                                    970 ;src/gameplay.c:187: draw_mt_column((uint8_t)(need % BKG_MT_W), need, level_map, level_map_w, level_map_h, level_map_bank);
     00000452 F8 18            [12]  971 	ldhl	sp,	#24
     00000454 2A               [ 8]  972 	ld	a, (hl+)
     00000455 23               [ 8]  973 	inc	hl
@@ -1007,7 +1007,7 @@
     0000047D 56               [ 8] 1007 	ld	d, (hl)
     0000047E CDr81r00         [24] 1008 	call	_draw_mt_column
     00000481                       1009 00115$:
-                                   1010 ;src/gameplay.c:191: player.world_x = cam_px + PLAYER_SCREEN_X;
+                                   1010 ;src/gameplay.c:192: player.world_x = cam_px + PLAYER_SCREEN_X;
     00000481 F8 1E            [12] 1011 	ldhl	sp,	#30
     00000483 7E               [ 8] 1012 	ld	a, (hl)
     00000484 F8 1A            [12] 1013 	ldhl	sp,	#26
@@ -1036,16 +1036,16 @@
     000004A4 7E               [ 8] 1036 	ld	a, (hl)
     000004A5 F8 01            [12] 1037 	ldhl	sp,	#1
     000004A7 77               [ 8] 1038 	ld	(hl), a
-                                   1039 ;src/gameplay.c:193: _prev = _current_bank;
+                                   1039 ;src/gameplay.c:194: _prev = _current_bank;
     000004A8 F0r00            [12] 1040 	ldh	a, (__current_bank + 0)
     000004AA 4F               [ 4] 1041 	ld	c, a
-                                   1042 ;src/gameplay.c:194: SWITCH_ROM(level_map_bank);
+                                   1042 ;src/gameplay.c:195: SWITCH_ROM(level_map_bank);
     000004AB F8 0E            [12] 1043 	ldhl	sp,	#14
     000004AD 7E               [ 8] 1044 	ld	a, (hl)
     000004AE E0r00            [12] 1045 	ldh	(__current_bank + 0), a
     000004B0 7E               [ 8] 1046 	ld	a, (hl)
     000004B1 EAr00r00         [16] 1047 	ld	(#_rROMB0),a
-                                   1048 ;src/gameplay.c:195: died = player_update(&player, joy, level_map, level_map_w, level_map_h);
+                                   1048 ;src/gameplay.c:196: died = player_update(&player, joy, level_map, level_map_w, level_map_h);
     000004B4 C5               [16] 1049 	push	bc
     000004B5 F8 0E            [12] 1050 	ldhl	sp,	#14
     000004B7 2A               [ 8] 1051 	ld	a, (hl+)
@@ -1072,12 +1072,12 @@
     000004D3 F8 1B            [12] 1072 	ldhl	sp,	#27
     000004D5 77               [ 8] 1073 	ld	(hl), a
     000004D6 C1               [12] 1074 	pop	bc
-                                   1075 ;src/gameplay.c:196: SWITCH_ROM(_prev);
+                                   1075 ;src/gameplay.c:197: SWITCH_ROM(_prev);
     000004D7 79               [ 4] 1076 	ld	a, c
     000004D8 E0r00            [12] 1077 	ldh	(__current_bank + 0), a
     000004DA 21r00r00         [12] 1078 	ld	hl, #_rROMB0
     000004DD 71               [ 8] 1079 	ld	(hl), c
-                                   1080 ;src/gameplay.c:199: py = player_screen_y(&player, cam_py);
+                                   1080 ;src/gameplay.c:200: py = player_screen_y(&player, cam_py);
                                    1081 ;include/player.h:54: return p->world_y - (int16_t)cam_py;
     000004DE F8 02            [12] 1082 	ldhl	sp,	#2
     000004E0 7E               [ 8] 1083 	ld	a, (hl)
@@ -1104,8 +1104,8 @@
     000004FA 98               [ 4] 1104 	sbc	a, b
     000004FB 32               [ 8] 1105 	ld	(hl-), a
     000004FC 73               [ 8] 1106 	ld	(hl), e
-                                   1107 ;src/gameplay.c:200: if (py < CAM_Y_TOP_ZONE) {
-                                   1108 ;src/gameplay.c:203: if ((uint16_t)target_cam_py > cam_py_max) target_cam_py = (int16_t)cam_py_max;
+                                   1107 ;src/gameplay.c:201: if (py < CAM_Y_TOP_ZONE) {
+                                   1108 ;src/gameplay.c:204: if ((uint16_t)target_cam_py > cam_py_max) target_cam_py = (int16_t)cam_py_max;
     000004FD F8 11            [12] 1109 	ldhl	sp,	#17
     000004FF 7E               [ 8] 1110 	ld	a, (hl)
     00000500 F8 1A            [12] 1111 	ldhl	sp,	#26
@@ -1113,7 +1113,7 @@
     00000503 F8 12            [12] 1113 	ldhl	sp,	#18
     00000505 7E               [ 8] 1114 	ld	a, (hl)
     00000506 F8 1B            [12] 1115 	ldhl	sp,	#27
-                                   1116 ;src/gameplay.c:200: if (py < CAM_Y_TOP_ZONE) {
+                                   1116 ;src/gameplay.c:201: if (py < CAM_Y_TOP_ZONE) {
     00000508 22               [ 8] 1117 	ld	(hl+), a
     00000509 2A               [ 8] 1118 	ld	a, (hl+)
     0000050A D6 14            [ 8] 1119 	sub	a, #0x14
@@ -1134,7 +1134,7 @@
     00000522 37               [ 4] 1134 	scf
     00000523                       1135 00278$:
     00000523 30 5B            [12] 1136 	jr	NC, 00127$
-                                   1137 ;src/gameplay.c:201: int16_t target_cam_py = player.world_y - CAM_Y_TOP_ZONE;
+                                   1137 ;src/gameplay.c:202: int16_t target_cam_py = player.world_y - CAM_Y_TOP_ZONE;
     00000525 F8 02            [12] 1138 	ldhl	sp,	#2
     00000527 7E               [ 8] 1139 	ld	a, (hl)
     00000528 F8 1C            [12] 1140 	ldhl	sp,	#28
@@ -1162,7 +1162,7 @@
     00000546 F8 1D            [12] 1162 	ldhl	sp,	#29
     00000548 32               [ 8] 1163 	ld	(hl-), a
     00000549 73               [ 8] 1164 	ld	(hl), e
-                                   1165 ;src/gameplay.c:202: if (target_cam_py < 0) target_cam_py = 0;
+                                   1165 ;src/gameplay.c:203: if (target_cam_py < 0) target_cam_py = 0;
     0000054A 7E               [ 8] 1166 	ld	a, (hl)
     0000054B F8 17            [12] 1167 	ldhl	sp,	#23
     0000054D 77               [ 8] 1168 	ld	(hl), a
@@ -1177,7 +1177,7 @@
     0000055B 22               [ 8] 1177 	ld	(hl+), a
     0000055C 77               [ 8] 1178 	ld	(hl), a
     0000055D                       1179 00117$:
-                                   1180 ;src/gameplay.c:203: if ((uint16_t)target_cam_py > cam_py_max) target_cam_py = (int16_t)cam_py_max;
+                                   1180 ;src/gameplay.c:204: if ((uint16_t)target_cam_py > cam_py_max) target_cam_py = (int16_t)cam_py_max;
     0000055D F8 1C            [12] 1181 	ldhl	sp,	#28
     0000055F 2A               [ 8] 1182 	ld	a, (hl+)
     00000560 4F               [ 4] 1183 	ld	c, a
@@ -1196,7 +1196,7 @@
     00000570 23               [ 8] 1196 	inc	hl
     00000571 77               [ 8] 1197 	ld	(hl), a
     00000572                       1198 00119$:
-                                   1199 ;src/gameplay.c:204: cam_py = (uint16_t)target_cam_py;
+                                   1199 ;src/gameplay.c:205: cam_py = (uint16_t)target_cam_py;
     00000572 F8 1C            [12] 1200 	ldhl	sp,	#28
     00000574 7E               [ 8] 1201 	ld	a, (hl)
     00000575 F8 0F            [12] 1202 	ldhl	sp,	#15
@@ -1207,7 +1207,7 @@
     0000057D 77               [ 8] 1207 	ld	(hl), a
     0000057E 18 34            [12] 1208 	jr	00128$
     00000580                       1209 00127$:
-                                   1210 ;src/gameplay.c:205: } else if (py > CAM_Y_BOTTOM_ZONE) {
+                                   1210 ;src/gameplay.c:206: } else if (py > CAM_Y_BOTTOM_ZONE) {
     00000580 F8 1C            [12] 1211 	ldhl	sp,	#28
     00000582 3E 64            [ 8] 1212 	ld	a, #0x64
     00000584 96               [ 8] 1213 	sub	a, (hl)
@@ -1215,7 +1215,7 @@
     00000586 3E 00            [ 8] 1215 	ld	a, #0x00
     00000588 9E               [ 8] 1216 	sbc	a, (hl)
     00000589 30 29            [12] 1217 	jr	NC, 00128$
-                                   1218 ;src/gameplay.c:206: int16_t target_cam_py = player.world_y - CAM_Y_BOTTOM_ZONE;
+                                   1218 ;src/gameplay.c:207: int16_t target_cam_py = player.world_y - CAM_Y_BOTTOM_ZONE;
     0000058B F8 02            [12] 1219 	ldhl	sp,	#2
     0000058D 2A               [ 8] 1220 	ld	a, (hl+)
     0000058E 4F               [ 4] 1221 	ld	c, a
@@ -1226,13 +1226,13 @@
     00000594 78               [ 4] 1226 	ld	a, b
     00000595 CE FF            [ 8] 1227 	adc	a, #0xff
     00000597 47               [ 4] 1228 	ld	b, a
-                                   1229 ;src/gameplay.c:207: if (target_cam_py < 0) target_cam_py = 0;
+                                   1229 ;src/gameplay.c:208: if (target_cam_py < 0) target_cam_py = 0;
     00000598 60               [ 4] 1230 	ld	h, b
     00000599 CB 7C            [ 8] 1231 	bit	7, h
     0000059B 28 03            [12] 1232 	jr	Z, 00121$
     0000059D 01 00 00         [12] 1233 	ld	bc, #0x0000
     000005A0                       1234 00121$:
-                                   1235 ;src/gameplay.c:208: if ((uint16_t)target_cam_py > cam_py_max) target_cam_py = (int16_t)cam_py_max;
+                                   1235 ;src/gameplay.c:209: if ((uint16_t)target_cam_py > cam_py_max) target_cam_py = (int16_t)cam_py_max;
     000005A0 59               [ 4] 1236 	ld	e, c
     000005A1 50               [ 4] 1237 	ld	d, b
     000005A2 F8 11            [12] 1238 	ldhl	sp,	#17
@@ -1246,602 +1246,606 @@
     000005AD 4F               [ 4] 1246 	ld	c, a
     000005AE 46               [ 8] 1247 	ld	b, (hl)
     000005AF                       1248 00123$:
-                                   1249 ;src/gameplay.c:209: cam_py = (uint16_t)target_cam_py;
+                                   1249 ;src/gameplay.c:210: cam_py = (uint16_t)target_cam_py;
     000005AF F8 0F            [12] 1250 	ldhl	sp,	#15
     000005B1 79               [ 4] 1251 	ld	a, c
     000005B2 22               [ 8] 1252 	ld	(hl+), a
     000005B3 70               [ 8] 1253 	ld	(hl), b
     000005B4                       1254 00128$:
                                    1255 ;include/player.h:30: p->world_y   = start_y;
-                                   1256 ;src/gameplay.c:212: if (died) {
+                                   1256 ;src/gameplay.c:213: if (died) {
     000005B4 F8 19            [12] 1257 	ldhl	sp,	#25
     000005B6 7E               [ 8] 1258 	ld	a, (hl)
     000005B7 B7               [ 4] 1259 	or	a, a
-    000005B8 28 44            [12] 1260 	jr	Z, 00130$
+    000005B8 28 47            [12] 1260 	jr	Z, 00130$
                                    1261 ;c:\gbdk\include\gb\gb.h:811: __asm__("di");
     000005BA F3               [ 4] 1262 	di
-                                   1263 ;src/gameplay.c:215: cam_px = 0;
+                                   1263 ;src/gameplay.c:216: cam_px = 0;
     000005BB AF               [ 4] 1264 	xor	a, a
     000005BC F8 1E            [12] 1265 	ldhl	sp,	#30
     000005BE 22               [ 8] 1266 	ld	(hl+), a
     000005BF 77               [ 8] 1267 	ld	(hl), a
-                                   1268 ;src/gameplay.c:216: cam_py = 112;
+                                   1268 ;src/gameplay.c:217: cam_py = 112;
     000005C0 F8 0F            [12] 1269 	ldhl	sp,	#15
     000005C2 3E 70            [ 8] 1270 	ld	a, #0x70
     000005C4 22               [ 8] 1271 	ld	(hl+), a
     000005C5 AF               [ 4] 1272 	xor	a, a
     000005C6 77               [ 8] 1273 	ld	(hl), a
-                                   1274 ;src/gameplay.c:217: loaded_r = BKG_MT_W - 1;
-    000005C7 F8 13            [12] 1275 	ldhl	sp,	#19
-    000005C9 3E 0F            [ 8] 1276 	ld	a, #0x0f
-    000005CB 22               [ 8] 1277 	ld	(hl+), a
-    000005CC AF               [ 4] 1278 	xor	a, a
-    000005CD 77               [ 8] 1279 	ld	(hl), a
-                                   1280 ;include/player.h:29: p->world_x   = start_x;
-    000005CE F8 00            [12] 1281 	ldhl	sp,	#0
-    000005D0 3E 20            [ 8] 1282 	ld	a, #0x20
-    000005D2 22               [ 8] 1283 	ld	(hl+), a
-    000005D3 AF               [ 4] 1284 	xor	a, a
-                                   1285 ;include/player.h:30: p->world_y   = start_y;
-    000005D4 22               [ 8] 1286 	ld	(hl+), a
-    000005D5 3E F0            [ 8] 1287 	ld	a, #0xf0
-    000005D7 22               [ 8] 1288 	ld	(hl+), a
-                                   1289 ;include/player.h:31: p->vel_y     = 0;
-    000005D8 AF               [ 4] 1290 	xor	a, a
-    000005D9 22               [ 8] 1291 	ld	(hl+), a
+                                   1274 ;src/gameplay.c:218: scroll_acc = 0;  // Reset fixed-point accumulator for smooth restart
+    000005C7 F8 15            [12] 1275 	ldhl	sp,	#21
+                                   1276 ;src/gameplay.c:219: loaded_r = BKG_MT_W - 1;
+    000005C9 AF               [ 4] 1277 	xor	a, a
+    000005CA 32               [ 8] 1278 	ld	(hl-), a
+    000005CB 2B               [ 8] 1279 	dec	hl
+    000005CC 3E 0F            [ 8] 1280 	ld	a, #0x0f
+    000005CE 22               [ 8] 1281 	ld	(hl+), a
+    000005CF AF               [ 4] 1282 	xor	a, a
+    000005D0 77               [ 8] 1283 	ld	(hl), a
+                                   1284 ;include/player.h:29: p->world_x   = start_x;
+    000005D1 F8 00            [12] 1285 	ldhl	sp,	#0
+    000005D3 3E 20            [ 8] 1286 	ld	a, #0x20
+    000005D5 22               [ 8] 1287 	ld	(hl+), a
+    000005D6 AF               [ 4] 1288 	xor	a, a
+                                   1289 ;include/player.h:30: p->world_y   = start_y;
+    000005D7 22               [ 8] 1290 	ld	(hl+), a
+    000005D8 3E F0            [ 8] 1291 	ld	a, #0xf0
     000005DA 22               [ 8] 1292 	ld	(hl+), a
-                                   1293 ;include/player.h:32: p->on_ground = 0;
-    000005DB 22               [ 8] 1294 	ld	(hl+), a
-                                   1295 ;include/player.h:33: p->dead      = 0;
-    000005DC AF               [ 4] 1296 	xor	a, a
-    000005DD 22               [ 8] 1297 	ld	(hl+), a
-    000005DE 77               [ 8] 1298 	ld	(hl), a
-                                   1299 ;c:\gbdk\include\gb\gb.h:1461: SCX_REG=x, SCY_REG=y;
+                                   1293 ;include/player.h:31: p->vel_y     = 0;
+    000005DB AF               [ 4] 1294 	xor	a, a
+    000005DC 22               [ 8] 1295 	ld	(hl+), a
+    000005DD 22               [ 8] 1296 	ld	(hl+), a
+                                   1297 ;include/player.h:32: p->on_ground = 0;
+    000005DE 22               [ 8] 1298 	ld	(hl+), a
+                                   1299 ;include/player.h:33: p->dead      = 0;
     000005DF AF               [ 4] 1300 	xor	a, a
-    000005E0 E0r00            [12] 1301 	ldh	(_SCX_REG + 0), a
-    000005E2 3E 70            [ 8] 1302 	ld	a, #0x70
-    000005E4 E0r00            [12] 1303 	ldh	(_SCY_REG + 0), a
-                                   1304 ;src/gameplay.c:220: fill_scroll_bg(level_map, level_map_w, level_map_h, level_map_bank);
-    000005E6 F8 0E            [12] 1305 	ldhl	sp,	#14
-    000005E8 3A               [ 8] 1306 	ld	a, (hl-)
-    000005E9 2B               [ 8] 1307 	dec	hl
-    000005EA F5               [16] 1308 	push	af
-    000005EB 33               [ 8] 1309 	inc	sp
-    000005EC 2A               [ 8] 1310 	ld	a, (hl+)
-    000005ED 5F               [ 4] 1311 	ld	e, a
-    000005EE 56               [ 8] 1312 	ld	d, (hl)
-    000005EF D5               [16] 1313 	push	de
-    000005F0 F8 0D            [12] 1314 	ldhl	sp,	#13
-    000005F2 2A               [ 8] 1315 	ld	a, (hl+)
-    000005F3 4F               [ 4] 1316 	ld	c, a
-    000005F4 46               [ 8] 1317 	ld	b, (hl)
-    000005F5 F8 0B            [12] 1318 	ldhl	sp,	#11
-    000005F7 2A               [ 8] 1319 	ld	a, (hl+)
-    000005F8 5F               [ 4] 1320 	ld	e, a
-    000005F9 56               [ 8] 1321 	ld	d, (hl)
-    000005FA CDr75r01         [24] 1322 	call	_fill_scroll_bg
-                                   1323 ;c:\gbdk\include\gb\gb.h:795: __asm__("ei");
-    000005FD FB               [ 4] 1324 	ei
-                                   1325 ;src/gameplay.c:221: enable_interrupts();
-    000005FE                       1326 00130$:
-                                   1327 ;include/player.h:54: return p->world_y - (int16_t)cam_py;
-    000005FE F8 02            [12] 1328 	ldhl	sp,	#2
-    00000600 7E               [ 8] 1329 	ld	a, (hl)
-    00000601 F8 0F            [12] 1330 	ldhl	sp,	#15
-    00000603 4E               [ 8] 1331 	ld	c, (hl)
-    00000604 91               [ 4] 1332 	sub	a, c
-    00000605 F8 1B            [12] 1333 	ldhl	sp,	#27
-    00000607 77               [ 8] 1334 	ld	(hl), a
-                                   1335 ;src/gameplay.c:227: move_sprite(0, PLAYER_SCREEN_X + 8,     py + 16);
-    00000608 2A               [ 8] 1336 	ld	a, (hl+)
-    00000609 C6 10            [ 8] 1337 	add	a, #0x10
-    0000060B 77               [ 8] 1338 	ld	(hl), a
-    0000060C 2A               [ 8] 1339 	ld	a, (hl+)
-    0000060D 77               [ 8] 1340 	ld	(hl), a
-                                   1341 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-                                   1342 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    0000060E 11r00r00         [12] 1343 	ld	de, #_shadow_OAM
-    00000611 7E               [ 8] 1344 	ld	a, (hl)
-    00000612 12               [ 8] 1345 	ld	(de), a
-    00000613 21r01r00         [12] 1346 	ld	hl, #(_shadow_OAM + 1)
-    00000616 36 28            [12] 1347 	ld	(hl), #0x28
-                                   1348 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-                                   1349 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000618 11r04r00         [12] 1350 	ld	de, #(_shadow_OAM + 4)
-    0000061B F8 1C            [12] 1351 	ldhl	sp,	#28
-    0000061D 7E               [ 8] 1352 	ld	a, (hl)
-    0000061E 12               [ 8] 1353 	ld	(de), a
-    0000061F 21r05r00         [12] 1354 	ld	hl, #(_shadow_OAM + 5)
-    00000622 36 30            [12] 1355 	ld	(hl), #0x30
-                                   1356 ;src/gameplay.c:229: move_sprite(2, PLAYER_SCREEN_X + 8,     py + 16 + 8);
-    00000624 F8 1B            [12] 1357 	ldhl	sp,	#27
-    00000626 2A               [ 8] 1358 	ld	a, (hl+)
-    00000627 23               [ 8] 1359 	inc	hl
-    00000628 C6 18            [ 8] 1360 	add	a, #0x18
-    0000062A 77               [ 8] 1361 	ld	(hl), a
-    0000062B 3A               [ 8] 1362 	ld	a, (hl-)
-    0000062C 77               [ 8] 1363 	ld	(hl), a
-                                   1364 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-                                   1365 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    0000062D 11r08r00         [12] 1366 	ld	de, #(_shadow_OAM + 8)
-    00000630 7E               [ 8] 1367 	ld	a, (hl)
-    00000631 12               [ 8] 1368 	ld	(de), a
-    00000632 21r09r00         [12] 1369 	ld	hl, #(_shadow_OAM + 9)
-    00000635 36 28            [12] 1370 	ld	(hl), #0x28
-                                   1371 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-                                   1372 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000637 11r0Cr00         [12] 1373 	ld	de, #(_shadow_OAM + 12)
-    0000063A F8 1D            [12] 1374 	ldhl	sp,	#29
-    0000063C 7E               [ 8] 1375 	ld	a, (hl)
-    0000063D 12               [ 8] 1376 	ld	(de), a
-    0000063E 21r0Dr00         [12] 1377 	ld	hl, #(_shadow_OAM + 12) + 1
-    00000641 36 30            [12] 1378 	ld	(hl), #0x30
-                                   1379 ;src/gameplay.c:232: move_bkg((uint8_t)cam_px, (uint8_t)cam_py);
-    00000643 F8 0F            [12] 1380 	ldhl	sp,	#15
-    00000645 4E               [ 8] 1381 	ld	c, (hl)
-    00000646 F8 1E            [12] 1382 	ldhl	sp,	#30
-    00000648 7E               [ 8] 1383 	ld	a, (hl)
-    00000649 E0r00            [12] 1384 	ldh	(_SCX_REG + 0), a
-                                   1385 ;c:\gbdk\include\gb\gb.h:1461: SCX_REG=x, SCY_REG=y;
-    0000064B 79               [ 4] 1386 	ld	a, c
-    0000064C E0r00            [12] 1387 	ldh	(_SCY_REG + 0), a
-                                   1388 ;src/gameplay.c:232: move_bkg((uint8_t)cam_px, (uint8_t)cam_py);
-    0000064E C3r1Er03         [16] 1389 	jp	00132$
-    00000651                       1390 00133$:
-                                   1391 ;src/gameplay.c:235: HIDE_SPRITES;
-    00000651 F0r00            [12] 1392 	ldh	a, (_LCDC_REG + 0)
-    00000653 E6 FD            [ 8] 1393 	and	a, #0xfd
-    00000655 E0r00            [12] 1394 	ldh	(_LCDC_REG + 0), a
-                                   1395 ;c:\gbdk\include\gb\gb.h:1461: SCX_REG=x, SCY_REG=y;
-    00000657 AF               [ 4] 1396 	xor	a, a
-    00000658 E0r00            [12] 1397 	ldh	(_SCX_REG + 0), a
-    0000065A AF               [ 4] 1398 	xor	a, a
-    0000065B E0r00            [12] 1399 	ldh	(_SCY_REG + 0), a
-                                   1400 ;src/gameplay.c:237: waitpadup();
-    0000065D CDr00r00         [24] 1401 	call	_waitpadup
-                                   1402 ;c:\gbdk\include\gb\gb.h:811: __asm__("di");
-    00000660 F3               [ 4] 1403 	di
-                                   1404 ;src/gameplay.c:239: setup_menu_font();
-    00000661 CDr00r00         [24] 1405 	call	_setup_menu_font
-                                   1406 ;c:\gbdk\include\gb\gb.h:795: __asm__("ei");
-    00000664 FB               [ 4] 1407 	ei
-                                   1408 ;src/gameplay.c:241: redraw = 1;
-    00000665 21r00r00         [12] 1409 	ld	hl, #_redraw
-    00000668 36 01            [12] 1410 	ld	(hl), #0x01
-                                   1411 ;src/gameplay.c:242: }
-    0000066A E8 20            [16] 1412 	add	sp, #32
-    0000066C C9               [16] 1413 	ret
-                                   1414 	.area _HOME
-                                   1415 ;--------------------------------------------------------
-                                   1416 ; code
-                                   1417 ;--------------------------------------------------------
-                                   1418 	.area _CODE_1
-                                   1419 ;include/collision.h:31: static inline uint8_t col_of(uint8_t tile_id) {
-                                   1420 ;	---------------------------------
-                                   1421 ; Function col_of
-                                   1422 ; ---------------------------------
-    00000000                       1423 _col_of:
-    00000000 4F               [ 4] 1424 	ld	c, a
-                                   1425 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
-    00000001 21r00r00         [12] 1426 	ld	hl, #_famidash_metatile_collision
-    00000004 06 00            [ 8] 1427 	ld	b, #0x00
-    00000006 09               [ 8] 1428 	add	hl, bc
-    00000007 7E               [ 8] 1429 	ld	a, (hl)
-                                   1430 ;include/collision.h:33: }
-    00000008 C9               [16] 1431 	ret
-                                   1432 ;include/collision.h:36: static inline uint8_t col_at(
-                                   1433 ;	---------------------------------
-                                   1434 ; Function col_at
-                                   1435 ; ---------------------------------
-    00000009                       1436 _col_at:
-    00000009 E8 FC            [16] 1437 	add	sp, #-4
-    0000000B F8 02            [12] 1438 	ldhl	sp,	#2
-    0000000D 7B               [ 4] 1439 	ld	a, e
-    0000000E 22               [ 8] 1440 	ld	(hl+), a
-    0000000F 72               [ 8] 1441 	ld	(hl), d
-                                   1442 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
-    00000010 60               [ 4] 1443 	ld	h, b
-    00000011 CB 7C            [ 8] 1444 	bit	7, h
-    00000013 28 03            [12] 1445 	jr	Z, 00102$
-    00000015 AF               [ 4] 1446 	xor	a, a
-    00000016 18 6E            [12] 1447 	jr	00107$
-    00000018                       1448 00102$:
-                                   1449 ;include/collision.h:44: uint16_t mx = world_px >> 4;
-    00000018 F8 02            [12] 1450 	ldhl	sp,	#2
-    0000001A 3A               [ 8] 1451 	ld	a, (hl-)
-    0000001B 2B               [ 8] 1452 	dec	hl
-    0000001C 77               [ 8] 1453 	ld	(hl), a
-    0000001D F8 03            [12] 1454 	ldhl	sp,	#3
-    0000001F 3A               [ 8] 1455 	ld	a, (hl-)
-    00000020 2B               [ 8] 1456 	dec	hl
-    00000021 77               [ 8] 1457 	ld	(hl), a
-    00000022 CB 3E            [16] 1458 	srl	(hl)
-    00000024 2B               [ 8] 1459 	dec	hl
-    00000025 CB 1E            [16] 1460 	rr	(hl)
-    00000027 23               [ 8] 1461 	inc	hl
-    00000028 CB 3E            [16] 1462 	srl	(hl)
-    0000002A 2B               [ 8] 1463 	dec	hl
-    0000002B CB 1E            [16] 1464 	rr	(hl)
-    0000002D 23               [ 8] 1465 	inc	hl
-    0000002E CB 3E            [16] 1466 	srl	(hl)
-    00000030 2B               [ 8] 1467 	dec	hl
-    00000031 CB 1E            [16] 1468 	rr	(hl)
-    00000033 23               [ 8] 1469 	inc	hl
-    00000034 CB 3E            [16] 1470 	srl	(hl)
-    00000036 2B               [ 8] 1471 	dec	hl
-    00000037 CB 1E            [16] 1472 	rr	(hl)
-                                   1473 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
-    00000039 59               [ 4] 1474 	ld	e, c
-    0000003A 50               [ 4] 1475 	ld	d, b
-    0000003B CB 3A            [ 8] 1476 	srl	d
-    0000003D CB 1B            [ 8] 1477 	rr	e
-    0000003F CB 3A            [ 8] 1478 	srl	d
-    00000041 CB 1B            [ 8] 1479 	rr	e
-    00000043 CB 3A            [ 8] 1480 	srl	d
-    00000045 CB 1B            [ 8] 1481 	rr	e
-    00000047 CB 3A            [ 8] 1482 	srl	d
-    00000049 CB 1B            [ 8] 1483 	rr	e
-                                   1484 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
-    0000004B D5               [16] 1485 	push	de
-    0000004C F8 02            [12] 1486 	ldhl	sp,	#2
-    0000004E 5D               [ 4] 1487 	ld	e, l
-    0000004F 54               [ 4] 1488 	ld	d, h
-    00000050 F8 0A            [12] 1489 	ldhl	sp,	#10
-    00000052 1A               [ 8] 1490 	ld	a, (de)
-    00000053 13               [ 8] 1491 	inc	de
-    00000054 96               [ 8] 1492 	sub	a, (hl)
-    00000055 23               [ 8] 1493 	inc	hl
-    00000056 1A               [ 8] 1494 	ld	a, (de)
-    00000057 9E               [ 8] 1495 	sbc	a, (hl)
-    00000058 D1               [12] 1496 	pop	de
-    00000059 30 09            [12] 1497 	jr	NC, 00103$
-    0000005B F8 0A            [12] 1498 	ldhl	sp,	#10
-    0000005D 7B               [ 4] 1499 	ld	a, e
-    0000005E 96               [ 8] 1500 	sub	a, (hl)
-    0000005F 23               [ 8] 1501 	inc	hl
-    00000060 7A               [ 4] 1502 	ld	a, d
-    00000061 9E               [ 8] 1503 	sbc	a, (hl)
-    00000062 38 04            [12] 1504 	jr	C, 00104$
-    00000064                       1505 00103$:
-    00000064 3E 07            [ 8] 1506 	ld	a, #0x07
-    00000066 18 1E            [12] 1507 	jr	00107$
-    00000068                       1508 00104$:
-                                   1509 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
-    00000068 F8 08            [12] 1510 	ldhl	sp,	#8
-    0000006A 2A               [ 8] 1511 	ld	a, (hl+)
-    0000006B 4F               [ 4] 1512 	ld	c, a
-    0000006C 46               [ 8] 1513 	ld	b, (hl)
-    0000006D CDr00r00         [24] 1514 	call	__mulint
-    00000070 E1               [12] 1515 	pop	hl
-    00000071 E5               [16] 1516 	push	hl
-    00000072 09               [ 8] 1517 	add	hl, bc
-    00000073 4D               [ 4] 1518 	ld	c, l
-    00000074 44               [ 4] 1519 	ld	b, h
-    00000075 F8 06            [12] 1520 	ldhl	sp,	#6
-    00000077 2A               [ 8] 1521 	ld	a,	(hl+)
-    00000078 66               [ 8] 1522 	ld	h, (hl)
-    00000079 6F               [ 4] 1523 	ld	l, a
-    0000007A 09               [ 8] 1524 	add	hl, bc
-    0000007B 4D               [ 4] 1525 	ld	c, l
-    0000007C 44               [ 4] 1526 	ld	b, h
-    0000007D 0A               [ 8] 1527 	ld	a, (bc)
-    0000007E 4F               [ 4] 1528 	ld	c, a
-                                   1529 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
-    0000007F 21r00r00         [12] 1530 	ld	hl, #_famidash_metatile_collision
-    00000082 06 00            [ 8] 1531 	ld	b, #0x00
-    00000084 09               [ 8] 1532 	add	hl, bc
-    00000085 7E               [ 8] 1533 	ld	a, (hl)
-                                   1534 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
-    00000086                       1535 00107$:
-                                   1536 ;include/collision.h:49: }
-    00000086 E8 04            [16] 1537 	add	sp, #4
-    00000088 E1               [12] 1538 	pop	hl
-    00000089 E8 06            [16] 1539 	add	sp, #6
-    0000008B E9               [ 4] 1540 	jp	(hl)
-                                   1541 ;include/player.h:28: static inline void player_init(Player *p, uint16_t start_x, int16_t start_y) {
-                                   1542 ;	---------------------------------
-                                   1543 ; Function player_init
-                                   1544 ; ---------------------------------
-    0000008C                       1545 _player_init:
-                                   1546 ;include/player.h:29: p->world_x   = start_x;
-    0000008C 6B               [ 4] 1547 	ld	l, e
-    0000008D 62               [ 4] 1548 	ld	h, d
-    0000008E 79               [ 4] 1549 	ld	a, c
-    0000008F 22               [ 8] 1550 	ld	(hl+), a
-    00000090 70               [ 8] 1551 	ld	(hl), b
-                                   1552 ;include/player.h:30: p->world_y   = start_y;
-    00000091 4B               [ 4] 1553 	ld	c, e
-    00000092 42               [ 4] 1554 	ld	b, d
-    00000093 03               [ 8] 1555 	inc	bc
-    00000094 03               [ 8] 1556 	inc	bc
-    00000095 F8 02            [12] 1557 	ldhl	sp,	#2
-    00000097 2A               [ 8] 1558 	ld	a, (hl+)
-    00000098 02               [ 8] 1559 	ld	(bc), a
-    00000099 03               [ 8] 1560 	inc	bc
-    0000009A 7E               [ 8] 1561 	ld	a, (hl)
-    0000009B 02               [ 8] 1562 	ld	(bc), a
-                                   1563 ;include/player.h:31: p->vel_y     = 0;
-    0000009C 21 04 00         [12] 1564 	ld	hl, #0x0004
-    0000009F 19               [ 8] 1565 	add	hl, de
-    000000A0 AF               [ 4] 1566 	xor	a, a
-    000000A1 22               [ 8] 1567 	ld	(hl+), a
-    000000A2 77               [ 8] 1568 	ld	(hl), a
-                                   1569 ;include/player.h:32: p->on_ground = 0;
-    000000A3 21 06 00         [12] 1570 	ld	hl, #0x0006
-    000000A6 19               [ 8] 1571 	add	hl, de
-    000000A7 36 00            [12] 1572 	ld	(hl), #0x00
-                                   1573 ;include/player.h:33: p->dead      = 0;
-    000000A9 21 07 00         [12] 1574 	ld	hl, #0x0007
-    000000AC 19               [ 8] 1575 	add	hl, de
-    000000AD 36 00            [12] 1576 	ld	(hl), #0x00
-                                   1577 ;include/player.h:34: }
-    000000AF E1               [12] 1578 	pop	hl
-    000000B0 F1               [12] 1579 	pop	af
-    000000B1 E9               [ 4] 1580 	jp	(hl)
-                                   1581 ;include/player.h:37: static inline uint8_t col_point(
-                                   1582 ;	---------------------------------
-                                   1583 ; Function col_point
-                                   1584 ; ---------------------------------
-    000000B2                       1585 _col_point:
-    000000B2 E8 F8            [16] 1586 	add	sp, #-8
-    000000B4 F8 06            [12] 1587 	ldhl	sp,	#6
-    000000B6 7B               [ 4] 1588 	ld	a, e
-    000000B7 22               [ 8] 1589 	ld	(hl+), a
-    000000B8 72               [ 8] 1590 	ld	(hl), d
-                                   1591 ;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-    000000B9 F8 0C            [12] 1592 	ldhl	sp,	#12
-    000000BB 7E               [ 8] 1593 	ld	a, (hl)
-    000000BC F8 00            [12] 1594 	ldhl	sp,	#0
-    000000BE 77               [ 8] 1595 	ld	(hl), a
-    000000BF F8 0D            [12] 1596 	ldhl	sp,	#13
-    000000C1 7E               [ 8] 1597 	ld	a, (hl)
-    000000C2 F8 01            [12] 1598 	ldhl	sp,	#1
-    000000C4 77               [ 8] 1599 	ld	(hl), a
-    000000C5 F8 0A            [12] 1600 	ldhl	sp,	#10
-    000000C7 7E               [ 8] 1601 	ld	a, (hl)
-    000000C8 F8 02            [12] 1602 	ldhl	sp,	#2
-    000000CA 77               [ 8] 1603 	ld	(hl), a
-    000000CB F8 0B            [12] 1604 	ldhl	sp,	#11
-    000000CD 7E               [ 8] 1605 	ld	a, (hl)
-    000000CE F8 03            [12] 1606 	ldhl	sp,	#3
-    000000D0 77               [ 8] 1607 	ld	(hl), a
-                                   1608 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
-    000000D1 60               [ 4] 1609 	ld	h, b
-    000000D2 CB 7C            [ 8] 1610 	bit	7, h
-    000000D4 28 04            [12] 1611 	jr	Z, 00102$
-    000000D6 0E 00            [ 8] 1612 	ld	c, #0x00
-    000000D8 18 6E            [12] 1613 	jr	00107$
-    000000DA                       1614 00102$:
-                                   1615 ;include/collision.h:44: uint16_t mx = world_px >> 4;
-    000000DA F8 06            [12] 1616 	ldhl	sp,	#6
-    000000DC 3A               [ 8] 1617 	ld	a, (hl-)
-    000000DD 2B               [ 8] 1618 	dec	hl
-    000000DE 77               [ 8] 1619 	ld	(hl), a
-    000000DF F8 07            [12] 1620 	ldhl	sp,	#7
-    000000E1 3A               [ 8] 1621 	ld	a, (hl-)
-    000000E2 2B               [ 8] 1622 	dec	hl
-    000000E3 77               [ 8] 1623 	ld	(hl), a
-    000000E4 CB 3E            [16] 1624 	srl	(hl)
-    000000E6 2B               [ 8] 1625 	dec	hl
-    000000E7 CB 1E            [16] 1626 	rr	(hl)
-    000000E9 23               [ 8] 1627 	inc	hl
-    000000EA CB 3E            [16] 1628 	srl	(hl)
-    000000EC 2B               [ 8] 1629 	dec	hl
-    000000ED CB 1E            [16] 1630 	rr	(hl)
-    000000EF 23               [ 8] 1631 	inc	hl
-    000000F0 CB 3E            [16] 1632 	srl	(hl)
-    000000F2 2B               [ 8] 1633 	dec	hl
-    000000F3 CB 1E            [16] 1634 	rr	(hl)
-    000000F5 23               [ 8] 1635 	inc	hl
-    000000F6 CB 3E            [16] 1636 	srl	(hl)
-    000000F8 2B               [ 8] 1637 	dec	hl
-    000000F9 CB 1E            [16] 1638 	rr	(hl)
-                                   1639 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
-    000000FB 59               [ 4] 1640 	ld	e, c
-    000000FC 50               [ 4] 1641 	ld	d, b
-    000000FD CB 3A            [ 8] 1642 	srl	d
-    000000FF CB 1B            [ 8] 1643 	rr	e
-    00000101 CB 3A            [ 8] 1644 	srl	d
-    00000103 CB 1B            [ 8] 1645 	rr	e
-    00000105 CB 3A            [ 8] 1646 	srl	d
-    00000107 CB 1B            [ 8] 1647 	rr	e
-    00000109 CB 3A            [ 8] 1648 	srl	d
-    0000010B CB 1B            [ 8] 1649 	rr	e
-                                   1650 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
-    0000010D D5               [16] 1651 	push	de
-    0000010E F8 06            [12] 1652 	ldhl	sp,	#6
-    00000110 5D               [ 4] 1653 	ld	e, l
-    00000111 54               [ 4] 1654 	ld	d, h
-    00000112 F8 02            [12] 1655 	ldhl	sp,	#2
-    00000114 1A               [ 8] 1656 	ld	a, (de)
-    00000115 13               [ 8] 1657 	inc	de
-    00000116 96               [ 8] 1658 	sub	a, (hl)
-    00000117 23               [ 8] 1659 	inc	hl
-    00000118 1A               [ 8] 1660 	ld	a, (de)
-    00000119 9E               [ 8] 1661 	sbc	a, (hl)
-    0000011A D1               [12] 1662 	pop	de
-    0000011B 30 09            [12] 1663 	jr	NC, 00104$
-    0000011D F8 0E            [12] 1664 	ldhl	sp,	#14
-    0000011F 7B               [ 4] 1665 	ld	a, e
-    00000120 96               [ 8] 1666 	sub	a, (hl)
-    00000121 23               [ 8] 1667 	inc	hl
-    00000122 7A               [ 4] 1668 	ld	a, d
-    00000123 9E               [ 8] 1669 	sbc	a, (hl)
-    00000124 38 04            [12] 1670 	jr	C, 00105$
-    00000126                       1671 00104$:
-    00000126 0E 07            [ 8] 1672 	ld	c, #0x07
-    00000128 18 1E            [12] 1673 	jr	00107$
-    0000012A                       1674 00105$:
-                                   1675 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
-    0000012A C1               [12] 1676 	pop	bc
-    0000012B C5               [16] 1677 	push	bc
-    0000012C CDr00r00         [24] 1678 	call	__mulint
-    0000012F F8 04            [12] 1679 	ldhl	sp,	#4
-    00000131 2A               [ 8] 1680 	ld	a,	(hl+)
-    00000132 66               [ 8] 1681 	ld	h, (hl)
-    00000133 6F               [ 4] 1682 	ld	l, a
-    00000134 09               [ 8] 1683 	add	hl, bc
-    00000135 4D               [ 4] 1684 	ld	c, l
-    00000136 44               [ 4] 1685 	ld	b, h
-    00000137 F8 02            [12] 1686 	ldhl	sp,	#2
-    00000139 2A               [ 8] 1687 	ld	a,	(hl+)
-    0000013A 66               [ 8] 1688 	ld	h, (hl)
-    0000013B 6F               [ 4] 1689 	ld	l, a
-    0000013C 09               [ 8] 1690 	add	hl, bc
-    0000013D 4D               [ 4] 1691 	ld	c, l
-    0000013E 44               [ 4] 1692 	ld	b, h
-    0000013F 0A               [ 8] 1693 	ld	a, (bc)
-    00000140 4F               [ 4] 1694 	ld	c, a
-                                   1695 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
-    00000141 21r00r00         [12] 1696 	ld	hl, #_famidash_metatile_collision
-    00000144 06 00            [ 8] 1697 	ld	b, #0x00
-    00000146 09               [ 8] 1698 	add	hl, bc
-    00000147 4E               [ 8] 1699 	ld	c, (hl)
-                                   1700 ;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-    00000148                       1701 00107$:
-    00000148 79               [ 4] 1702 	ld	a, c
-                                   1703 ;include/player.h:42: }
-    00000149 E8 08            [16] 1704 	add	sp, #8
-    0000014B E1               [12] 1705 	pop	hl
-    0000014C E8 06            [16] 1706 	add	sp, #6
-    0000014E E9               [ 4] 1707 	jp	(hl)
-                                   1708 ;include/player.h:53: static inline int16_t player_screen_y(const Player *p, uint16_t cam_py) {
-                                   1709 ;	---------------------------------
-                                   1710 ; Function player_screen_y
-                                   1711 ; ---------------------------------
-    0000014F                       1712 _player_screen_y:
-                                   1713 ;include/player.h:54: return p->world_y - (int16_t)cam_py;
-    0000014F 6B               [ 4] 1714 	ld	l, e
-    00000150 62               [ 4] 1715 	ld	h, d
-    00000151 23               [ 8] 1716 	inc	hl
-    00000152 23               [ 8] 1717 	inc	hl
-    00000153 2A               [ 8] 1718 	ld	a, (hl+)
-    00000154 6E               [ 8] 1719 	ld	l, (hl)
-    00000155 91               [ 4] 1720 	sub	a, c
-    00000156 4F               [ 4] 1721 	ld	c, a
-    00000157 7D               [ 4] 1722 	ld	a, l
-    00000158 98               [ 4] 1723 	sbc	a, b
-    00000159 47               [ 4] 1724 	ld	b, a
-                                   1725 ;include/player.h:55: }
-    0000015A C9               [16] 1726 	ret
-                                   1727 ;src/gameplay.c:75: void draw_menu(void) BANKED {
-                                   1728 ;	---------------------------------
-                                   1729 ; Function draw_menu
-                                   1730 ; ---------------------------------
-                         00000001  1731 	b_draw_menu	= 1
-    0000015B                       1732 _draw_menu::
-                                   1733 ;src/gameplay.c:76: fill_bkg_rect(0, 0, 20, 18, 0x00);
-    0000015B AF               [ 4] 1734 	xor	a, a
-    0000015C 67               [ 4] 1735 	ld	h, a
-    0000015D 2E 12            [ 8] 1736 	ld	l, #0x12
-    0000015F E5               [16] 1737 	push	hl
-    00000160 3E 14            [ 8] 1738 	ld	a, #0x14
-    00000162 F5               [16] 1739 	push	af
-    00000163 33               [ 8] 1740 	inc	sp
-    00000164 AF               [ 4] 1741 	xor	a, a
-    00000165 0F               [ 4] 1742 	rrca
-    00000166 F5               [16] 1743 	push	af
-    00000167 CDr00r00         [24] 1744 	call	_fill_bkg_rect
-    0000016A E8 05            [16] 1745 	add	sp, #5
-                                   1746 ;src/gameplay.c:77: gotoxy(0, 0);
-    0000016C AF               [ 4] 1747 	xor	a, a
-    0000016D 0F               [ 4] 1748 	rrca
-    0000016E F5               [16] 1749 	push	af
-    0000016F CDr00r00         [24] 1750 	call	_gotoxy
-    00000172 E1               [12] 1751 	pop	hl
-                                   1752 ;src/gameplay.c:78: printf("GBDASH BETA 01\n\n");
-    00000173 11rDDr01         [12] 1753 	ld	de, #___str_1
-    00000176 CDr00r00         [24] 1754 	call	_puts
-                                   1755 ;src/gameplay.c:79: for (uint8_t i = 0; i < MAX_LEVELS; i++) {
-    00000179 0E 00            [ 8] 1756 	ld	c, #0x00
-    0000017B                       1757 00106$:
-    0000017B FAr00r00         [16] 1758 	ld	a, (_MAX_LEVELS)
-    0000017E 47               [ 4] 1759 	ld	b, a
-                                   1760 ;src/gameplay.c:80: gotoxy(1, 2 + i);
-    0000017F 79               [ 4] 1761 	ld	a,c
-    00000180 B8               [ 4] 1762 	cp	a,b
-    00000181 30 4F            [12] 1763 	jr	NC, 00104$
-    00000183 C6 02            [ 8] 1764 	add	a, #0x02
-    00000185 C5               [16] 1765 	push	bc
-    00000186 67               [ 4] 1766 	ld	h, a
-    00000187 2E 01            [ 8] 1767 	ld	l, #0x01
-    00000189 E5               [16] 1768 	push	hl
-    0000018A CDr00r00         [24] 1769 	call	_gotoxy
-    0000018D E1               [12] 1770 	pop	hl
-    0000018E C1               [12] 1771 	pop	bc
-                                   1772 ;src/gameplay.c:81: if (i == selected) printf("0 %s", game_levels[i]->name);
-    0000018F 69               [ 4] 1773 	ld	l, c
-    00000190 26 00            [ 8] 1774 	ld	h, #0x00
-    00000192 29               [ 8] 1775 	add	hl, hl
-    00000193 45               [ 4] 1776 	ld	b, l
-    00000194 5C               [ 4] 1777 	ld	e, h
-    00000195 FAr00r00         [16] 1778 	ld	a, (#_selected)
-    00000198 91               [ 4] 1779 	sub	a, c
-    00000199 20 1A            [12] 1780 	jr	NZ, 00102$
-    0000019B 68               [ 4] 1781 	ld	l, b
-    0000019C 63               [ 4] 1782 	ld	h, e
-    0000019D 11r00r00         [12] 1783 	ld	de, #_game_levels
-    000001A0 19               [ 8] 1784 	add	hl, de
-    000001A1 2A               [ 8] 1785 	ld	a,	(hl+)
-    000001A2 66               [ 8] 1786 	ld	h, (hl)
-    000001A3 6F               [ 4] 1787 	ld	l, a
-    000001A4 2A               [ 8] 1788 	ld	a,	(hl+)
-    000001A5 66               [ 8] 1789 	ld	h, (hl)
-    000001A6 6F               [ 4] 1790 	ld	l, a
-    000001A7 C5               [16] 1791 	push	bc
-    000001A8 E5               [16] 1792 	push	hl
-    000001A9 11rEDr01         [12] 1793 	ld	de, #___str_2
-    000001AC D5               [16] 1794 	push	de
-    000001AD CDr00r00         [24] 1795 	call	_printf
-    000001B0 E8 04            [16] 1796 	add	sp, #4
-    000001B2 C1               [12] 1797 	pop	bc
-    000001B3 18 1A            [12] 1798 	jr	00107$
-    000001B5                       1799 00102$:
-                                   1800 ;src/gameplay.c:82: else               printf("  %s", game_levels[i]->name);
-    000001B5 3Er00            [ 8] 1801 	ld	a, #<(_game_levels)
-    000001B7 80               [ 4] 1802 	add	a, b
-    000001B8 6F               [ 4] 1803 	ld	l, a
-    000001B9 3Es00            [ 8] 1804 	ld	a, #>(_game_levels)
-    000001BB 8B               [ 4] 1805 	adc	a, e
-    000001BC 67               [ 4] 1806 	ld	h, a
-    000001BD 2A               [ 8] 1807 	ld	a,	(hl+)
-    000001BE 66               [ 8] 1808 	ld	h, (hl)
-    000001BF 6F               [ 4] 1809 	ld	l, a
-    000001C0 2A               [ 8] 1810 	ld	a,	(hl+)
-    000001C1 66               [ 8] 1811 	ld	h, (hl)
-    000001C2 6F               [ 4] 1812 	ld	l, a
-    000001C3 C5               [16] 1813 	push	bc
-    000001C4 E5               [16] 1814 	push	hl
-    000001C5 11rF2r01         [12] 1815 	ld	de, #___str_3
-    000001C8 D5               [16] 1816 	push	de
-    000001C9 CDr00r00         [24] 1817 	call	_printf
-    000001CC E8 04            [16] 1818 	add	sp, #4
-    000001CE C1               [12] 1819 	pop	bc
-    000001CF                       1820 00107$:
-                                   1821 ;src/gameplay.c:79: for (uint8_t i = 0; i < MAX_LEVELS; i++) {
-    000001CF 0C               [ 4] 1822 	inc	c
-    000001D0 18 A9            [12] 1823 	jr	00106$
-    000001D2                       1824 00104$:
-                                   1825 ;src/gameplay.c:84: SHOW_BKG;
-    000001D2 F0r00            [12] 1826 	ldh	a, (_LCDC_REG + 0)
-    000001D4 F6 01            [ 8] 1827 	or	a, #0x01
-    000001D6 E0r00            [12] 1828 	ldh	(_LCDC_REG + 0), a
-                                   1829 ;src/gameplay.c:85: redraw = 0;
-    000001D8 AF               [ 4] 1830 	xor	a, a
-    000001D9 EAr00r00         [16] 1831 	ld	(#_redraw),a
-                                   1832 ;src/gameplay.c:86: }
-    000001DC C9               [16] 1833 	ret
-    000001DD                       1834 ___str_1:
-    000001DD 47 42 44 41 53 48 20  1835 	.ascii "GBDASH BETA 01"
+    000005E0 22               [ 8] 1301 	ld	(hl+), a
+    000005E1 77               [ 8] 1302 	ld	(hl), a
+                                   1303 ;c:\gbdk\include\gb\gb.h:1461: SCX_REG=x, SCY_REG=y;
+    000005E2 AF               [ 4] 1304 	xor	a, a
+    000005E3 E0r00            [12] 1305 	ldh	(_SCX_REG + 0), a
+    000005E5 3E 70            [ 8] 1306 	ld	a, #0x70
+    000005E7 E0r00            [12] 1307 	ldh	(_SCY_REG + 0), a
+                                   1308 ;src/gameplay.c:222: fill_scroll_bg(level_map, level_map_w, level_map_h, level_map_bank);
+    000005E9 F8 0E            [12] 1309 	ldhl	sp,	#14
+    000005EB 3A               [ 8] 1310 	ld	a, (hl-)
+    000005EC 2B               [ 8] 1311 	dec	hl
+    000005ED F5               [16] 1312 	push	af
+    000005EE 33               [ 8] 1313 	inc	sp
+    000005EF 2A               [ 8] 1314 	ld	a, (hl+)
+    000005F0 5F               [ 4] 1315 	ld	e, a
+    000005F1 56               [ 8] 1316 	ld	d, (hl)
+    000005F2 D5               [16] 1317 	push	de
+    000005F3 F8 0D            [12] 1318 	ldhl	sp,	#13
+    000005F5 2A               [ 8] 1319 	ld	a, (hl+)
+    000005F6 4F               [ 4] 1320 	ld	c, a
+    000005F7 46               [ 8] 1321 	ld	b, (hl)
+    000005F8 F8 0B            [12] 1322 	ldhl	sp,	#11
+    000005FA 2A               [ 8] 1323 	ld	a, (hl+)
+    000005FB 5F               [ 4] 1324 	ld	e, a
+    000005FC 56               [ 8] 1325 	ld	d, (hl)
+    000005FD CDr75r01         [24] 1326 	call	_fill_scroll_bg
+                                   1327 ;c:\gbdk\include\gb\gb.h:795: __asm__("ei");
+    00000600 FB               [ 4] 1328 	ei
+                                   1329 ;src/gameplay.c:223: enable_interrupts();
+    00000601                       1330 00130$:
+                                   1331 ;include/player.h:54: return p->world_y - (int16_t)cam_py;
+    00000601 F8 02            [12] 1332 	ldhl	sp,	#2
+    00000603 7E               [ 8] 1333 	ld	a, (hl)
+    00000604 F8 0F            [12] 1334 	ldhl	sp,	#15
+    00000606 4E               [ 8] 1335 	ld	c, (hl)
+    00000607 91               [ 4] 1336 	sub	a, c
+    00000608 F8 1B            [12] 1337 	ldhl	sp,	#27
+    0000060A 77               [ 8] 1338 	ld	(hl), a
+                                   1339 ;src/gameplay.c:229: move_sprite(0, PLAYER_SCREEN_X + 8,     py + 16);
+    0000060B 2A               [ 8] 1340 	ld	a, (hl+)
+    0000060C C6 10            [ 8] 1341 	add	a, #0x10
+    0000060E 77               [ 8] 1342 	ld	(hl), a
+    0000060F 2A               [ 8] 1343 	ld	a, (hl+)
+    00000610 77               [ 8] 1344 	ld	(hl), a
+                                   1345 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1346 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000611 11r00r00         [12] 1347 	ld	de, #_shadow_OAM
+    00000614 7E               [ 8] 1348 	ld	a, (hl)
+    00000615 12               [ 8] 1349 	ld	(de), a
+    00000616 21r01r00         [12] 1350 	ld	hl, #(_shadow_OAM + 1)
+    00000619 36 28            [12] 1351 	ld	(hl), #0x28
+                                   1352 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1353 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000061B 11r04r00         [12] 1354 	ld	de, #(_shadow_OAM + 4)
+    0000061E F8 1C            [12] 1355 	ldhl	sp,	#28
+    00000620 7E               [ 8] 1356 	ld	a, (hl)
+    00000621 12               [ 8] 1357 	ld	(de), a
+    00000622 21r05r00         [12] 1358 	ld	hl, #(_shadow_OAM + 5)
+    00000625 36 30            [12] 1359 	ld	(hl), #0x30
+                                   1360 ;src/gameplay.c:231: move_sprite(2, PLAYER_SCREEN_X + 8,     py + 16 + 8);
+    00000627 F8 1B            [12] 1361 	ldhl	sp,	#27
+    00000629 2A               [ 8] 1362 	ld	a, (hl+)
+    0000062A 23               [ 8] 1363 	inc	hl
+    0000062B C6 18            [ 8] 1364 	add	a, #0x18
+    0000062D 77               [ 8] 1365 	ld	(hl), a
+    0000062E 3A               [ 8] 1366 	ld	a, (hl-)
+    0000062F 77               [ 8] 1367 	ld	(hl), a
+                                   1368 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1369 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000630 11r08r00         [12] 1370 	ld	de, #(_shadow_OAM + 8)
+    00000633 7E               [ 8] 1371 	ld	a, (hl)
+    00000634 12               [ 8] 1372 	ld	(de), a
+    00000635 21r09r00         [12] 1373 	ld	hl, #(_shadow_OAM + 9)
+    00000638 36 28            [12] 1374 	ld	(hl), #0x28
+                                   1375 ;c:\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+                                   1376 ;c:\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000063A 11r0Cr00         [12] 1377 	ld	de, #(_shadow_OAM + 12)
+    0000063D F8 1D            [12] 1378 	ldhl	sp,	#29
+    0000063F 7E               [ 8] 1379 	ld	a, (hl)
+    00000640 12               [ 8] 1380 	ld	(de), a
+    00000641 21r0Dr00         [12] 1381 	ld	hl, #(_shadow_OAM + 12) + 1
+    00000644 36 30            [12] 1382 	ld	(hl), #0x30
+                                   1383 ;src/gameplay.c:234: move_bkg((uint8_t)cam_px, (uint8_t)cam_py);
+    00000646 F8 0F            [12] 1384 	ldhl	sp,	#15
+    00000648 4E               [ 8] 1385 	ld	c, (hl)
+    00000649 F8 1E            [12] 1386 	ldhl	sp,	#30
+    0000064B 7E               [ 8] 1387 	ld	a, (hl)
+    0000064C E0r00            [12] 1388 	ldh	(_SCX_REG + 0), a
+                                   1389 ;c:\gbdk\include\gb\gb.h:1461: SCX_REG=x, SCY_REG=y;
+    0000064E 79               [ 4] 1390 	ld	a, c
+    0000064F E0r00            [12] 1391 	ldh	(_SCY_REG + 0), a
+                                   1392 ;src/gameplay.c:234: move_bkg((uint8_t)cam_px, (uint8_t)cam_py);
+    00000651 C3r1Er03         [16] 1393 	jp	00132$
+    00000654                       1394 00133$:
+                                   1395 ;src/gameplay.c:237: HIDE_SPRITES;
+    00000654 F0r00            [12] 1396 	ldh	a, (_LCDC_REG + 0)
+    00000656 E6 FD            [ 8] 1397 	and	a, #0xfd
+    00000658 E0r00            [12] 1398 	ldh	(_LCDC_REG + 0), a
+                                   1399 ;c:\gbdk\include\gb\gb.h:1461: SCX_REG=x, SCY_REG=y;
+    0000065A AF               [ 4] 1400 	xor	a, a
+    0000065B E0r00            [12] 1401 	ldh	(_SCX_REG + 0), a
+    0000065D AF               [ 4] 1402 	xor	a, a
+    0000065E E0r00            [12] 1403 	ldh	(_SCY_REG + 0), a
+                                   1404 ;src/gameplay.c:239: waitpadup();
+    00000660 CDr00r00         [24] 1405 	call	_waitpadup
+                                   1406 ;c:\gbdk\include\gb\gb.h:811: __asm__("di");
+    00000663 F3               [ 4] 1407 	di
+                                   1408 ;src/gameplay.c:241: setup_menu_font();
+    00000664 CDr00r00         [24] 1409 	call	_setup_menu_font
+                                   1410 ;c:\gbdk\include\gb\gb.h:795: __asm__("ei");
+    00000667 FB               [ 4] 1411 	ei
+                                   1412 ;src/gameplay.c:243: redraw = 1;
+    00000668 21r00r00         [12] 1413 	ld	hl, #_redraw
+    0000066B 36 01            [12] 1414 	ld	(hl), #0x01
+                                   1415 ;src/gameplay.c:244: }
+    0000066D E8 20            [16] 1416 	add	sp, #32
+    0000066F C9               [16] 1417 	ret
+                                   1418 	.area _HOME
+                                   1419 ;--------------------------------------------------------
+                                   1420 ; code
+                                   1421 ;--------------------------------------------------------
+                                   1422 	.area _CODE_1
+                                   1423 ;include/collision.h:31: static inline uint8_t col_of(uint8_t tile_id) {
+                                   1424 ;	---------------------------------
+                                   1425 ; Function col_of
+                                   1426 ; ---------------------------------
+    00000000                       1427 _col_of:
+    00000000 4F               [ 4] 1428 	ld	c, a
+                                   1429 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
+    00000001 21r00r00         [12] 1430 	ld	hl, #_famidash_metatile_collision
+    00000004 06 00            [ 8] 1431 	ld	b, #0x00
+    00000006 09               [ 8] 1432 	add	hl, bc
+    00000007 7E               [ 8] 1433 	ld	a, (hl)
+                                   1434 ;include/collision.h:33: }
+    00000008 C9               [16] 1435 	ret
+                                   1436 ;include/collision.h:36: static inline uint8_t col_at(
+                                   1437 ;	---------------------------------
+                                   1438 ; Function col_at
+                                   1439 ; ---------------------------------
+    00000009                       1440 _col_at:
+    00000009 E8 FC            [16] 1441 	add	sp, #-4
+    0000000B F8 02            [12] 1442 	ldhl	sp,	#2
+    0000000D 7B               [ 4] 1443 	ld	a, e
+    0000000E 22               [ 8] 1444 	ld	(hl+), a
+    0000000F 72               [ 8] 1445 	ld	(hl), d
+                                   1446 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
+    00000010 60               [ 4] 1447 	ld	h, b
+    00000011 CB 7C            [ 8] 1448 	bit	7, h
+    00000013 28 03            [12] 1449 	jr	Z, 00102$
+    00000015 AF               [ 4] 1450 	xor	a, a
+    00000016 18 6E            [12] 1451 	jr	00107$
+    00000018                       1452 00102$:
+                                   1453 ;include/collision.h:44: uint16_t mx = world_px >> 4;
+    00000018 F8 02            [12] 1454 	ldhl	sp,	#2
+    0000001A 3A               [ 8] 1455 	ld	a, (hl-)
+    0000001B 2B               [ 8] 1456 	dec	hl
+    0000001C 77               [ 8] 1457 	ld	(hl), a
+    0000001D F8 03            [12] 1458 	ldhl	sp,	#3
+    0000001F 3A               [ 8] 1459 	ld	a, (hl-)
+    00000020 2B               [ 8] 1460 	dec	hl
+    00000021 77               [ 8] 1461 	ld	(hl), a
+    00000022 CB 3E            [16] 1462 	srl	(hl)
+    00000024 2B               [ 8] 1463 	dec	hl
+    00000025 CB 1E            [16] 1464 	rr	(hl)
+    00000027 23               [ 8] 1465 	inc	hl
+    00000028 CB 3E            [16] 1466 	srl	(hl)
+    0000002A 2B               [ 8] 1467 	dec	hl
+    0000002B CB 1E            [16] 1468 	rr	(hl)
+    0000002D 23               [ 8] 1469 	inc	hl
+    0000002E CB 3E            [16] 1470 	srl	(hl)
+    00000030 2B               [ 8] 1471 	dec	hl
+    00000031 CB 1E            [16] 1472 	rr	(hl)
+    00000033 23               [ 8] 1473 	inc	hl
+    00000034 CB 3E            [16] 1474 	srl	(hl)
+    00000036 2B               [ 8] 1475 	dec	hl
+    00000037 CB 1E            [16] 1476 	rr	(hl)
+                                   1477 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
+    00000039 59               [ 4] 1478 	ld	e, c
+    0000003A 50               [ 4] 1479 	ld	d, b
+    0000003B CB 3A            [ 8] 1480 	srl	d
+    0000003D CB 1B            [ 8] 1481 	rr	e
+    0000003F CB 3A            [ 8] 1482 	srl	d
+    00000041 CB 1B            [ 8] 1483 	rr	e
+    00000043 CB 3A            [ 8] 1484 	srl	d
+    00000045 CB 1B            [ 8] 1485 	rr	e
+    00000047 CB 3A            [ 8] 1486 	srl	d
+    00000049 CB 1B            [ 8] 1487 	rr	e
+                                   1488 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
+    0000004B D5               [16] 1489 	push	de
+    0000004C F8 02            [12] 1490 	ldhl	sp,	#2
+    0000004E 5D               [ 4] 1491 	ld	e, l
+    0000004F 54               [ 4] 1492 	ld	d, h
+    00000050 F8 0A            [12] 1493 	ldhl	sp,	#10
+    00000052 1A               [ 8] 1494 	ld	a, (de)
+    00000053 13               [ 8] 1495 	inc	de
+    00000054 96               [ 8] 1496 	sub	a, (hl)
+    00000055 23               [ 8] 1497 	inc	hl
+    00000056 1A               [ 8] 1498 	ld	a, (de)
+    00000057 9E               [ 8] 1499 	sbc	a, (hl)
+    00000058 D1               [12] 1500 	pop	de
+    00000059 30 09            [12] 1501 	jr	NC, 00103$
+    0000005B F8 0A            [12] 1502 	ldhl	sp,	#10
+    0000005D 7B               [ 4] 1503 	ld	a, e
+    0000005E 96               [ 8] 1504 	sub	a, (hl)
+    0000005F 23               [ 8] 1505 	inc	hl
+    00000060 7A               [ 4] 1506 	ld	a, d
+    00000061 9E               [ 8] 1507 	sbc	a, (hl)
+    00000062 38 04            [12] 1508 	jr	C, 00104$
+    00000064                       1509 00103$:
+    00000064 3E 07            [ 8] 1510 	ld	a, #0x07
+    00000066 18 1E            [12] 1511 	jr	00107$
+    00000068                       1512 00104$:
+                                   1513 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
+    00000068 F8 08            [12] 1514 	ldhl	sp,	#8
+    0000006A 2A               [ 8] 1515 	ld	a, (hl+)
+    0000006B 4F               [ 4] 1516 	ld	c, a
+    0000006C 46               [ 8] 1517 	ld	b, (hl)
+    0000006D CDr00r00         [24] 1518 	call	__mulint
+    00000070 E1               [12] 1519 	pop	hl
+    00000071 E5               [16] 1520 	push	hl
+    00000072 09               [ 8] 1521 	add	hl, bc
+    00000073 4D               [ 4] 1522 	ld	c, l
+    00000074 44               [ 4] 1523 	ld	b, h
+    00000075 F8 06            [12] 1524 	ldhl	sp,	#6
+    00000077 2A               [ 8] 1525 	ld	a,	(hl+)
+    00000078 66               [ 8] 1526 	ld	h, (hl)
+    00000079 6F               [ 4] 1527 	ld	l, a
+    0000007A 09               [ 8] 1528 	add	hl, bc
+    0000007B 4D               [ 4] 1529 	ld	c, l
+    0000007C 44               [ 4] 1530 	ld	b, h
+    0000007D 0A               [ 8] 1531 	ld	a, (bc)
+    0000007E 4F               [ 4] 1532 	ld	c, a
+                                   1533 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
+    0000007F 21r00r00         [12] 1534 	ld	hl, #_famidash_metatile_collision
+    00000082 06 00            [ 8] 1535 	ld	b, #0x00
+    00000084 09               [ 8] 1536 	add	hl, bc
+    00000085 7E               [ 8] 1537 	ld	a, (hl)
+                                   1538 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
+    00000086                       1539 00107$:
+                                   1540 ;include/collision.h:49: }
+    00000086 E8 04            [16] 1541 	add	sp, #4
+    00000088 E1               [12] 1542 	pop	hl
+    00000089 E8 06            [16] 1543 	add	sp, #6
+    0000008B E9               [ 4] 1544 	jp	(hl)
+                                   1545 ;include/player.h:28: static inline void player_init(Player *p, uint16_t start_x, int16_t start_y) {
+                                   1546 ;	---------------------------------
+                                   1547 ; Function player_init
+                                   1548 ; ---------------------------------
+    0000008C                       1549 _player_init:
+                                   1550 ;include/player.h:29: p->world_x   = start_x;
+    0000008C 6B               [ 4] 1551 	ld	l, e
+    0000008D 62               [ 4] 1552 	ld	h, d
+    0000008E 79               [ 4] 1553 	ld	a, c
+    0000008F 22               [ 8] 1554 	ld	(hl+), a
+    00000090 70               [ 8] 1555 	ld	(hl), b
+                                   1556 ;include/player.h:30: p->world_y   = start_y;
+    00000091 4B               [ 4] 1557 	ld	c, e
+    00000092 42               [ 4] 1558 	ld	b, d
+    00000093 03               [ 8] 1559 	inc	bc
+    00000094 03               [ 8] 1560 	inc	bc
+    00000095 F8 02            [12] 1561 	ldhl	sp,	#2
+    00000097 2A               [ 8] 1562 	ld	a, (hl+)
+    00000098 02               [ 8] 1563 	ld	(bc), a
+    00000099 03               [ 8] 1564 	inc	bc
+    0000009A 7E               [ 8] 1565 	ld	a, (hl)
+    0000009B 02               [ 8] 1566 	ld	(bc), a
+                                   1567 ;include/player.h:31: p->vel_y     = 0;
+    0000009C 21 04 00         [12] 1568 	ld	hl, #0x0004
+    0000009F 19               [ 8] 1569 	add	hl, de
+    000000A0 AF               [ 4] 1570 	xor	a, a
+    000000A1 22               [ 8] 1571 	ld	(hl+), a
+    000000A2 77               [ 8] 1572 	ld	(hl), a
+                                   1573 ;include/player.h:32: p->on_ground = 0;
+    000000A3 21 06 00         [12] 1574 	ld	hl, #0x0006
+    000000A6 19               [ 8] 1575 	add	hl, de
+    000000A7 36 00            [12] 1576 	ld	(hl), #0x00
+                                   1577 ;include/player.h:33: p->dead      = 0;
+    000000A9 21 07 00         [12] 1578 	ld	hl, #0x0007
+    000000AC 19               [ 8] 1579 	add	hl, de
+    000000AD 36 00            [12] 1580 	ld	(hl), #0x00
+                                   1581 ;include/player.h:34: }
+    000000AF E1               [12] 1582 	pop	hl
+    000000B0 F1               [12] 1583 	pop	af
+    000000B1 E9               [ 4] 1584 	jp	(hl)
+                                   1585 ;include/player.h:37: static inline uint8_t col_point(
+                                   1586 ;	---------------------------------
+                                   1587 ; Function col_point
+                                   1588 ; ---------------------------------
+    000000B2                       1589 _col_point:
+    000000B2 E8 F8            [16] 1590 	add	sp, #-8
+    000000B4 F8 06            [12] 1591 	ldhl	sp,	#6
+    000000B6 7B               [ 4] 1592 	ld	a, e
+    000000B7 22               [ 8] 1593 	ld	(hl+), a
+    000000B8 72               [ 8] 1594 	ld	(hl), d
+                                   1595 ;include/player.h:41: return col_at(px, py, map, map_w, map_h);
+    000000B9 F8 0C            [12] 1596 	ldhl	sp,	#12
+    000000BB 7E               [ 8] 1597 	ld	a, (hl)
+    000000BC F8 00            [12] 1598 	ldhl	sp,	#0
+    000000BE 77               [ 8] 1599 	ld	(hl), a
+    000000BF F8 0D            [12] 1600 	ldhl	sp,	#13
+    000000C1 7E               [ 8] 1601 	ld	a, (hl)
+    000000C2 F8 01            [12] 1602 	ldhl	sp,	#1
+    000000C4 77               [ 8] 1603 	ld	(hl), a
+    000000C5 F8 0A            [12] 1604 	ldhl	sp,	#10
+    000000C7 7E               [ 8] 1605 	ld	a, (hl)
+    000000C8 F8 02            [12] 1606 	ldhl	sp,	#2
+    000000CA 77               [ 8] 1607 	ld	(hl), a
+    000000CB F8 0B            [12] 1608 	ldhl	sp,	#11
+    000000CD 7E               [ 8] 1609 	ld	a, (hl)
+    000000CE F8 03            [12] 1610 	ldhl	sp,	#3
+    000000D0 77               [ 8] 1611 	ld	(hl), a
+                                   1612 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
+    000000D1 60               [ 4] 1613 	ld	h, b
+    000000D2 CB 7C            [ 8] 1614 	bit	7, h
+    000000D4 28 04            [12] 1615 	jr	Z, 00102$
+    000000D6 0E 00            [ 8] 1616 	ld	c, #0x00
+    000000D8 18 6E            [12] 1617 	jr	00107$
+    000000DA                       1618 00102$:
+                                   1619 ;include/collision.h:44: uint16_t mx = world_px >> 4;
+    000000DA F8 06            [12] 1620 	ldhl	sp,	#6
+    000000DC 3A               [ 8] 1621 	ld	a, (hl-)
+    000000DD 2B               [ 8] 1622 	dec	hl
+    000000DE 77               [ 8] 1623 	ld	(hl), a
+    000000DF F8 07            [12] 1624 	ldhl	sp,	#7
+    000000E1 3A               [ 8] 1625 	ld	a, (hl-)
+    000000E2 2B               [ 8] 1626 	dec	hl
+    000000E3 77               [ 8] 1627 	ld	(hl), a
+    000000E4 CB 3E            [16] 1628 	srl	(hl)
+    000000E6 2B               [ 8] 1629 	dec	hl
+    000000E7 CB 1E            [16] 1630 	rr	(hl)
+    000000E9 23               [ 8] 1631 	inc	hl
+    000000EA CB 3E            [16] 1632 	srl	(hl)
+    000000EC 2B               [ 8] 1633 	dec	hl
+    000000ED CB 1E            [16] 1634 	rr	(hl)
+    000000EF 23               [ 8] 1635 	inc	hl
+    000000F0 CB 3E            [16] 1636 	srl	(hl)
+    000000F2 2B               [ 8] 1637 	dec	hl
+    000000F3 CB 1E            [16] 1638 	rr	(hl)
+    000000F5 23               [ 8] 1639 	inc	hl
+    000000F6 CB 3E            [16] 1640 	srl	(hl)
+    000000F8 2B               [ 8] 1641 	dec	hl
+    000000F9 CB 1E            [16] 1642 	rr	(hl)
+                                   1643 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
+    000000FB 59               [ 4] 1644 	ld	e, c
+    000000FC 50               [ 4] 1645 	ld	d, b
+    000000FD CB 3A            [ 8] 1646 	srl	d
+    000000FF CB 1B            [ 8] 1647 	rr	e
+    00000101 CB 3A            [ 8] 1648 	srl	d
+    00000103 CB 1B            [ 8] 1649 	rr	e
+    00000105 CB 3A            [ 8] 1650 	srl	d
+    00000107 CB 1B            [ 8] 1651 	rr	e
+    00000109 CB 3A            [ 8] 1652 	srl	d
+    0000010B CB 1B            [ 8] 1653 	rr	e
+                                   1654 ;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
+    0000010D D5               [16] 1655 	push	de
+    0000010E F8 06            [12] 1656 	ldhl	sp,	#6
+    00000110 5D               [ 4] 1657 	ld	e, l
+    00000111 54               [ 4] 1658 	ld	d, h
+    00000112 F8 02            [12] 1659 	ldhl	sp,	#2
+    00000114 1A               [ 8] 1660 	ld	a, (de)
+    00000115 13               [ 8] 1661 	inc	de
+    00000116 96               [ 8] 1662 	sub	a, (hl)
+    00000117 23               [ 8] 1663 	inc	hl
+    00000118 1A               [ 8] 1664 	ld	a, (de)
+    00000119 9E               [ 8] 1665 	sbc	a, (hl)
+    0000011A D1               [12] 1666 	pop	de
+    0000011B 30 09            [12] 1667 	jr	NC, 00104$
+    0000011D F8 0E            [12] 1668 	ldhl	sp,	#14
+    0000011F 7B               [ 4] 1669 	ld	a, e
+    00000120 96               [ 8] 1670 	sub	a, (hl)
+    00000121 23               [ 8] 1671 	inc	hl
+    00000122 7A               [ 4] 1672 	ld	a, d
+    00000123 9E               [ 8] 1673 	sbc	a, (hl)
+    00000124 38 04            [12] 1674 	jr	C, 00105$
+    00000126                       1675 00104$:
+    00000126 0E 07            [ 8] 1676 	ld	c, #0x07
+    00000128 18 1E            [12] 1677 	jr	00107$
+    0000012A                       1678 00105$:
+                                   1679 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
+    0000012A C1               [12] 1680 	pop	bc
+    0000012B C5               [16] 1681 	push	bc
+    0000012C CDr00r00         [24] 1682 	call	__mulint
+    0000012F F8 04            [12] 1683 	ldhl	sp,	#4
+    00000131 2A               [ 8] 1684 	ld	a,	(hl+)
+    00000132 66               [ 8] 1685 	ld	h, (hl)
+    00000133 6F               [ 4] 1686 	ld	l, a
+    00000134 09               [ 8] 1687 	add	hl, bc
+    00000135 4D               [ 4] 1688 	ld	c, l
+    00000136 44               [ 4] 1689 	ld	b, h
+    00000137 F8 02            [12] 1690 	ldhl	sp,	#2
+    00000139 2A               [ 8] 1691 	ld	a,	(hl+)
+    0000013A 66               [ 8] 1692 	ld	h, (hl)
+    0000013B 6F               [ 4] 1693 	ld	l, a
+    0000013C 09               [ 8] 1694 	add	hl, bc
+    0000013D 4D               [ 4] 1695 	ld	c, l
+    0000013E 44               [ 4] 1696 	ld	b, h
+    0000013F 0A               [ 8] 1697 	ld	a, (bc)
+    00000140 4F               [ 4] 1698 	ld	c, a
+                                   1699 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
+    00000141 21r00r00         [12] 1700 	ld	hl, #_famidash_metatile_collision
+    00000144 06 00            [ 8] 1701 	ld	b, #0x00
+    00000146 09               [ 8] 1702 	add	hl, bc
+    00000147 4E               [ 8] 1703 	ld	c, (hl)
+                                   1704 ;include/player.h:41: return col_at(px, py, map, map_w, map_h);
+    00000148                       1705 00107$:
+    00000148 79               [ 4] 1706 	ld	a, c
+                                   1707 ;include/player.h:42: }
+    00000149 E8 08            [16] 1708 	add	sp, #8
+    0000014B E1               [12] 1709 	pop	hl
+    0000014C E8 06            [16] 1710 	add	sp, #6
+    0000014E E9               [ 4] 1711 	jp	(hl)
+                                   1712 ;include/player.h:53: static inline int16_t player_screen_y(const Player *p, uint16_t cam_py) {
+                                   1713 ;	---------------------------------
+                                   1714 ; Function player_screen_y
+                                   1715 ; ---------------------------------
+    0000014F                       1716 _player_screen_y:
+                                   1717 ;include/player.h:54: return p->world_y - (int16_t)cam_py;
+    0000014F 6B               [ 4] 1718 	ld	l, e
+    00000150 62               [ 4] 1719 	ld	h, d
+    00000151 23               [ 8] 1720 	inc	hl
+    00000152 23               [ 8] 1721 	inc	hl
+    00000153 2A               [ 8] 1722 	ld	a, (hl+)
+    00000154 6E               [ 8] 1723 	ld	l, (hl)
+    00000155 91               [ 4] 1724 	sub	a, c
+    00000156 4F               [ 4] 1725 	ld	c, a
+    00000157 7D               [ 4] 1726 	ld	a, l
+    00000158 98               [ 4] 1727 	sbc	a, b
+    00000159 47               [ 4] 1728 	ld	b, a
+                                   1729 ;include/player.h:55: }
+    0000015A C9               [16] 1730 	ret
+                                   1731 ;src/gameplay.c:76: void draw_menu(void) BANKED {
+                                   1732 ;	---------------------------------
+                                   1733 ; Function draw_menu
+                                   1734 ; ---------------------------------
+                         00000001  1735 	b_draw_menu	= 1
+    0000015B                       1736 _draw_menu::
+                                   1737 ;src/gameplay.c:77: fill_bkg_rect(0, 0, 20, 18, 0x00);
+    0000015B AF               [ 4] 1738 	xor	a, a
+    0000015C 67               [ 4] 1739 	ld	h, a
+    0000015D 2E 12            [ 8] 1740 	ld	l, #0x12
+    0000015F E5               [16] 1741 	push	hl
+    00000160 3E 14            [ 8] 1742 	ld	a, #0x14
+    00000162 F5               [16] 1743 	push	af
+    00000163 33               [ 8] 1744 	inc	sp
+    00000164 AF               [ 4] 1745 	xor	a, a
+    00000165 0F               [ 4] 1746 	rrca
+    00000166 F5               [16] 1747 	push	af
+    00000167 CDr00r00         [24] 1748 	call	_fill_bkg_rect
+    0000016A E8 05            [16] 1749 	add	sp, #5
+                                   1750 ;src/gameplay.c:78: gotoxy(0, 0);
+    0000016C AF               [ 4] 1751 	xor	a, a
+    0000016D 0F               [ 4] 1752 	rrca
+    0000016E F5               [16] 1753 	push	af
+    0000016F CDr00r00         [24] 1754 	call	_gotoxy
+    00000172 E1               [12] 1755 	pop	hl
+                                   1756 ;src/gameplay.c:79: printf("GBDASH BETA 01\n\n");
+    00000173 11rDDr01         [12] 1757 	ld	de, #___str_1
+    00000176 CDr00r00         [24] 1758 	call	_puts
+                                   1759 ;src/gameplay.c:80: for (uint8_t i = 0; i < MAX_LEVELS; i++) {
+    00000179 0E 00            [ 8] 1760 	ld	c, #0x00
+    0000017B                       1761 00106$:
+    0000017B FAr00r00         [16] 1762 	ld	a, (_MAX_LEVELS)
+    0000017E 47               [ 4] 1763 	ld	b, a
+                                   1764 ;src/gameplay.c:81: gotoxy(1, 2 + i);
+    0000017F 79               [ 4] 1765 	ld	a,c
+    00000180 B8               [ 4] 1766 	cp	a,b
+    00000181 30 4F            [12] 1767 	jr	NC, 00104$
+    00000183 C6 02            [ 8] 1768 	add	a, #0x02
+    00000185 C5               [16] 1769 	push	bc
+    00000186 67               [ 4] 1770 	ld	h, a
+    00000187 2E 01            [ 8] 1771 	ld	l, #0x01
+    00000189 E5               [16] 1772 	push	hl
+    0000018A CDr00r00         [24] 1773 	call	_gotoxy
+    0000018D E1               [12] 1774 	pop	hl
+    0000018E C1               [12] 1775 	pop	bc
+                                   1776 ;src/gameplay.c:82: if (i == selected) printf("0 %s", game_levels[i]->name);
+    0000018F 69               [ 4] 1777 	ld	l, c
+    00000190 26 00            [ 8] 1778 	ld	h, #0x00
+    00000192 29               [ 8] 1779 	add	hl, hl
+    00000193 45               [ 4] 1780 	ld	b, l
+    00000194 5C               [ 4] 1781 	ld	e, h
+    00000195 FAr00r00         [16] 1782 	ld	a, (#_selected)
+    00000198 91               [ 4] 1783 	sub	a, c
+    00000199 20 1A            [12] 1784 	jr	NZ, 00102$
+    0000019B 68               [ 4] 1785 	ld	l, b
+    0000019C 63               [ 4] 1786 	ld	h, e
+    0000019D 11r00r00         [12] 1787 	ld	de, #_game_levels
+    000001A0 19               [ 8] 1788 	add	hl, de
+    000001A1 2A               [ 8] 1789 	ld	a,	(hl+)
+    000001A2 66               [ 8] 1790 	ld	h, (hl)
+    000001A3 6F               [ 4] 1791 	ld	l, a
+    000001A4 2A               [ 8] 1792 	ld	a,	(hl+)
+    000001A5 66               [ 8] 1793 	ld	h, (hl)
+    000001A6 6F               [ 4] 1794 	ld	l, a
+    000001A7 C5               [16] 1795 	push	bc
+    000001A8 E5               [16] 1796 	push	hl
+    000001A9 11rEDr01         [12] 1797 	ld	de, #___str_2
+    000001AC D5               [16] 1798 	push	de
+    000001AD CDr00r00         [24] 1799 	call	_printf
+    000001B0 E8 04            [16] 1800 	add	sp, #4
+    000001B2 C1               [12] 1801 	pop	bc
+    000001B3 18 1A            [12] 1802 	jr	00107$
+    000001B5                       1803 00102$:
+                                   1804 ;src/gameplay.c:83: else               printf("  %s", game_levels[i]->name);
+    000001B5 3Er00            [ 8] 1805 	ld	a, #<(_game_levels)
+    000001B7 80               [ 4] 1806 	add	a, b
+    000001B8 6F               [ 4] 1807 	ld	l, a
+    000001B9 3Es00            [ 8] 1808 	ld	a, #>(_game_levels)
+    000001BB 8B               [ 4] 1809 	adc	a, e
+    000001BC 67               [ 4] 1810 	ld	h, a
+    000001BD 2A               [ 8] 1811 	ld	a,	(hl+)
+    000001BE 66               [ 8] 1812 	ld	h, (hl)
+    000001BF 6F               [ 4] 1813 	ld	l, a
+    000001C0 2A               [ 8] 1814 	ld	a,	(hl+)
+    000001C1 66               [ 8] 1815 	ld	h, (hl)
+    000001C2 6F               [ 4] 1816 	ld	l, a
+    000001C3 C5               [16] 1817 	push	bc
+    000001C4 E5               [16] 1818 	push	hl
+    000001C5 11rF2r01         [12] 1819 	ld	de, #___str_3
+    000001C8 D5               [16] 1820 	push	de
+    000001C9 CDr00r00         [24] 1821 	call	_printf
+    000001CC E8 04            [16] 1822 	add	sp, #4
+    000001CE C1               [12] 1823 	pop	bc
+    000001CF                       1824 00107$:
+                                   1825 ;src/gameplay.c:80: for (uint8_t i = 0; i < MAX_LEVELS; i++) {
+    000001CF 0C               [ 4] 1826 	inc	c
+    000001D0 18 A9            [12] 1827 	jr	00106$
+    000001D2                       1828 00104$:
+                                   1829 ;src/gameplay.c:85: SHOW_BKG;
+    000001D2 F0r00            [12] 1830 	ldh	a, (_LCDC_REG + 0)
+    000001D4 F6 01            [ 8] 1831 	or	a, #0x01
+    000001D6 E0r00            [12] 1832 	ldh	(_LCDC_REG + 0), a
+                                   1833 ;src/gameplay.c:86: redraw = 0;
+    000001D8 AF               [ 4] 1834 	xor	a, a
+    000001D9 EAr00r00         [16] 1835 	ld	(#_redraw),a
+                                   1836 ;src/gameplay.c:87: }
+    000001DC C9               [16] 1837 	ret
+    000001DD                       1838 ___str_1:
+    000001DD 47 42 44 41 53 48 20  1839 	.ascii "GBDASH BETA 01"
              42 45 54 41 20 30 31
-    000001EB 0A                    1836 	.db 0x0a
-    000001EC 00                    1837 	.db 0x00
-    000001ED                       1838 ___str_2:
-    000001ED 30 20 25 73           1839 	.ascii "0 %s"
-    000001F1 00                    1840 	.db 0x00
-    000001F2                       1841 ___str_3:
-    000001F2 20 20 25 73           1842 	.ascii "  %s"
-    000001F6 00                    1843 	.db 0x00
-                                   1844 	.area _CODE_1
-                                   1845 	.area _INITIALIZER
-                                   1846 	.area _CABS (ABS)
+    000001EB 0A                    1840 	.db 0x0a
+    000001EC 00                    1841 	.db 0x00
+    000001ED                       1842 ___str_2:
+    000001ED 30 20 25 73           1843 	.ascii "0 %s"
+    000001F1 00                    1844 	.db 0x00
+    000001F2                       1845 ___str_3:
+    000001F2 20 20 25 73           1846 	.ascii "  %s"
+    000001F6 00                    1847 	.db 0x00
+                                   1848 	.area _CODE_1
+                                   1849 	.area _INITIALIZER
+                                   1850 	.area _CABS (ABS)

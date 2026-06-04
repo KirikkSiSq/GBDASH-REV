@@ -74,7 +74,7 @@ _player_update::
 	or	a, a
 	jr	Z, 00102$
 	ld	a, #0x01
-	jp	00382$
+	jp	00389$
 00102$:
 ;src/player.c:15: if (!p->on_ground) {
 	ldhl	sp,#38
@@ -129,7 +129,7 @@ _player_update::
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
-	ld	hl, #0x0009
+	ld	hl, #0x000a
 	add	hl, de
 	ld	c, l
 	ld	b, h
@@ -148,16 +148,16 @@ _player_update::
 	ld	a, #0x00
 	sbc	a, b
 	bit	7, e
-	jr	Z, 01137$
+	jr	Z, 01165$
 	bit	7, d
-	jr	NZ, 01138$
+	jr	NZ, 01166$
 	cp	a, a
-	jr	01138$
-01137$:
+	jr	01166$
+01165$:
 	bit	7, d
-	jr	Z, 01138$
+	jr	Z, 01166$
 	scf
-01138$:
+01166$:
 	jr	NC, 00106$
 	ldhl	sp,	#35
 	ld	a, (hl+)
@@ -167,20 +167,46 @@ _player_update::
 	ld	(hl+), a
 	ld	(hl), #0x00
 00106$:
-;src/player.c:21: if ((joy & J_A) && p->on_ground) {
-	push	hl
-	ldhl	sp,	#39
-	bit	4, (hl)
-	pop	hl
-	jr	Z, 00108$
+;src/player.c:23: if (joy & J_A) {
+	ldhl	sp,	#37
+	ld	a, (hl)
+	and	a, #0x10
+	ldhl	sp,	#33
+	ld	(hl+), a
+	ld	(hl), #0x00
+;src/player.c:22: if (player_noclip) {
+	ld	a, (#_player_noclip)
+	or	a, a
+	jr	Z, 00113$
+;src/player.c:23: if (joy & J_A) {
+	xor	a, a
+	ldhl	sp,	#33
+	or	a, (hl)
+	jr	Z, 00114$
+;src/player.c:24: p->vel_y = JUMP_FORCE;
+	inc	hl
+	inc	hl
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	a, #0xa3
+	ld	(hl+), a
+	ld	(hl), #0xff
+	jr	00114$
+00113$:
+;src/player.c:26: } else if ((joy & J_A) && p->on_ground) {
+	xor	a, a
+	ldhl	sp,	#33
+	or	a, (hl)
+	jr	Z, 00114$
 	ldhl	sp,#6
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	ld	a, (de)
 	or	a, a
-	jr	Z, 00108$
-;src/player.c:22: p->vel_y = JUMP_FORCE;
+	jr	Z, 00114$
+;src/player.c:27: p->vel_y = JUMP_FORCE;
 	ldhl	sp,	#35
 	ld	a, (hl+)
 	ld	h, (hl)
@@ -188,14 +214,14 @@ _player_update::
 	ld	a, #0xa3
 	ld	(hl+), a
 	ld	(hl), #0xff
-;src/player.c:23: p->on_ground = 0;
+;src/player.c:28: p->on_ground = 0;
 	ldhl	sp,	#6
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl), #0x00
-00108$:
-;src/player.c:27: int8_t pixels = (int8_t)(p->vel_y >> 4);
+00114$:
+;src/player.c:32: int8_t pixels = (int8_t)(p->vel_y >> 4);
 	ldhl	sp,	#35
 	ld	a, (hl)
 	ldhl	sp,	#8
@@ -221,61 +247,54 @@ _player_update::
 	rr	c
 	sra	b
 	rr	c
-	ldhl	sp,	#40
-	ld	(hl), c
-;src/player.c:28: int8_t step   = (pixels >= 0) ? 1 : -1;
-	ld	a, (hl)
+;src/player.c:33: int8_t step   = (pixels >= 0) ? 1 : -1;
+	ld	a, c
 	rlca
 	and	a,#0x01
-	ldhl	sp,	#36
-	ld	(hl), a
-	bit	0, (hl)
+	ld	b, a
+	bit	0, b
 	ld	a, #0x01
-	jr	Z, 00385$
+	jr	Z, 00392$
 	ld	a, #0xff
-00385$:
+00392$:
 	ldhl	sp,	#10
 	ld	(hl), a
-;src/player.c:29: int8_t steps  = (pixels >= 0) ? pixels : -pixels;
-	ldhl	sp,	#36
-	bit	0, (hl)
-	jr	Z, 00387$
+;src/player.c:34: int8_t steps  = (pixels >= 0) ? pixels : -pixels;
+	bit	0, b
+	jr	Z, 00394$
 	xor	a, a
-	ldhl	sp,	#40
-	sub	a, (hl)
-	ld	(hl), a
-00387$:
-	ldhl	sp,	#40
-	ld	a, (hl)
+	sub	a, c
+	ld	c, a
+00394$:
 	ldhl	sp,	#11
-	ld	(hl), a
-;src/player.c:30: if (steps > 16) steps = 16;
+	ld	(hl), c
+;src/player.c:35: if (steps > 16) steps = 16;
 	ld	e, (hl)
 	ld	a,#0x10
 	ld	d,a
 	sub	a, (hl)
 	bit	7, e
-	jr	Z, 01140$
+	jr	Z, 01167$
 	bit	7, d
-	jr	NZ, 01141$
+	jr	NZ, 01168$
 	cp	a, a
-	jr	01141$
-01140$:
+	jr	01168$
+01167$:
 	bit	7, d
-	jr	Z, 01141$
+	jr	Z, 01168$
 	scf
-01141$:
-	jr	NC, 00111$
+01168$:
+	jr	NC, 00116$
 	ldhl	sp,	#11
 	ld	(hl), #0x10
-00111$:
-;src/player.c:32: p->on_ground = 0;
+00116$:
+;src/player.c:37: p->on_ground = 0;
 	ldhl	sp,	#6
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl), #0x00
-;src/player.c:35: for (int8_t i = 0; i < steps; i++) {
+;src/player.c:40: for (int8_t i = 0; i < steps; i++) {
 	ldhl	sp,	#47
 	ld	a, (hl)
 	ldhl	sp,	#12
@@ -306,16 +325,16 @@ _player_update::
 	ld	d, a
 	sub	a, (hl)
 	bit	7, e
-	jr	Z, 01142$
+	jr	Z, 01169$
 	bit	7, d
-	jr	NZ, 01143$
+	jr	NZ, 01170$
 	cp	a, a
-	jr	01143$
-01142$:
+	jr	01170$
+01169$:
 	bit	7, d
-	jr	Z, 01143$
+	jr	Z, 01170$
 	scf
-01143$:
+01170$:
 	ld	a, #0x00
 	rla
 	ldhl	sp,	#18
@@ -346,8 +365,8 @@ _player_update::
 	ld	(hl), a
 	ldhl	sp,	#40
 	ld	(hl), #0x00
-00380$:
-;src/player.c:36: int16_t ny = p->world_y + step;
+00387$:
+;src/player.c:41: int16_t ny = p->world_y + step;
 	ldhl	sp,#38
 	ld	a, (hl+)
 	ld	e, a
@@ -362,7 +381,7 @@ _player_update::
 	ld	a, h
 	ldhl	sp,	#26
 	ld	(hl), a
-;src/player.c:40: uint8_t cl = col_point(p->world_x,              ny + PLAYER_SIZE, map, map_w, map_h);
+;src/player.c:46: uint8_t cl = col_point(p->world_x,              ny + PLAYER_SIZE, map, map_w, map_h);
 	ldhl	sp,	#38
 	ld	a, (hl)
 	ldhl	sp,	#27
@@ -371,7 +390,7 @@ _player_update::
 	ld	a, (hl)
 	ldhl	sp,	#28
 	ld	(hl), a
-;src/player.c:35: for (int8_t i = 0; i < steps; i++) {
+;src/player.c:40: for (int8_t i = 0; i < steps; i++) {
 	ldhl	sp,	#11
 	ld	e, (hl)
 	ldhl	sp,	#40
@@ -380,18 +399,18 @@ _player_update::
 	ldhl	sp,	#11
 	sub	a, (hl)
 	bit	7, e
-	jr	Z, 01144$
+	jr	Z, 01171$
 	bit	7, d
-	jr	NZ, 01145$
+	jr	NZ, 01172$
 	cp	a, a
-	jr	01145$
-01144$:
+	jr	01172$
+01171$:
 	bit	7, d
-	jr	Z, 01145$
+	jr	Z, 01172$
 	scf
-01145$:
-	jp	NC, 00133$
-;src/player.c:36: int16_t ny = p->world_y + step;
+01172$:
+	jp	NC, 00140$
+;src/player.c:41: int16_t ny = p->world_y + step;
 	ldhl	sp,#25
 	ld	a, (hl+)
 	ld	e, a
@@ -415,8 +434,13 @@ _player_update::
 	ldhl	sp,	#29
 	ld	(hl), c
 	inc	hl
-;src/player.c:40: uint8_t cl = col_point(p->world_x,              ny + PLAYER_SIZE, map, map_w, map_h);
-	ld	(hl-), a
+	ld	(hl), a
+;src/player.c:43: if (!player_noclip) {
+	ld	a, (#_player_noclip)
+	or	a, a
+	jp	NZ, 00139$
+;src/player.c:46: uint8_t cl = col_point(p->world_x,              ny + PLAYER_SIZE, map, map_w, map_h);
+	ldhl	sp,	#29
 	ld	a, (hl)
 	ldhl	sp,	#33
 	ld	(hl), a
@@ -433,7 +457,7 @@ _player_update::
 	ld	(hl+), a
 	inc	de
 	ld	a, (de)
-;src/player.c:41: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny + PLAYER_SIZE, map, map_w, map_h);
+;src/player.c:47: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny + PLAYER_SIZE, map, map_w, map_h);
 	ld	(hl-), a
 	ld	a, (hl+)
 	ld	b, (hl)
@@ -445,12 +469,12 @@ _player_update::
 	ld	(hl), c
 	inc	hl
 	ld	(hl), a
-;src/player.c:38: if (step > 0) {
+;src/player.c:44: if (step > 0) {
 	ldhl	sp,	#18
 	ld	a, (hl)
 	or	a, a
-	jp	Z, 00131$
-;src/player.c:40: uint8_t cl = col_point(p->world_x,              ny + PLAYER_SIZE, map, map_w, map_h);
+	jp	Z, 00136$
+;src/player.c:46: uint8_t cl = col_point(p->world_x,              ny + PLAYER_SIZE, map, map_w, map_h);
 	ldhl	sp,#33
 	ld	a, (hl+)
 	ld	e, a
@@ -477,10 +501,10 @@ _player_update::
 	ld	b, (hl)
 	ld	h, b
 	bit	7, h
-	jr	Z, 00172$
+	jr	Z, 00179$
 	xor	a, a
-	jr	00177$
-00172$:
+	jr	00184$
+00179$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
 	ldhl	sp,	#32
 	srl	(hl)
@@ -509,7 +533,7 @@ _player_update::
 	rr	e
 	srl	d
 	rr	e
-;src/player.c:40: uint8_t cl = col_point(p->world_x,              ny + PLAYER_SIZE, map, map_w, map_h);
+;src/player.c:46: uint8_t cl = col_point(p->world_x,              ny + PLAYER_SIZE, map, map_w, map_h);
 	push	de
 	ldhl	sp,	#33
 	ld	e, l
@@ -522,18 +546,18 @@ _player_update::
 	ld	a, (de)
 	sbc	a, (hl)
 	pop	de
-	jr	NC, 00174$
+	jr	NC, 00181$
 	ldhl	sp,	#12
 	ld	a, e
 	sub	a, (hl)
 	inc	hl
 	ld	a, d
 	sbc	a, (hl)
-	jr	C, 00175$
-00174$:
+	jr	C, 00182$
+00181$:
 	ld	a, #0x07
-	jr	00177$
-00175$:
+	jr	00184$
+00182$:
 	ldhl	sp,	#14
 	ld	a, (hl+)
 	ld	c, a
@@ -559,20 +583,20 @@ _player_update::
 	ld	de, #_famidash_metatile_collision
 	add	hl, de
 	ld	a, (hl)
-00177$:
+00184$:
 	ldhl	sp,	#32
-;src/player.c:41: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny + PLAYER_SIZE, map, map_w, map_h);
+;src/player.c:47: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny + PLAYER_SIZE, map, map_w, map_h);
 	ld	(hl+), a
 	ld	a, (hl+)
 	ld	c, a
 	ld	b, (hl)
 	bit	7, b
-	jr	Z, 00180$
+	jr	Z, 00187$
 	inc	hl
 	inc	hl
 	ld	(hl), #0x00
-	jr	00185$
-00180$:
+	jr	00192$
+00187$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
 	ldhl	sp,	#36
 	srl	(hl)
@@ -607,7 +631,7 @@ _player_update::
 	srl	(hl)
 	dec	hl
 	rr	(hl)
-;src/player.c:41: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny + PLAYER_SIZE, map, map_w, map_h);
+;src/player.c:47: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny + PLAYER_SIZE, map, map_w, map_h);
 	ldhl	sp,	#35
 	ld	e, l
 	ld	d, h
@@ -618,7 +642,7 @@ _player_update::
 	inc	hl
 	ld	a, (de)
 	sbc	a, (hl)
-	jr	NC, 00182$
+	jr	NC, 00189$
 	ldhl	sp,	#33
 	ld	e, l
 	ld	d, h
@@ -629,12 +653,12 @@ _player_update::
 	inc	hl
 	ld	a, (de)
 	sbc	a, (hl)
-	jr	C, 00183$
-00182$:
+	jr	C, 00190$
+00189$:
 	ldhl	sp,	#36
 	ld	(hl), #0x07
-	jr	00185$
-00183$:
+	jr	00192$
+00190$:
 	ldhl	sp,	#14
 	ld	a, (hl+)
 	ld	c, a
@@ -666,42 +690,42 @@ _player_update::
 	ld	a, (hl)
 	ldhl	sp,	#36
 	ld	(hl), a
-00185$:
-;src/player.c:42: if (IS_SOLID(cl) || IS_SOLID(cr)) {
+00192$:
+;src/player.c:48: if (IS_SOLID(cl) || IS_SOLID(cr)) {
 	ldhl	sp,	#32
 	ld	a, (hl)
 	sub	a, #0x07
-	jr	Z, 00112$
+	jr	Z, 00117$
 	ldhl	sp,	#32
 	ld	a, (hl)
 	sub	a, #0x09
-	jr	Z, 00112$
+	jr	Z, 00117$
 	ldhl	sp,	#32
 	ld	a, (hl)
 	sub	a, #0x05
-	jr	Z, 00112$
+	jr	Z, 00117$
 	ldhl	sp,	#32
 	ld	a, (hl)
 	sub	a, #0x06
-	jr	Z, 00112$
+	jr	Z, 00117$
 	ldhl	sp,	#36
 	ld	a, (hl)
 	sub	a, #0x07
-	jr	Z, 00112$
+	jr	Z, 00117$
 	ldhl	sp,	#36
 	ld	a, (hl)
 	sub	a, #0x09
-	jr	Z, 00112$
+	jr	Z, 00117$
 	ldhl	sp,	#36
 	ld	a, (hl)
 	sub	a, #0x05
-	jr	Z, 00112$
+	jr	Z, 00117$
 	ldhl	sp,	#36
 	ld	a, (hl)
 	sub	a, #0x06
-	jp	NZ, 00132$
-00112$:
-;src/player.c:43: p->world_y   = ((ny + PLAYER_SIZE) & ~15) - PLAYER_SIZE - 1;
+	jp	NZ, 00139$
+00117$:
+;src/player.c:49: p->world_y   = ((ny + PLAYER_SIZE) & ~15) - PLAYER_SIZE - 1;
 	ldhl	sp,	#2
 	ld	a, (hl+)
 	and	a, #0xf0
@@ -720,7 +744,7 @@ _player_update::
 	ld	a, c
 	ld	(hl+), a
 	ld	(hl), b
-;src/player.c:44: p->vel_y     = 0;
+;src/player.c:50: p->vel_y     = 0;
 	ldhl	sp,	#8
 	ld	a, (hl+)
 	ld	h, (hl)
@@ -728,16 +752,16 @@ _player_update::
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;src/player.c:45: p->on_ground = 1;
+;src/player.c:51: p->on_ground = 1;
 	ldhl	sp,	#6
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl), #0x01
-;src/player.c:46: break;
-	jp	00133$
-00131$:
-;src/player.c:50: uint8_t cl = col_point(p->world_x,              ny, map, map_w, map_h);
+;src/player.c:52: break;
+	jp	00140$
+00136$:
+;src/player.c:56: uint8_t cl = col_point(p->world_x,              ny, map, map_w, map_h);
 	ldhl	sp,	#31
 	ld	a, (hl)
 	ldhl	sp,	#2
@@ -777,15 +801,15 @@ _player_update::
 	srl	(hl)
 	dec	hl
 	rr	(hl)
-;src/player.c:50: uint8_t cl = col_point(p->world_x,              ny, map, map_w, map_h);
+;src/player.c:56: uint8_t cl = col_point(p->world_x,              ny, map, map_w, map_h);
 	dec	hl
 	ld	a, (hl)
 	or	a, a
-	jr	Z, 00188$
+	jr	Z, 00195$
 	ldhl	sp,	#34
 	ld	(hl), #0x00
-	jr	00193$
-00188$:
+	jr	00200$
+00195$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
 	ldhl	sp,	#2
 	ld	a, (hl-)
@@ -819,7 +843,7 @@ _player_update::
 	ld	a, (hl)
 	ldhl	sp,	#3
 	ld	(hl), a
-;src/player.c:50: uint8_t cl = col_point(p->world_x,              ny, map, map_w, map_h);
+;src/player.c:56: uint8_t cl = col_point(p->world_x,              ny, map, map_w, map_h);
 	ldhl	sp,	#0
 	ld	e, l
 	ld	d, h
@@ -830,7 +854,7 @@ _player_update::
 	inc	hl
 	ld	a, (de)
 	sbc	a, (hl)
-	jr	NC, 00190$
+	jr	NC, 00197$
 	ldhl	sp,	#2
 	ld	e, l
 	ld	d, h
@@ -841,12 +865,12 @@ _player_update::
 	inc	hl
 	ld	a, (de)
 	sbc	a, (hl)
-	jr	C, 00191$
-00190$:
+	jr	C, 00198$
+00197$:
 	ldhl	sp,	#34
 	ld	(hl), #0x07
-	jr	00193$
-00191$:
+	jr	00200$
+00198$:
 	ldhl	sp,	#21
 	ld	a, (hl+)
 	ld	c, a
@@ -876,16 +900,16 @@ _player_update::
 	ld	a, (hl)
 	ldhl	sp,	#34
 	ld	(hl), a
-00193$:
-;src/player.c:51: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny, map, map_w, map_h);
+00200$:
+;src/player.c:57: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny, map, map_w, map_h);
 	ldhl	sp,	#31
 	ld	a, (hl)
 	or	a, a
-	jr	Z, 00196$
+	jr	Z, 00203$
 	ldhl	sp,	#36
 	ld	(hl), #0x00
-	jr	00201$
-00196$:
+	jr	00208$
+00203$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
 	ldhl	sp,	#36
 	srl	(hl)
@@ -904,7 +928,7 @@ _player_update::
 	dec	hl
 	rr	(hl)
 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
-;src/player.c:51: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny, map, map_w, map_h);
+;src/player.c:57: uint8_t cr = col_point(p->world_x + PLAYER_SIZE, ny, map, map_w, map_h);
 	ldhl	sp,	#35
 	ld	e, l
 	ld	d, h
@@ -915,7 +939,7 @@ _player_update::
 	inc	hl
 	ld	a, (de)
 	sbc	a, (hl)
-	jr	NC, 00198$
+	jr	NC, 00205$
 	ldhl	sp,	#32
 	ld	e, l
 	ld	d, h
@@ -926,12 +950,12 @@ _player_update::
 	inc	hl
 	ld	a, (de)
 	sbc	a, (hl)
-	jr	C, 00199$
-00198$:
+	jr	C, 00206$
+00205$:
 	ldhl	sp,	#36
 	ld	(hl), #0x07
-	jr	00201$
-00199$:
+	jr	00208$
+00206$:
 	ldhl	sp,	#21
 	ld	a, (hl+)
 	ld	c, a
@@ -963,42 +987,42 @@ _player_update::
 	ld	a, (hl)
 	ldhl	sp,	#36
 	ld	(hl), a
-00201$:
-;src/player.c:52: if (IS_SOLID(cl) || IS_SOLID(cr)) {
+00208$:
+;src/player.c:58: if (IS_SOLID(cl) || IS_SOLID(cr)) {
 	ldhl	sp,	#34
 	ld	a, (hl)
 	sub	a, #0x07
-	jr	Z, 00121$
+	jr	Z, 00126$
 	ldhl	sp,	#34
 	ld	a, (hl)
 	sub	a, #0x09
-	jr	Z, 00121$
+	jr	Z, 00126$
 	ldhl	sp,	#34
 	ld	a, (hl)
 	sub	a, #0x05
-	jr	Z, 00121$
+	jr	Z, 00126$
 	ldhl	sp,	#34
 	ld	a, (hl)
 	sub	a, #0x06
-	jr	Z, 00121$
+	jr	Z, 00126$
 	ldhl	sp,	#36
 	ld	a, (hl)
 	sub	a, #0x07
-	jr	Z, 00121$
+	jr	Z, 00126$
 	ldhl	sp,	#36
 	ld	a, (hl)
 	sub	a, #0x09
-	jr	Z, 00121$
+	jr	Z, 00126$
 	ldhl	sp,	#36
 	ld	a, (hl)
 	sub	a, #0x05
-	jr	Z, 00121$
+	jr	Z, 00126$
 	ldhl	sp,	#36
 	ld	a, (hl)
 	sub	a, #0x06
-	jr	NZ, 00132$
-00121$:
-;src/player.c:53: p->world_y = ((ny >> 4) + 1) << 4;
+	jr	NZ, 00139$
+00126$:
+;src/player.c:59: p->world_y = ((ny >> 4) + 1) << 4;
 	ldhl	sp,#29
 	ld	a, (hl+)
 	ld	c, a
@@ -1027,7 +1051,7 @@ _player_update::
 	ld	a, c
 	ld	(hl+), a
 	ld	(hl), b
-;src/player.c:54: p->vel_y   = 0;
+;src/player.c:60: p->vel_y   = 0;
 	ldhl	sp,	#8
 	ld	a, (hl+)
 	ld	h, (hl)
@@ -1035,10 +1059,10 @@ _player_update::
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;src/player.c:55: break;
-	jr	00133$
-00132$:
-;src/player.c:59: p->world_y = ny;
+;src/player.c:61: break;
+	jr	00140$
+00139$:
+;src/player.c:66: p->world_y = ny;
 	ldhl	sp,	#25
 	ld	a, (hl+)
 	ld	e, a
@@ -1049,16 +1073,16 @@ _player_update::
 	inc	de
 	ld	a, (hl)
 	ld	(de), a
-;src/player.c:35: for (int8_t i = 0; i < steps; i++) {
+;src/player.c:40: for (int8_t i = 0; i < steps; i++) {
 	ldhl	sp,	#40
 	inc	(hl)
-	jp	00380$
-00133$:
-;src/player.c:63: if (!player_noclip) {
+	jp	00387$
+00140$:
+;src/player.c:70: if (!player_noclip) {
 	ld	a, (#_player_noclip)
 	or	a, a
-	jp	NZ, 00156$
-;src/player.c:64: uint16_t hx1 = p->world_x + PLAYER_HBOX;
+	jp	NZ, 00163$
+;src/player.c:71: uint16_t hx1 = p->world_x + PLAYER_HBOX;
 	ldhl	sp,#27
 	ld	a, (hl+)
 	ld	e, a
@@ -1076,7 +1100,7 @@ _player_update::
 	ld	(hl), e
 	inc	hl
 	ld	(hl), a
-;src/player.c:65: uint16_t hx2 = p->world_x + PLAYER_SIZE - PLAYER_HBOX;
+;src/player.c:72: uint16_t hx2 = p->world_x + PLAYER_SIZE - PLAYER_HBOX;
 	ld	hl, #0x000b
 	add	hl, bc
 	ld	c, l
@@ -1085,7 +1109,7 @@ _player_update::
 	ld	(hl), c
 	inc	hl
 	ld	(hl), a
-;src/player.c:66: int16_t  hy1 = p->world_y + PLAYER_HBOX;
+;src/player.c:73: int16_t  hy1 = p->world_y + PLAYER_HBOX;
 	ldhl	sp,#25
 	ld	a, (hl+)
 	ld	e, a
@@ -1100,7 +1124,7 @@ _player_update::
 	add	hl, de
 	ld	c, l
 	ld	b, h
-;src/player.c:67: int16_t  hy2 = p->world_y + PLAYER_SIZE - PLAYER_HBOX;
+;src/player.c:74: int16_t  hy2 = p->world_y + PLAYER_SIZE - PLAYER_HBOX;
 	ld	hl, #0x000b
 	add	hl, de
 	ld	e, l
@@ -1108,7 +1132,7 @@ _player_update::
 	ldhl	sp,	#10
 	ld	(hl), e
 	inc	hl
-;src/player.c:69: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
+;src/player.c:76: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
 	ld	(hl+), a
 	ld	a, (hl)
 	ldhl	sp,	#19
@@ -1188,10 +1212,10 @@ _player_update::
 	ldhl	sp,	#40
 	ld	a, (hl)
 	or	a, a
-	jr	Z, 00204$
+	jr	Z, 00211$
 	ld	c, #0x00
-	jr	00209$
-00204$:
+	jr	00216$
+00211$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
 	ldhl	sp,	#29
 	ld	a, (hl)
@@ -1219,18 +1243,18 @@ _player_update::
 	ld	a, (de)
 	sbc	a, (hl)
 	pop	de
-	jr	NC, 00206$
+	jr	NC, 00213$
 	ldhl	sp,	#12
 	ld	a, e
 	sub	a, (hl)
 	inc	hl
 	ld	a, d
 	sbc	a, (hl)
-	jr	C, 00207$
-00206$:
+	jr	C, 00214$
+00213$:
 	ld	c, #0x07
-	jr	00209$
-00207$:
+	jr	00216$
+00214$:
 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
 	ldhl	sp,	#14
 	ld	a, (hl+)
@@ -1252,26 +1276,26 @@ _player_update::
 	ld	c, l
 	ld	b, h
 	ld	a, (bc)
-;include/collision.h:32: return famidash_metatile_collision[tile_id];
 	ld	l, a
+;include/collision.h:32: return famidash_metatile_collision[tile_id];
 	ld	h, #0x00
 	ld	de, #_famidash_metatile_collision
 	add	hl, de
 	ld	c, (hl)
 ;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00209$:
-;src/player.c:69: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
+00216$:
+;src/player.c:76: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
 	ld	a, c
 	sub	a, #0x08
-	jp	Z, 00134$
+	jp	Z, 00141$
 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
 	ldhl	sp,	#40
 	ld	a, (hl)
 	or	a, a
-	jr	Z, 00212$
+	jr	Z, 00219$
 	ld	c, #0x00
-	jr	00217$
-00212$:
+	jr	00224$
+00219$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
 	ldhl	sp,	#29
 	ld	a, (hl)
@@ -1299,18 +1323,18 @@ _player_update::
 	ld	a, (de)
 	sbc	a, (hl)
 	pop	de
-	jr	NC, 00214$
+	jr	NC, 00221$
 	ldhl	sp,	#19
 	ld	a, e
 	sub	a, (hl)
 	inc	hl
 	ld	a, d
 	sbc	a, (hl)
-	jr	C, 00215$
-00214$:
+	jr	C, 00222$
+00221$:
 	ld	c, #0x07
-	jr	00217$
-00215$:
+	jr	00224$
+00222$:
 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
 	ldhl	sp,	#21
 	ld	a, (hl+)
@@ -1332,26 +1356,26 @@ _player_update::
 	ld	c, l
 	ld	b, h
 	ld	a, (bc)
-	ld	l, a
 ;include/collision.h:32: return famidash_metatile_collision[tile_id];
+	ld	l, a
 	ld	h, #0x00
 	ld	de, #_famidash_metatile_collision
 	add	hl, de
 	ld	c, (hl)
 ;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00217$:
-;src/player.c:69: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
+00224$:
+;src/player.c:76: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
 	ld	a, c
 	sub	a, #0x03
-	jp	Z, 00134$
+	jp	Z, 00141$
 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
 	ldhl	sp,	#40
 	ld	a, (hl)
 	or	a, a
-	jr	Z, 00220$
+	jr	Z, 00227$
 	ld	c, #0x00
-	jr	00225$
-00220$:
+	jr	00232$
+00227$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
 	ldhl	sp,	#29
 	ld	a, (hl)
@@ -1379,18 +1403,18 @@ _player_update::
 	ld	a, (de)
 	sbc	a, (hl)
 	pop	de
-	jr	NC, 00222$
+	jr	NC, 00229$
 	ldhl	sp,	#19
 	ld	a, e
 	sub	a, (hl)
 	inc	hl
 	ld	a, d
 	sbc	a, (hl)
-	jr	C, 00223$
-00222$:
+	jr	C, 00230$
+00229$:
 	ld	c, #0x07
-	jr	00225$
-00223$:
+	jr	00232$
+00230$:
 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
 	ldhl	sp,	#21
 	ld	a, (hl+)
@@ -1419,19 +1443,19 @@ _player_update::
 	add	hl, de
 	ld	c, (hl)
 ;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00225$:
-;src/player.c:69: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
+00232$:
+;src/player.c:76: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
 	ld	a, c
 	sub	a, #0x04
-	jp	Z, 00134$
+	jp	Z, 00141$
 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
 	ldhl	sp,	#40
 	ld	a, (hl)
 	or	a, a
-	jr	Z, 00228$
+	jr	Z, 00235$
 	ld	c, #0x00
-	jr	00233$
-00228$:
+	jr	00240$
+00235$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
 	ldhl	sp,	#29
 	ld	a, (hl)
@@ -1459,18 +1483,18 @@ _player_update::
 	ld	a, (de)
 	sbc	a, (hl)
 	pop	de
-	jr	NC, 00230$
+	jr	NC, 00237$
 	ldhl	sp,	#19
 	ld	a, e
 	sub	a, (hl)
 	inc	hl
 	ld	a, d
 	sbc	a, (hl)
-	jr	C, 00231$
-00230$:
+	jr	C, 00238$
+00237$:
 	ld	c, #0x07
-	jr	00233$
-00231$:
+	jr	00240$
+00238$:
 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
 	ldhl	sp,	#21
 	ld	a, (hl+)
@@ -1499,20 +1523,20 @@ _player_update::
 	add	hl, de
 	ld	c, (hl)
 ;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00233$:
-;src/player.c:69: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
+00240$:
+;src/player.c:76: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
 	ld	a, c
 	sub	a, #0x02
-	jp	Z, 00134$
+	jp	Z, 00141$
 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
 	ldhl	sp,	#40
 	ld	a, (hl)
 	or	a, a
-	jr	Z, 00236$
+	jr	Z, 00243$
 	ldhl	sp,	#36
 	ld	(hl), #0x00
-	jr	00241$
-00236$:
+	jr	00248$
+00243$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
 	ldhl	sp,	#29
 	ld	a, (hl)
@@ -1542,7 +1566,7 @@ _player_update::
 	inc	hl
 	ld	a, (de)
 	sbc	a, (hl)
-	jr	NC, 00238$
+	jr	NC, 00245$
 	ldhl	sp,	#35
 	ld	e, l
 	ld	d, h
@@ -1553,12 +1577,12 @@ _player_update::
 	inc	hl
 	ld	a, (de)
 	sbc	a, (hl)
-	jr	C, 00239$
-00238$:
+	jr	C, 00246$
+00245$:
 	ldhl	sp,	#36
 	ld	(hl), #0x07
-	jr	00241$
-00239$:
+	jr	00248$
+00246$:
 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
 	ldhl	sp,	#21
 	ld	a, (hl+)
@@ -1593,12 +1617,12 @@ _player_update::
 	ldhl	sp,	#36
 	ld	(hl), a
 ;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00241$:
-;src/player.c:69: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
+00248$:
+;src/player.c:76: if (IS_HAZARD(col_point(hx1, hy1, map, map_w, map_h)) ||
 	ldhl	sp,	#36
 	ld	a, (hl)
 	dec	a
-	jp	Z, 00134$
+	jp	Z, 00141$
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
 	ldhl	sp,	#8
 	ld	a, (hl)
@@ -1627,10 +1651,10 @@ _player_update::
 	ldhl	sp,	#40
 	ld	a, (hl)
 	or	a, a
-	jr	Z, 00244$
+	jr	Z, 00251$
 	ld	c, #0x00
-	jr	00249$
-00244$:
+	jr	00256$
+00251$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
 	ldhl	sp,	#35
 	ld	a, (hl-)
@@ -1658,18 +1682,18 @@ _player_update::
 	ld	a, (de)
 	sbc	a, (hl)
 	pop	de
-	jr	NC, 00246$
+	jr	NC, 00253$
 	ldhl	sp,	#19
 	ld	a, e
 	sub	a, (hl)
 	inc	hl
 	ld	a, d
 	sbc	a, (hl)
-	jr	C, 00247$
-00246$:
+	jr	C, 00254$
+00253$:
 	ld	c, #0x07
-	jr	00249$
-00247$:
+	jr	00256$
+00254$:
 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
 	ldhl	sp,	#21
 	ld	a, (hl+)
@@ -1698,19 +1722,19 @@ _player_update::
 	add	hl, de
 	ld	c, (hl)
 ;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00249$:
-;src/player.c:70: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
+00256$:
+;src/player.c:77: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
 	ld	a, c
 	sub	a, #0x08
-	jp	Z, 00134$
+	jp	Z, 00141$
 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
 	ldhl	sp,	#40
 	ld	a, (hl)
 	or	a, a
-	jr	Z, 00252$
+	jr	Z, 00259$
 	ld	c, #0x00
-	jr	00257$
-00252$:
+	jr	00264$
+00259$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
 	ldhl	sp,	#35
 	ld	a, (hl-)
@@ -1738,18 +1762,18 @@ _player_update::
 	ld	a, (de)
 	sbc	a, (hl)
 	pop	de
-	jr	NC, 00254$
+	jr	NC, 00261$
 	ldhl	sp,	#19
 	ld	a, e
 	sub	a, (hl)
 	inc	hl
 	ld	a, d
 	sbc	a, (hl)
-	jr	C, 00255$
-00254$:
+	jr	C, 00262$
+00261$:
 	ld	c, #0x07
-	jr	00257$
-00255$:
+	jr	00264$
+00262$:
 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
 	ldhl	sp,	#21
 	ld	a, (hl+)
@@ -1778,19 +1802,19 @@ _player_update::
 	add	hl, de
 	ld	c, (hl)
 ;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00257$:
-;src/player.c:70: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
+00264$:
+;src/player.c:77: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
 	ld	a, c
 	sub	a, #0x03
-	jp	Z, 00134$
+	jp	Z, 00141$
 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
 	ldhl	sp,	#40
 	ld	a, (hl)
 	or	a, a
-	jr	Z, 00260$
+	jr	Z, 00267$
 	ld	c, #0x00
-	jr	00265$
-00260$:
+	jr	00272$
+00267$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
 	ldhl	sp,	#35
 	ld	a, (hl-)
@@ -1818,18 +1842,18 @@ _player_update::
 	ld	a, (de)
 	sbc	a, (hl)
 	pop	de
-	jr	NC, 00262$
+	jr	NC, 00269$
 	ldhl	sp,	#19
 	ld	a, e
 	sub	a, (hl)
 	inc	hl
 	ld	a, d
 	sbc	a, (hl)
-	jr	C, 00263$
-00262$:
+	jr	C, 00270$
+00269$:
 	ld	c, #0x07
-	jr	00265$
-00263$:
+	jr	00272$
+00270$:
 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
 	ldhl	sp,	#21
 	ld	a, (hl+)
@@ -1858,19 +1882,19 @@ _player_update::
 	add	hl, de
 	ld	c, (hl)
 ;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00265$:
-;src/player.c:70: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
+00272$:
+;src/player.c:77: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
 	ld	a, c
 	sub	a, #0x04
-	jp	Z, 00134$
+	jp	Z, 00141$
 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
 	ldhl	sp,	#40
 	ld	a, (hl)
 	or	a, a
-	jr	Z, 00268$
+	jr	Z, 00275$
 	ld	c, #0x00
-	jr	00273$
-00268$:
+	jr	00280$
+00275$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
 	ldhl	sp,	#35
 	ld	a, (hl-)
@@ -1898,18 +1922,18 @@ _player_update::
 	ld	a, (de)
 	sbc	a, (hl)
 	pop	de
-	jr	NC, 00270$
+	jr	NC, 00277$
 	ldhl	sp,	#19
 	ld	a, e
 	sub	a, (hl)
 	inc	hl
 	ld	a, d
 	sbc	a, (hl)
-	jr	C, 00271$
-00270$:
+	jr	C, 00278$
+00277$:
 	ld	c, #0x07
-	jr	00273$
-00271$:
+	jr	00280$
+00278$:
 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
 	ldhl	sp,	#21
 	ld	a, (hl+)
@@ -1938,19 +1962,19 @@ _player_update::
 	add	hl, de
 	ld	c, (hl)
 ;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00273$:
-;src/player.c:70: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
+00280$:
+;src/player.c:77: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
 	ld	a, c
 	sub	a, #0x02
-	jp	Z, 00134$
+	jp	Z, 00141$
 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
 	ldhl	sp,	#40
 	ld	a, (hl)
 	or	a, a
-	jr	Z, 00276$
+	jr	Z, 00283$
 	ld	(hl), #0x00
-	jr	00281$
-00276$:
+	jr	00288$
+00283$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
 	ldhl	sp,	#35
 	ld	a, (hl)
@@ -1979,7 +2003,7 @@ _player_update::
 	inc	hl
 	ld	a, (de)
 	sbc	a, (hl)
-	jr	NC, 00278$
+	jr	NC, 00285$
 	ldhl	sp,	#33
 	ld	e, l
 	ld	d, h
@@ -1990,12 +2014,12 @@ _player_update::
 	inc	hl
 	ld	a, (de)
 	sbc	a, (hl)
-	jr	C, 00279$
-00278$:
+	jr	C, 00286$
+00285$:
 	ldhl	sp,	#40
 	ld	(hl), #0x07
-	jr	00281$
-00279$:
+	jr	00288$
+00286$:
 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
 	ldhl	sp,	#21
 	ld	a, (hl+)
@@ -2030,12 +2054,12 @@ _player_update::
 	ldhl	sp,	#40
 	ld	(hl), a
 ;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00281$:
-;src/player.c:70: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
+00288$:
+;src/player.c:77: IS_HAZARD(col_point(hx2, hy1, map, map_w, map_h)) ||
 	ldhl	sp,	#40
 	ld	a, (hl)
 	dec	a
-	jp	Z, 00134$
+	jp	Z, 00141$
 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
 	ldhl	sp,	#10
 	ld	a, (hl+)
@@ -2072,10 +2096,10 @@ _player_update::
 	ldhl	sp,	#40
 	ld	a, (hl)
 	or	a, a
-	jr	Z, 00284$
+	jr	Z, 00291$
 	ld	c, #0x00
-	jr	00289$
-00284$:
+	jr	00296$
+00291$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
 	ldhl	sp,	#29
 	ld	a, (hl)
@@ -2103,98 +2127,18 @@ _player_update::
 	ld	a, (de)
 	sbc	a, (hl)
 	pop	de
-	jr	NC, 00286$
+	jr	NC, 00293$
 	ldhl	sp,	#19
 	ld	a, e
 	sub	a, (hl)
 	inc	hl
 	ld	a, d
 	sbc	a, (hl)
-	jr	C, 00287$
-00286$:
+	jr	C, 00294$
+00293$:
 	ld	c, #0x07
-	jr	00289$
-00287$:
-;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
-	ldhl	sp,	#21
-	ld	a, (hl+)
-	ld	c, a
-	ld	b, (hl)
-	call	__mulint
-	ldhl	sp,	#33
-	ld	a,	(hl+)
-	ld	h, (hl)
-	ld	l, a
-	add	hl, bc
-	ld	c, l
-	ld	b, h
-	ldhl	sp,	#23
-	ld	a,	(hl+)
-	ld	h, (hl)
-	ld	l, a
-	add	hl, bc
-	ld	c, l
-	ld	b, h
-	ld	a, (bc)
-;include/collision.h:32: return famidash_metatile_collision[tile_id];
-	ld	l, a
-	ld	h, #0x00
-	ld	de, #_famidash_metatile_collision
-	add	hl, de
-	ld	c, (hl)
-;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00289$:
-;src/player.c:71: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
-	ld	a, c
-	sub	a, #0x08
-	jp	Z, 00134$
-;include/collision.h:43: if (world_py < 0) return COL_NONE;
-	ldhl	sp,	#40
-	ld	a, (hl)
-	or	a, a
-	jr	Z, 00292$
-	ld	c, #0x00
-	jr	00297$
-00292$:
-;include/collision.h:44: uint16_t mx = world_px >> 4;
-	ldhl	sp,	#29
-	ld	a, (hl)
-	ldhl	sp,	#33
-	ld	(hl), a
-	ldhl	sp,	#30
-	ld	a, (hl)
-	ldhl	sp,	#34
-	ld	(hl), a
-;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
-	ldhl	sp,	#31
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
-	push	de
-	ldhl	sp,	#35
-	ld	e, l
-	ld	d, h
-	ldhl	sp,	#23
-	ld	a, (de)
-	inc	de
-	sub	a, (hl)
-	inc	hl
-	ld	a, (de)
-	sbc	a, (hl)
-	pop	de
-	jr	NC, 00294$
-	ldhl	sp,	#19
-	ld	a, e
-	sub	a, (hl)
-	inc	hl
-	ld	a, d
-	sbc	a, (hl)
-	jr	C, 00295$
+	jr	00296$
 00294$:
-	ld	c, #0x07
-	jr	00297$
-00295$:
 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
 	ldhl	sp,	#21
 	ld	a, (hl+)
@@ -2223,346 +2167,27 @@ _player_update::
 	add	hl, de
 	ld	c, (hl)
 ;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00297$:
-;src/player.c:71: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
-	ld	a, c
-	sub	a, #0x03
-	jp	Z, 00134$
-;include/collision.h:43: if (world_py < 0) return COL_NONE;
-	ldhl	sp,	#40
-	ld	a, (hl)
-	or	a, a
-	jr	Z, 00300$
-	ld	c, #0x00
-	jr	00305$
-00300$:
-;include/collision.h:44: uint16_t mx = world_px >> 4;
-	ldhl	sp,	#29
-	ld	a, (hl)
-	ldhl	sp,	#33
-	ld	(hl), a
-	ldhl	sp,	#30
-	ld	a, (hl)
-	ldhl	sp,	#34
-	ld	(hl), a
-;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
-	ldhl	sp,	#31
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
-	push	de
-	ldhl	sp,	#35
-	ld	e, l
-	ld	d, h
-	ldhl	sp,	#23
-	ld	a, (de)
-	inc	de
-	sub	a, (hl)
-	inc	hl
-	ld	a, (de)
-	sbc	a, (hl)
-	pop	de
-	jr	NC, 00302$
-	ldhl	sp,	#19
-	ld	a, e
-	sub	a, (hl)
-	inc	hl
-	ld	a, d
-	sbc	a, (hl)
-	jr	C, 00303$
-00302$:
-	ld	c, #0x07
-	jr	00305$
-00303$:
-;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
-	ldhl	sp,	#21
-	ld	a, (hl+)
-	ld	c, a
-	ld	b, (hl)
-	call	__mulint
-	ldhl	sp,	#33
-	ld	a,	(hl+)
-	ld	h, (hl)
-	ld	l, a
-	add	hl, bc
-	ld	c, l
-	ld	b, h
-	ldhl	sp,	#23
-	ld	a,	(hl+)
-	ld	h, (hl)
-	ld	l, a
-	add	hl, bc
-	ld	c, l
-	ld	b, h
-	ld	a, (bc)
-;include/collision.h:32: return famidash_metatile_collision[tile_id];
-	ld	l, a
-	ld	h, #0x00
-	ld	de, #_famidash_metatile_collision
-	add	hl, de
-	ld	c, (hl)
-;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00305$:
-;src/player.c:71: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
-	ld	a, c
-	sub	a, #0x04
-	jp	Z, 00134$
-;include/collision.h:43: if (world_py < 0) return COL_NONE;
-	ldhl	sp,	#40
-	ld	a, (hl)
-	or	a, a
-	jr	Z, 00308$
-	ld	c, #0x00
-	jr	00313$
-00308$:
-;include/collision.h:44: uint16_t mx = world_px >> 4;
-	ldhl	sp,	#29
-	ld	a, (hl)
-	ldhl	sp,	#33
-	ld	(hl), a
-	ldhl	sp,	#30
-	ld	a, (hl)
-	ldhl	sp,	#34
-	ld	(hl), a
-;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
-	ldhl	sp,	#31
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
-	push	de
-	ldhl	sp,	#35
-	ld	e, l
-	ld	d, h
-	ldhl	sp,	#23
-	ld	a, (de)
-	inc	de
-	sub	a, (hl)
-	inc	hl
-	ld	a, (de)
-	sbc	a, (hl)
-	pop	de
-	jr	NC, 00310$
-	ldhl	sp,	#19
-	ld	a, e
-	sub	a, (hl)
-	inc	hl
-	ld	a, d
-	sbc	a, (hl)
-	jr	C, 00311$
-00310$:
-	ld	c, #0x07
-	jr	00313$
-00311$:
-;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
-	ldhl	sp,	#21
-	ld	a, (hl+)
-	ld	c, a
-	ld	b, (hl)
-	call	__mulint
-	ldhl	sp,	#33
-	ld	a,	(hl+)
-	ld	h, (hl)
-	ld	l, a
-	add	hl, bc
-	ld	c, l
-	ld	b, h
-	ldhl	sp,	#23
-	ld	a,	(hl+)
-	ld	h, (hl)
-	ld	l, a
-	add	hl, bc
-	ld	c, l
-	ld	b, h
-	ld	a, (bc)
-;include/collision.h:32: return famidash_metatile_collision[tile_id];
-	ld	l, a
-	ld	h, #0x00
-	ld	de, #_famidash_metatile_collision
-	add	hl, de
-	ld	c, (hl)
-;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00313$:
-;src/player.c:71: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
-	ld	a, c
-	sub	a, #0x02
-	jp	Z, 00134$
-;include/collision.h:43: if (world_py < 0) return COL_NONE;
-	ldhl	sp,	#40
-	ld	a, (hl)
-	or	a, a
-	jr	Z, 00316$
-	ld	c, #0x00
-	jr	00321$
-00316$:
-;include/collision.h:44: uint16_t mx = world_px >> 4;
-	ldhl	sp,	#29
-	ld	a, (hl)
-	ldhl	sp,	#33
-	ld	(hl), a
-	ldhl	sp,	#30
-	ld	a, (hl)
-	ldhl	sp,	#34
-	ld	(hl), a
-;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
-	ldhl	sp,	#31
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
-	push	de
-	ldhl	sp,	#35
-	ld	e, l
-	ld	d, h
-	ldhl	sp,	#23
-	ld	a, (de)
-	inc	de
-	sub	a, (hl)
-	inc	hl
-	ld	a, (de)
-	sbc	a, (hl)
-	pop	de
-	jr	NC, 00318$
-	ldhl	sp,	#19
-	ld	a, e
-	sub	a, (hl)
-	inc	hl
-	ld	a, d
-	sbc	a, (hl)
-	jr	C, 00319$
-00318$:
-	ld	c, #0x07
-	jr	00321$
-00319$:
-;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
-	ldhl	sp,	#21
-	ld	a, (hl+)
-	ld	c, a
-	ld	b, (hl)
-	call	__mulint
-	ldhl	sp,	#33
-	ld	a,	(hl+)
-	ld	h, (hl)
-	ld	l, a
-	add	hl, bc
-	ld	c, l
-	ld	b, h
-	ldhl	sp,	#23
-	ld	a,	(hl+)
-	ld	h, (hl)
-	ld	l, a
-	add	hl, bc
-	ld	c, l
-	ld	b, h
-	ld	a, (bc)
-;include/collision.h:32: return famidash_metatile_collision[tile_id];
-	ld	l, a
-	ld	h, #0x00
-	ld	de, #_famidash_metatile_collision
-	add	hl, de
-	ld	c, (hl)
-;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00321$:
-;src/player.c:71: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
-	dec	c
-	jp	Z, 00134$
-;include/collision.h:43: if (world_py < 0) return COL_NONE;
-	ldhl	sp,	#40
-	ld	a, (hl)
-	or	a, a
-	jr	Z, 00324$
-	ld	c, #0x00
-	jr	00329$
-00324$:
-;include/collision.h:44: uint16_t mx = world_px >> 4;
-	ldhl	sp,	#35
-	ld	a, (hl-)
-	dec	hl
-	ld	(hl), a
-	ldhl	sp,	#36
-	ld	a, (hl-)
-	dec	hl
-	ld	(hl), a
-;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
-	ldhl	sp,	#31
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
-	push	de
-	ldhl	sp,	#35
-	ld	e, l
-	ld	d, h
-	ldhl	sp,	#23
-	ld	a, (de)
-	inc	de
-	sub	a, (hl)
-	inc	hl
-	ld	a, (de)
-	sbc	a, (hl)
-	pop	de
-	jr	NC, 00326$
-	ldhl	sp,	#19
-	ld	a, e
-	sub	a, (hl)
-	inc	hl
-	ld	a, d
-	sbc	a, (hl)
-	jr	C, 00327$
-00326$:
-	ld	c, #0x07
-	jr	00329$
-00327$:
-;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
-	ldhl	sp,	#21
-	ld	a, (hl+)
-	ld	c, a
-	ld	b, (hl)
-	call	__mulint
-	ldhl	sp,	#33
-	ld	a,	(hl+)
-	ld	h, (hl)
-	ld	l, a
-	add	hl, bc
-	ld	c, l
-	ld	b, h
-	ldhl	sp,	#23
-	ld	a,	(hl+)
-	ld	h, (hl)
-	ld	l, a
-	add	hl, bc
-	ld	c, l
-	ld	b, h
-	ld	a, (bc)
-;include/collision.h:32: return famidash_metatile_collision[tile_id];
-	ld	l, a
-	ld	h, #0x00
-	ld	de, #_famidash_metatile_collision
-	add	hl, de
-	ld	c, (hl)
-;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00329$:
-;src/player.c:72: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
+00296$:
+;src/player.c:78: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
 	ld	a, c
 	sub	a, #0x08
-	jp	Z, 00134$
+	jp	Z, 00141$
 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
 	ldhl	sp,	#40
 	ld	a, (hl)
 	or	a, a
-	jr	Z, 00332$
+	jr	Z, 00299$
 	ld	c, #0x00
-	jr	00337$
-00332$:
+	jr	00304$
+00299$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
-	ldhl	sp,	#35
-	ld	a, (hl-)
-	dec	hl
+	ldhl	sp,	#29
+	ld	a, (hl)
+	ldhl	sp,	#33
 	ld	(hl), a
-	ldhl	sp,	#36
-	ld	a, (hl-)
-	dec	hl
+	ldhl	sp,	#30
+	ld	a, (hl)
+	ldhl	sp,	#34
 	ld	(hl), a
 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
 	ldhl	sp,	#31
@@ -2582,18 +2207,18 @@ _player_update::
 	ld	a, (de)
 	sbc	a, (hl)
 	pop	de
-	jr	NC, 00334$
+	jr	NC, 00301$
 	ldhl	sp,	#19
 	ld	a, e
 	sub	a, (hl)
 	inc	hl
 	ld	a, d
 	sbc	a, (hl)
-	jr	C, 00335$
-00334$:
+	jr	C, 00302$
+00301$:
 	ld	c, #0x07
-	jr	00337$
-00335$:
+	jr	00304$
+00302$:
 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
 	ldhl	sp,	#21
 	ld	a, (hl+)
@@ -2622,27 +2247,27 @@ _player_update::
 	add	hl, de
 	ld	c, (hl)
 ;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00337$:
-;src/player.c:72: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
+00304$:
+;src/player.c:78: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
 	ld	a, c
 	sub	a, #0x03
-	jp	Z, 00134$
+	jp	Z, 00141$
 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
 	ldhl	sp,	#40
 	ld	a, (hl)
 	or	a, a
-	jr	Z, 00340$
+	jr	Z, 00307$
 	ld	c, #0x00
-	jr	00345$
-00340$:
+	jr	00312$
+00307$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
-	ldhl	sp,	#35
-	ld	a, (hl-)
-	dec	hl
+	ldhl	sp,	#29
+	ld	a, (hl)
+	ldhl	sp,	#33
 	ld	(hl), a
-	ldhl	sp,	#36
-	ld	a, (hl-)
-	dec	hl
+	ldhl	sp,	#30
+	ld	a, (hl)
+	ldhl	sp,	#34
 	ld	(hl), a
 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
 	ldhl	sp,	#31
@@ -2662,18 +2287,18 @@ _player_update::
 	ld	a, (de)
 	sbc	a, (hl)
 	pop	de
-	jr	NC, 00342$
+	jr	NC, 00309$
 	ldhl	sp,	#19
 	ld	a, e
 	sub	a, (hl)
 	inc	hl
 	ld	a, d
 	sbc	a, (hl)
-	jr	C, 00343$
-00342$:
+	jr	C, 00310$
+00309$:
 	ld	c, #0x07
-	jr	00345$
-00343$:
+	jr	00312$
+00310$:
 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
 	ldhl	sp,	#21
 	ld	a, (hl+)
@@ -2702,27 +2327,27 @@ _player_update::
 	add	hl, de
 	ld	c, (hl)
 ;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00345$:
-;src/player.c:72: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
+00312$:
+;src/player.c:78: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
 	ld	a, c
 	sub	a, #0x04
-	jp	Z, 00134$
+	jp	Z, 00141$
 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
 	ldhl	sp,	#40
 	ld	a, (hl)
 	or	a, a
-	jr	Z, 00348$
+	jr	Z, 00315$
 	ld	c, #0x00
-	jr	00353$
-00348$:
+	jr	00320$
+00315$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
-	ldhl	sp,	#35
-	ld	a, (hl-)
-	dec	hl
+	ldhl	sp,	#29
+	ld	a, (hl)
+	ldhl	sp,	#33
 	ld	(hl), a
-	ldhl	sp,	#36
-	ld	a, (hl-)
-	dec	hl
+	ldhl	sp,	#30
+	ld	a, (hl)
+	ldhl	sp,	#34
 	ld	(hl), a
 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
 	ldhl	sp,	#31
@@ -2742,18 +2367,18 @@ _player_update::
 	ld	a, (de)
 	sbc	a, (hl)
 	pop	de
-	jr	NC, 00350$
+	jr	NC, 00317$
 	ldhl	sp,	#19
 	ld	a, e
 	sub	a, (hl)
 	inc	hl
 	ld	a, d
 	sbc	a, (hl)
-	jr	C, 00351$
-00350$:
+	jr	C, 00318$
+00317$:
 	ld	c, #0x07
-	jr	00353$
-00351$:
+	jr	00320$
+00318$:
 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
 	ldhl	sp,	#21
 	ld	a, (hl+)
@@ -2782,19 +2407,418 @@ _player_update::
 	add	hl, de
 	ld	c, (hl)
 ;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00353$:
-;src/player.c:72: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
+00320$:
+;src/player.c:78: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
 	ld	a, c
 	sub	a, #0x02
-	jp	Z, 00134$
+	jp	Z, 00141$
 ;include/collision.h:43: if (world_py < 0) return COL_NONE;
 	ldhl	sp,	#40
 	ld	a, (hl)
 	or	a, a
-	jr	Z, 00356$
+	jr	Z, 00323$
+	ld	c, #0x00
+	jr	00328$
+00323$:
+;include/collision.h:44: uint16_t mx = world_px >> 4;
+	ldhl	sp,	#29
+	ld	a, (hl)
+	ldhl	sp,	#33
+	ld	(hl), a
+	ldhl	sp,	#30
+	ld	a, (hl)
+	ldhl	sp,	#34
+	ld	(hl), a
+;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
+	ldhl	sp,	#31
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
+	push	de
+	ldhl	sp,	#35
+	ld	e, l
+	ld	d, h
+	ldhl	sp,	#23
+	ld	a, (de)
+	inc	de
+	sub	a, (hl)
+	inc	hl
+	ld	a, (de)
+	sbc	a, (hl)
+	pop	de
+	jr	NC, 00325$
+	ldhl	sp,	#19
+	ld	a, e
+	sub	a, (hl)
+	inc	hl
+	ld	a, d
+	sbc	a, (hl)
+	jr	C, 00326$
+00325$:
+	ld	c, #0x07
+	jr	00328$
+00326$:
+;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
+	ldhl	sp,	#21
+	ld	a, (hl+)
+	ld	c, a
+	ld	b, (hl)
+	call	__mulint
+	ldhl	sp,	#33
+	ld	a,	(hl+)
+	ld	h, (hl)
+	ld	l, a
+	add	hl, bc
+	ld	c, l
+	ld	b, h
+	ldhl	sp,	#23
+	ld	a,	(hl+)
+	ld	h, (hl)
+	ld	l, a
+	add	hl, bc
+	ld	c, l
+	ld	b, h
+	ld	a, (bc)
+;include/collision.h:32: return famidash_metatile_collision[tile_id];
+	ld	l, a
+	ld	h, #0x00
+	ld	de, #_famidash_metatile_collision
+	add	hl, de
+	ld	c, (hl)
+;include/player.h:41: return col_at(px, py, map, map_w, map_h);
+00328$:
+;src/player.c:78: IS_HAZARD(col_point(hx1, hy2, map, map_w, map_h)) ||
+	dec	c
+	jp	Z, 00141$
+;include/collision.h:43: if (world_py < 0) return COL_NONE;
+	ldhl	sp,	#40
+	ld	a, (hl)
+	or	a, a
+	jr	Z, 00331$
+	ld	c, #0x00
+	jr	00336$
+00331$:
+;include/collision.h:44: uint16_t mx = world_px >> 4;
+	ldhl	sp,	#35
+	ld	a, (hl-)
+	dec	hl
+	ld	(hl), a
+	ldhl	sp,	#36
+	ld	a, (hl-)
+	dec	hl
+	ld	(hl), a
+;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
+	ldhl	sp,	#31
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
+	push	de
+	ldhl	sp,	#35
+	ld	e, l
+	ld	d, h
+	ldhl	sp,	#23
+	ld	a, (de)
+	inc	de
+	sub	a, (hl)
+	inc	hl
+	ld	a, (de)
+	sbc	a, (hl)
+	pop	de
+	jr	NC, 00333$
+	ldhl	sp,	#19
+	ld	a, e
+	sub	a, (hl)
+	inc	hl
+	ld	a, d
+	sbc	a, (hl)
+	jr	C, 00334$
+00333$:
+	ld	c, #0x07
+	jr	00336$
+00334$:
+;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
+	ldhl	sp,	#21
+	ld	a, (hl+)
+	ld	c, a
+	ld	b, (hl)
+	call	__mulint
+	ldhl	sp,	#33
+	ld	a,	(hl+)
+	ld	h, (hl)
+	ld	l, a
+	add	hl, bc
+	ld	c, l
+	ld	b, h
+	ldhl	sp,	#23
+	ld	a,	(hl+)
+	ld	h, (hl)
+	ld	l, a
+	add	hl, bc
+	ld	c, l
+	ld	b, h
+	ld	a, (bc)
+;include/collision.h:32: return famidash_metatile_collision[tile_id];
+	ld	l, a
+	ld	h, #0x00
+	ld	de, #_famidash_metatile_collision
+	add	hl, de
+	ld	c, (hl)
+;include/player.h:41: return col_at(px, py, map, map_w, map_h);
+00336$:
+;src/player.c:79: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
+	ld	a, c
+	sub	a, #0x08
+	jp	Z, 00141$
+;include/collision.h:43: if (world_py < 0) return COL_NONE;
+	ldhl	sp,	#40
+	ld	a, (hl)
+	or	a, a
+	jr	Z, 00339$
+	ld	c, #0x00
+	jr	00344$
+00339$:
+;include/collision.h:44: uint16_t mx = world_px >> 4;
+	ldhl	sp,	#35
+	ld	a, (hl-)
+	dec	hl
+	ld	(hl), a
+	ldhl	sp,	#36
+	ld	a, (hl-)
+	dec	hl
+	ld	(hl), a
+;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
+	ldhl	sp,	#31
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
+	push	de
+	ldhl	sp,	#35
+	ld	e, l
+	ld	d, h
+	ldhl	sp,	#23
+	ld	a, (de)
+	inc	de
+	sub	a, (hl)
+	inc	hl
+	ld	a, (de)
+	sbc	a, (hl)
+	pop	de
+	jr	NC, 00341$
+	ldhl	sp,	#19
+	ld	a, e
+	sub	a, (hl)
+	inc	hl
+	ld	a, d
+	sbc	a, (hl)
+	jr	C, 00342$
+00341$:
+	ld	c, #0x07
+	jr	00344$
+00342$:
+;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
+	ldhl	sp,	#21
+	ld	a, (hl+)
+	ld	c, a
+	ld	b, (hl)
+	call	__mulint
+	ldhl	sp,	#33
+	ld	a,	(hl+)
+	ld	h, (hl)
+	ld	l, a
+	add	hl, bc
+	ld	c, l
+	ld	b, h
+	ldhl	sp,	#23
+	ld	a,	(hl+)
+	ld	h, (hl)
+	ld	l, a
+	add	hl, bc
+	ld	c, l
+	ld	b, h
+	ld	a, (bc)
+;include/collision.h:32: return famidash_metatile_collision[tile_id];
+	ld	l, a
+	ld	h, #0x00
+	ld	de, #_famidash_metatile_collision
+	add	hl, de
+	ld	c, (hl)
+;include/player.h:41: return col_at(px, py, map, map_w, map_h);
+00344$:
+;src/player.c:79: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
+	ld	a, c
+	sub	a, #0x03
+	jp	Z, 00141$
+;include/collision.h:43: if (world_py < 0) return COL_NONE;
+	ldhl	sp,	#40
+	ld	a, (hl)
+	or	a, a
+	jr	Z, 00347$
+	ld	c, #0x00
+	jr	00352$
+00347$:
+;include/collision.h:44: uint16_t mx = world_px >> 4;
+	ldhl	sp,	#35
+	ld	a, (hl-)
+	dec	hl
+	ld	(hl), a
+	ldhl	sp,	#36
+	ld	a, (hl-)
+	dec	hl
+	ld	(hl), a
+;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
+	ldhl	sp,	#31
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
+	push	de
+	ldhl	sp,	#35
+	ld	e, l
+	ld	d, h
+	ldhl	sp,	#23
+	ld	a, (de)
+	inc	de
+	sub	a, (hl)
+	inc	hl
+	ld	a, (de)
+	sbc	a, (hl)
+	pop	de
+	jr	NC, 00349$
+	ldhl	sp,	#19
+	ld	a, e
+	sub	a, (hl)
+	inc	hl
+	ld	a, d
+	sbc	a, (hl)
+	jr	C, 00350$
+00349$:
+	ld	c, #0x07
+	jr	00352$
+00350$:
+;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
+	ldhl	sp,	#21
+	ld	a, (hl+)
+	ld	c, a
+	ld	b, (hl)
+	call	__mulint
+	ldhl	sp,	#33
+	ld	a,	(hl+)
+	ld	h, (hl)
+	ld	l, a
+	add	hl, bc
+	ld	c, l
+	ld	b, h
+	ldhl	sp,	#23
+	ld	a,	(hl+)
+	ld	h, (hl)
+	ld	l, a
+	add	hl, bc
+	ld	c, l
+	ld	b, h
+	ld	a, (bc)
+;include/collision.h:32: return famidash_metatile_collision[tile_id];
+	ld	l, a
+	ld	h, #0x00
+	ld	de, #_famidash_metatile_collision
+	add	hl, de
+	ld	c, (hl)
+;include/player.h:41: return col_at(px, py, map, map_w, map_h);
+00352$:
+;src/player.c:79: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
+	ld	a, c
+	sub	a, #0x04
+	jp	Z, 00141$
+;include/collision.h:43: if (world_py < 0) return COL_NONE;
+	ldhl	sp,	#40
+	ld	a, (hl)
+	or	a, a
+	jr	Z, 00355$
+	ld	c, #0x00
+	jr	00360$
+00355$:
+;include/collision.h:44: uint16_t mx = world_px >> 4;
+	ldhl	sp,	#35
+	ld	a, (hl-)
+	dec	hl
+	ld	(hl), a
+	ldhl	sp,	#36
+	ld	a, (hl-)
+	dec	hl
+	ld	(hl), a
+;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
+	ldhl	sp,	#31
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+;include/collision.h:47: if (mx >= map_w || my >= map_h) return COL_ALL;
+	push	de
+	ldhl	sp,	#35
+	ld	e, l
+	ld	d, h
+	ldhl	sp,	#23
+	ld	a, (de)
+	inc	de
+	sub	a, (hl)
+	inc	hl
+	ld	a, (de)
+	sbc	a, (hl)
+	pop	de
+	jr	NC, 00357$
+	ldhl	sp,	#19
+	ld	a, e
+	sub	a, (hl)
+	inc	hl
+	ld	a, d
+	sbc	a, (hl)
+	jr	C, 00358$
+00357$:
+	ld	c, #0x07
+	jr	00360$
+00358$:
+;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
+	ldhl	sp,	#21
+	ld	a, (hl+)
+	ld	c, a
+	ld	b, (hl)
+	call	__mulint
+	ldhl	sp,	#33
+	ld	a,	(hl+)
+	ld	h, (hl)
+	ld	l, a
+	add	hl, bc
+	ld	c, l
+	ld	b, h
+	ldhl	sp,	#23
+	ld	a,	(hl+)
+	ld	h, (hl)
+	ld	l, a
+	add	hl, bc
+	ld	c, l
+	ld	b, h
+	ld	a, (bc)
+;include/collision.h:32: return famidash_metatile_collision[tile_id];
+	ld	l, a
+	ld	h, #0x00
+	ld	de, #_famidash_metatile_collision
+	add	hl, de
+	ld	c, (hl)
+;include/player.h:41: return col_at(px, py, map, map_w, map_h);
+00360$:
+;src/player.c:79: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
+	ld	a, c
+	sub	a, #0x02
+	jp	Z, 00141$
+;include/collision.h:43: if (world_py < 0) return COL_NONE;
+	ldhl	sp,	#40
+	ld	a, (hl)
+	or	a, a
+	jr	Z, 00363$
 	ld	(hl), #0x00
-	jr	00361$
-00356$:
+	jr	00368$
+00363$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
 ;include/collision.h:45: uint16_t my = (uint16_t)world_py >> 4;
 	ldhl	sp,	#31
@@ -2815,7 +2839,7 @@ _player_update::
 	inc	hl
 	ld	a, (de)
 	sbc	a, (hl)
-	jr	NC, 00358$
+	jr	NC, 00365$
 	ldhl	sp,	#33
 	ld	e, l
 	ld	d, h
@@ -2826,12 +2850,12 @@ _player_update::
 	inc	hl
 	ld	a, (de)
 	sbc	a, (hl)
-	jr	C, 00359$
-00358$:
+	jr	C, 00366$
+00365$:
 	ldhl	sp,	#40
 	ld	(hl), #0x07
-	jr	00361$
-00359$:
+	jr	00368$
+00366$:
 ;include/collision.h:48: return col_of(map[(uint16_t)my * map_w + mx]);
 	ldhl	sp,	#21
 	ld	a, (hl+)
@@ -2892,28 +2916,28 @@ _player_update::
 	ldhl	sp,	#40
 	ld	(hl), a
 ;include/player.h:41: return col_at(px, py, map, map_w, map_h);
-00361$:
-;src/player.c:72: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
+00368$:
+;src/player.c:79: IS_HAZARD(col_point(hx2, hy2, map, map_w, map_h))) {
 	ldhl	sp,	#40
 	ld	a, (hl)
 	dec	a
-	jr	NZ, 00156$
-00134$:
-;src/player.c:73: p->dead = 1;
+	jr	NZ, 00163$
+00141$:
+;src/player.c:80: p->dead = 1;
 	ldhl	sp,	#4
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-;src/player.c:74: return 1;
+;src/player.c:81: return 1;
 	ld	a,#0x01
 	ld	(hl),a
-	jp	00382$
-00156$:
-;src/player.c:79: if (!player_noclip) {
+	jp	00389$
+00163$:
+;src/player.c:86: if (!player_noclip) {
 	ld	a, (#_player_noclip)
 	or	a, a
-	jp	NZ, 00167$
-;src/player.c:80: uint8_t cm_l = col_point(p->world_x,              p->world_y + 7, map, map_w, map_h);
+	jp	NZ, 00174$
+;src/player.c:87: uint8_t cm_l = col_point(p->world_x,              p->world_y + 7, map, map_w, map_h);
 	ldhl	sp,	#12
 	ld	a, (hl)
 	ldhl	sp,	#21
@@ -2943,37 +2967,17 @@ _player_update::
 	ld	e, a
 	ld	d, (hl)
 	ld	a, (de)
-	ldhl	sp,	#35
-	ld	(hl+), a
+	ld	c, a
 	inc	de
 	ld	a, (de)
-	ld	(hl-), a
-	ld	a, (hl-)
-	dec	hl
-	ld	(hl), a
-	ldhl	sp,	#36
-	ld	a, (hl-)
-	dec	hl
-	ld	(hl-), a
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
+	ld	b, a
 	ld	hl, #0x0007
-	add	hl, de
-	push	hl
-	ld	a, l
-	ldhl	sp,	#37
-	ld	(hl), a
-	pop	hl
+	add	hl, bc
+	ld	c, l
 	ld	a, h
-	ldhl	sp,	#36
-	ld	(hl-), a
-	ld	a, (hl)
 	ldhl	sp,	#31
-	ld	(hl), a
-	ldhl	sp,	#36
-	ld	a, (hl)
-	ldhl	sp,	#32
+	ld	(hl), c
+	inc	hl
 	ld	(hl-), a
 	ld	a, (hl+)
 	inc	hl
@@ -3001,10 +3005,10 @@ _player_update::
 	ldhl	sp,	#33
 	ld	a, (hl+)
 	bit	7, (hl)
-	jr	Z, 00364$
+	jr	Z, 00371$
 	xor	a, a
-	jr	00369$
-00364$:
+	jr	00376$
+00371$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
 	ldhl	sp,	#28
 	srl	(hl)
@@ -3035,7 +3039,7 @@ _player_update::
 	rr	e
 	srl	d
 	rr	e
-;src/player.c:80: uint8_t cm_l = col_point(p->world_x,              p->world_y + 7, map, map_w, map_h);
+;src/player.c:87: uint8_t cm_l = col_point(p->world_x,              p->world_y + 7, map, map_w, map_h);
 	push	de
 	ldhl	sp,	#29
 	ld	e, l
@@ -3048,18 +3052,18 @@ _player_update::
 	ld	a, (de)
 	sbc	a, (hl)
 	pop	de
-	jr	NC, 00366$
+	jr	NC, 00373$
 	ldhl	sp,	#12
 	ld	a, e
 	sub	a, (hl)
 	inc	hl
 	ld	a, d
 	sbc	a, (hl)
-	jr	C, 00367$
-00366$:
+	jr	C, 00374$
+00373$:
 	ld	a, #0x07
-	jr	00369$
-00367$:
+	jr	00376$
+00374$:
 	ldhl	sp,	#14
 	ld	a, (hl+)
 	ld	c, a
@@ -3085,10 +3089,10 @@ _player_update::
 	ld	de, #_famidash_metatile_collision
 	add	hl, de
 	ld	a, (hl)
-00369$:
+00376$:
 	ldhl	sp,	#40
 	ld	(hl), a
-;src/player.c:81: uint8_t cm_r = col_point(p->world_x + PLAYER_SIZE, p->world_y + 7, map, map_w, map_h);
+;src/player.c:88: uint8_t cm_r = col_point(p->world_x + PLAYER_SIZE, p->world_y + 7, map, map_w, map_h);
 	ldhl	sp,#35
 	ld	a, (hl+)
 	ld	e, a
@@ -3114,11 +3118,11 @@ _player_update::
 	ld	c, a
 	ld	b, (hl)
 	bit	7, b
-	jr	Z, 00372$
+	jr	Z, 00379$
 	ldhl	sp,	#36
 	ld	(hl), #0x00
-	jp	00377$
-00372$:
+	jp	00384$
+00379$:
 ;include/collision.h:44: uint16_t mx = world_px >> 4;
 	ldhl	sp,	#36
 	srl	(hl)
@@ -3159,7 +3163,7 @@ _player_update::
 	srl	(hl)
 	dec	hl
 	rr	(hl)
-;src/player.c:81: uint8_t cm_r = col_point(p->world_x + PLAYER_SIZE, p->world_y + 7, map, map_w, map_h);
+;src/player.c:88: uint8_t cm_r = col_point(p->world_x + PLAYER_SIZE, p->world_y + 7, map, map_w, map_h);
 	ldhl	sp,	#35
 	ld	e, l
 	ld	d, h
@@ -3170,7 +3174,7 @@ _player_update::
 	inc	hl
 	ld	a, (de)
 	sbc	a, (hl)
-	jr	NC, 00374$
+	jr	NC, 00381$
 	ldhl	sp,	#33
 	ld	e, l
 	ld	d, h
@@ -3181,12 +3185,12 @@ _player_update::
 	inc	hl
 	ld	a, (de)
 	sbc	a, (hl)
-	jr	C, 00375$
-00374$:
+	jr	C, 00382$
+00381$:
 	ldhl	sp,	#36
 	ld	(hl), #0x07
-	jr	00377$
-00375$:
+	jr	00384$
+00382$:
 	ldhl	sp,	#23
 	ld	a, (hl+)
 	ld	c, a
@@ -3218,55 +3222,55 @@ _player_update::
 	ld	a, (hl)
 	ldhl	sp,	#36
 	ld	(hl), a
-00377$:
-;src/player.c:82: if (IS_SOLID(cm_l) || IS_SOLID(cm_r)) {
+00384$:
+;src/player.c:89: if (IS_SOLID(cm_l) || IS_SOLID(cm_r)) {
 	ldhl	sp,	#40
 	ld	a, (hl)
 	sub	a, #0x07
-	jr	Z, 00157$
+	jr	Z, 00164$
 	ldhl	sp,	#40
 	ld	a, (hl)
 	sub	a, #0x09
-	jr	Z, 00157$
+	jr	Z, 00164$
 	ldhl	sp,	#40
 	ld	a, (hl)
 	sub	a, #0x05
-	jr	Z, 00157$
+	jr	Z, 00164$
 	ldhl	sp,	#40
 	ld	a, (hl)
 	sub	a, #0x06
-	jr	Z, 00157$
+	jr	Z, 00164$
 	ldhl	sp,	#36
 	ld	a, (hl)
 	sub	a, #0x07
-	jr	Z, 00157$
+	jr	Z, 00164$
 	ldhl	sp,	#36
 	ld	a, (hl)
 	sub	a, #0x09
-	jr	Z, 00157$
+	jr	Z, 00164$
 	ldhl	sp,	#36
 	ld	a, (hl)
 	sub	a, #0x05
-	jr	Z, 00157$
+	jr	Z, 00164$
 	ldhl	sp,	#36
 	ld	a, (hl)
 	sub	a, #0x06
-	jr	NZ, 00167$
-00157$:
-;src/player.c:83: p->dead = 1;
+	jr	NZ, 00174$
+00164$:
+;src/player.c:90: p->dead = 1;
 	ldhl	sp,	#4
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-;src/player.c:84: return 1;
+;src/player.c:91: return 1;
 	ld	a,#0x01
 	ld	(hl),a
-	jr	00382$
-00167$:
-;src/player.c:89: if (!player_noclip && p->world_y > (int16_t)((uint16_t)map_h << 4)) {
+	jr	00389$
+00174$:
+;src/player.c:96: if (!player_noclip && p->world_y > (int16_t)((uint16_t)map_h << 4)) {
 	ld	a, (#_player_noclip)
 	or	a, a
-	jr	NZ, 00169$
+	jr	NZ, 00176$
 	ldhl	sp,#25
 	ld	a, (hl+)
 	ld	e, a
@@ -3286,13 +3290,13 @@ _player_update::
 	ldhl	sp,	#34
 	ld	(hl), a
 	ld	a, #0x04
-01194$:
+01221$:
 	ldhl	sp,	#33
 	sla	(hl)
 	inc	hl
 	rl	(hl)
 	dec	a
-	jr	NZ, 01194$
+	jr	NZ, 01221$
 	ldhl	sp,	#33
 	ld	e, l
 	ld	d, h
@@ -3307,31 +3311,31 @@ _player_update::
 	ld	d, a
 	ld	e, (hl)
 	bit	7, e
-	jr	Z, 01195$
+	jr	Z, 01222$
 	bit	7, d
-	jr	NZ, 01196$
+	jr	NZ, 01223$
 	cp	a, a
-	jr	01196$
-01195$:
+	jr	01223$
+01222$:
 	bit	7, d
-	jr	Z, 01196$
+	jr	Z, 01223$
 	scf
-01196$:
-	jr	NC, 00169$
-;src/player.c:90: p->dead = 1;
+01223$:
+	jr	NC, 00176$
+;src/player.c:97: p->dead = 1;
 	ldhl	sp,	#4
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-;src/player.c:91: return 1;
+;src/player.c:98: return 1;
 	ld	a,#0x01
 	ld	(hl),a
-	jr	00382$
-00169$:
-;src/player.c:94: return 0;
+	jr	00389$
+00176$:
+;src/player.c:101: return 0;
 	xor	a, a
-00382$:
-;src/player.c:95: }
+00389$:
+;src/player.c:102: }
 	add	sp, #41
 	pop	hl
 	add	sp, #6

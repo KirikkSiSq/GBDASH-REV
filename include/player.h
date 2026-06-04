@@ -10,7 +10,7 @@
 #define PLAYER_HBOX       4     // Inset for spike/hazard collision
 
 // Physics constants using 4.4 fixed-point (16 units = 1 pixel)
-#define GRAVITY           9
+#define GRAVITY           10
 #define JUMP_FORCE       -93
 #define MAX_FALL_SPEED    95
 

@@ -25,7 +25,7 @@ const uint8_t cube_tiles[] = {
 #define VIEW_MT_H  9
 // Scroll speed in 8.8 fixed point (pixels per frame)
 // Example: 3.0 = 768, 3.5 = 896, 4.0 = 1024
-#define SCROLL_SPEED_FP 800
+#define SCROLL_SPEED_FP 896
 
 #define CAM_Y_TOP_ZONE 20
 #define CAM_Y_BOTTOM_ZONE 100
@@ -215,6 +215,7 @@ void play_level(uint8_t idx) NONBANKED {
             disable_interrupts();
             cam_px = 0;
             cam_py = 112;
+            scroll_acc = 0;  // Reset fixed-point accumulator for smooth restart
             loaded_r = BKG_MT_W - 1;
             player_init(&player, 32, 240);
             move_bkg(0, (uint8_t)cam_py);
