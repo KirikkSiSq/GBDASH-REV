@@ -22,6 +22,8 @@ typedef struct {
     uint8_t  dead;
 } Player;
 
+extern uint8_t player_noclip;
+
 // Reset player state to starting position
 static inline void player_init(Player *p, uint16_t start_x, int16_t start_y) {
     p->world_x   = start_x;

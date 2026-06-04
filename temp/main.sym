@@ -11,16 +11,18 @@ Symbol Table
     _NR50_REG                                                       ******** GX
     _NR51_REG                                                       ******** GX
     _NR52_REG                                                       ******** GX
+    _TAC_REG                                                        ******** GX
+    _TMA_REG                                                        ******** GX
     ___sdcc_bcall_ehl                                               ******** GX
   8 __xinit__music_ready                                            00000000 R
   8 __xinit__redraw                                                 00000001 R
   8 __xinit__selected                                               00000002 R
-    _add_VBL                                                        ******** GX
+    _add_TIM                                                        ******** GX
     _draw_menu                                                      ******** GX
     _hUGE_dosound                                                   ******** GX
     _hUGE_init                                                      ******** GX
     _joypad                                                         ******** GX
-  0 _main                                                           00000010 GR
+  0 _main                                                           00000008 GR
   3 _music_ready                                                    00000000 GR
     _play_level                                                     ******** GX
   0 _play_music_safe                                                00000000 GR
@@ -29,17 +31,17 @@ Symbol Table
     _set_interrupts                                                 ******** GX
     _setup_menu_font                                                ******** GX
     _song_stereoma                                                  ******** GX
-  0 _vbl_music_isr                                                  00000008 GR
     _wait_vbl_done                                                  ******** GX
     _waitpadup                                                      ******** GX
     b_draw_menu                                                     ******** GX
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size       BD   flags    0
+   0 _CODE                                      size       B9   flags    0
    1 _HRAM                                      size        0   flags    0
    2 _DATA                                      size        0   flags    0
    3 _INITIALIZED                               size        3   flags    0

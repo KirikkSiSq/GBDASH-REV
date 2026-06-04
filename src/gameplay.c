@@ -23,7 +23,10 @@ const uint8_t cube_tiles[] = {
 #define BKG_MT_H  16
 #define VIEW_MT_W 10
 #define VIEW_MT_H  9
-#define SCROLL_SPEED 3
+// Scroll speed in 8.8 fixed point (pixels per frame)
+// Example: 3.0 = 768, 3.5 = 896, 4.0 = 1024
+#define SCROLL_SPEED_FP 800
+
 #define CAM_Y_TOP_ZONE 20
 #define CAM_Y_BOTTOM_ZONE 100
 
@@ -156,15 +159,25 @@ void play_level(uint8_t idx) NONBANKED {
 
     waitpadup();
 
+    uint16_t scroll_acc = 0;
+    uint8_t prev_joy = 0;
     while (1) {
         wait_vbl_done();
         uint8_t joy = joypad();
         if (joy & J_START) break;
 
+        // Toggle noclip on B press (edge detect)
+        if ((joy & J_B) && !(prev_joy & J_B)) {
+            player_noclip = !player_noclip;
+        }
+        prev_joy = joy;
+
         // X-axis Scrolling logic
         if (cam_px < ((level_map_w - VIEW_MT_W) << 4)) {
             uint16_t prev = cam_px >> 4;
-            cam_px += SCROLL_SPEED;
+            scroll_acc += SCROLL_SPEED_FP;
+            cam_px += scroll_acc >> 8;
+            scroll_acc &= 0xFF;
             uint16_t curr = cam_px >> 4;
             // Load next column if we crossed a metatile boundary
             if (curr != prev) {

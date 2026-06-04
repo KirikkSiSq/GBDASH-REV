@@ -9,13 +9,8 @@ uint8_t selected = 0;
 
 extern const hUGESong_t song_stereoma;
 
-// Checks if driver is initialized
+// Called by the timer interrupt to update music
 void play_music_safe(void) {
-    if (music_ready) hUGE_dosound();
-}
-
-// Interrupt handler for music. Called once per frame.
-void vbl_music_isr(void) {
     if (music_ready) hUGE_dosound();
 }
 
@@ -30,14 +25,16 @@ void main(void) {
     hUGE_init(&song_stereoma);
     music_ready = 1;
 
-    add_VBL(vbl_music_isr);
-    set_interrupts(VBL_IFLAG);
+    // Set up timer at ~128 Hz for music playback
+    TMA_REG = 224;
+    TAC_REG = 0x04;
+    add_TIM(play_music_safe);
+    set_interrupts(VBL_IFLAG | TIM_IFLAG);
     enable_interrupts();
 
     setup_menu_font();
 
     while (1) {
-        play_music_safe();
         if (redraw) draw_menu();
 
         uint8_t joy = joypad();

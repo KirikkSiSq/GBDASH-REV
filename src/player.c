@@ -1,5 +1,7 @@
 #include "player.h"
 
+uint8_t player_noclip = 0;
+
 uint8_t player_update(
     Player *p,
     uint8_t joy,
@@ -57,8 +59,8 @@ uint8_t player_update(
         p->world_y = ny;
     }
 
-    // Hazard detection (spikes, etc)
-    {
+    // Hazard detection (spikes, etc) - disabled in noclip
+    if (!player_noclip) {
         uint16_t hx1 = p->world_x + PLAYER_HBOX;
         uint16_t hx2 = p->world_x + PLAYER_SIZE - PLAYER_HBOX;
         int16_t  hy1 = p->world_y + PLAYER_HBOX;
@@ -73,8 +75,8 @@ uint8_t player_update(
         }
     }
 
-    // Frontal collision (walls)
-    {
+    // Frontal collision (walls) - disabled in noclip
+    if (!player_noclip) {
         uint8_t cm_l = col_point(p->world_x,              p->world_y + 7, map, map_w, map_h);
         uint8_t cm_r = col_point(p->world_x + PLAYER_SIZE, p->world_y + 7, map, map_w, map_h);
         if (IS_SOLID(cm_l) || IS_SOLID(cm_r)) {
@@ -83,8 +85,8 @@ uint8_t player_update(
         }
     }
 
-    // Out of bounds (falling off screen)
-    if (p->world_y > (int16_t)((uint16_t)map_h << 4)) {
+    // Out of bounds (falling off screen) - disabled in noclip
+    if (!player_noclip && p->world_y > (int16_t)((uint16_t)map_h << 4)) {
         p->dead = 1;
         return 1;
     }
