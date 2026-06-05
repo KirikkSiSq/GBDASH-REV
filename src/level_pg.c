@@ -1,4 +1,4 @@
-#pragma bank 4
+#pragma bank 5
 #include <gbdk/incbin.h>
 
 INCBIN(polargeist_map, "levels/level_data/polargeist_16high.bin")

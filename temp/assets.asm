@@ -13,6 +13,8 @@
 	.globl _level_pg
 	.globl _level_bot
 	.globl _level_sm
+	.globl _song_bank
+	.globl _level_songs
 	.globl b___func_famidash_chr_tiles
 	.globl ___func_famidash_chr_tiles
 	.globl b___func_famidash_chr
@@ -85,6 +87,16 @@ _famidash_chr_tiles::
 	___bank_famidash_chr_tiles = b___func_famidash_chr_tiles 
 	.globl ___bank_famidash_chr_tiles 
 	.area _CODE_1
+_level_songs:
+	.dw _stereomadness
+	.dw #0x0000
+	.dw _polargeist
+	.dw _dryout
+_song_bank:
+	.db #0x06	; 6
+	.db #0x00	; 0
+	.db #0x08	; 8
+	.db #0x07	; 7
 _level_sm:
 	.dw __str_0
 	.dw _famidash_chr_tiles

@@ -7,25 +7,25 @@
 
 #include "gameplay.h"
 #include "player.h"
+#include "assets.h"
 #include "../levels/famidash/famidash_chr.h"
 #include "famidash_metatiles.h"
 #include "hUGEDriver.h"
 
 // 2x2 sprite for the player cube
 const uint8_t cube_tiles[] = {
-        0xFF,0xFF,0xC0,0xC0,0x90,0xD0,0x90,0x90,0x88,0x88,0x84,0x84,0x80,0x80,0x80,0x80,
-        0xFF,0xFF,0x03,0x03,0x09,0x0B,0x09,0x09,0x11,0x11,0x21,0x21,0x01,0x01,0x01,0x01,
-        0x80,0x80,0x80,0x80,0x84,0x84,0x88,0x88,0x90,0x90,0x90,0xD0,0xC0,0xC0,0xFF,0xFF,
-        0x01,0x01,0x01,0x01,0x21,0x21,0x11,0x11,0x09,0x09,0x09,0x0B,0x03,0x03,0xFF,0xFF,
+    0xFF,0xFF,0xC0,0xC0,0x90,0xD0,0x90,0x90,0x88,0x88,0x84,0x84,0x80,0x80,0x80,0x80,
+    0xFF,0xFF,0x03,0x03,0x09,0x0B,0x09,0x09,0x11,0x11,0x21,0x21,0x01,0x01,0x01,0x01,
+    0x80,0x80,0x80,0x80,0x84,0x84,0x88,0x88,0x90,0x90,0x90,0xD0,0xC0,0xC0,0xFF,0xFF,
+    0x01,0x01,0x01,0x01,0x21,0x21,0x11,0x11,0x09,0x09,0x09,0x0B,0x03,0x03,0xFF,0xFF,
 };
 
-#define BKG_MT_W  16
-#define BKG_MT_H  16
+#define BKG_MT_W 16
+#define BKG_MT_H 16
 #define VIEW_MT_W 10
-#define VIEW_MT_H  9
+#define VIEW_MT_H 9
 // Scroll speed in 8.8 fixed point (pixels per frame)
-// Example: 3.0 = 768, 3.5 = 896, 4.0 = 1024
-#define SCROLL_SPEED_FP 896
+#define SCROLL_SPEED_FP 860
 
 #define CAM_Y_TOP_ZONE 20
 #define CAM_Y_BOTTOM_ZONE 100
@@ -47,8 +47,8 @@ void load_bkg_tileset(const uint8_t* tiles, uint16_t tile_count) NONBANKED {
 
 // Draws a vertical column of metatiles to the background map
 void draw_mt_column(uint8_t ring_col, uint16_t map_col,
-    const uint8_t* map, uint16_t map_w, uint16_t map_h,
-    uint8_t map_bank) NONBANKED {
+                    const uint8_t* map, uint16_t map_w, uint16_t map_h,
+                    uint8_t map_bank) NONBANKED {
 
     uint8_t bx = ring_col << 1;
 
@@ -66,7 +66,8 @@ void draw_mt_column(uint8_t ring_col, uint16_t map_col,
 }
 
 // Initial fill of the background scroll area
-void fill_scroll_bg(const uint8_t* map, uint16_t map_w, uint16_t map_h, uint8_t map_bank) NONBANKED {
+void fill_scroll_bg(const uint8_t* map, uint16_t map_w, uint16_t map_h,
+                    uint8_t map_bank) NONBANKED {
     uint16_t cols = (map_w < BKG_MT_W) ? map_w : BKG_MT_W;
     for (uint16_t c = 0; c < cols; c++) {
         draw_mt_column((uint8_t)(c % BKG_MT_W), c, map, map_w, map_h, map_bank);
@@ -76,11 +77,11 @@ void fill_scroll_bg(const uint8_t* map, uint16_t map_w, uint16_t map_h, uint8_t 
 void draw_menu(void) BANKED {
     fill_bkg_rect(0, 0, 20, 18, 0x00);
     gotoxy(0, 0);
-    printf("GBDASH BETA 01\n\n");
+    printf("GBDASH REV\n\n");
     for (uint8_t i = 0; i < MAX_LEVELS; i++) {
         gotoxy(1, 2 + i);
         if (i == selected) printf("0 %s", game_levels[i]->name);
-        else               printf("  %s", game_levels[i]->name);
+        else printf(" %s", game_levels[i]->name);
     }
     SHOW_BKG;
     redraw = 0;
@@ -112,6 +113,22 @@ void play_level(uint8_t idx) NONBANKED {
     level_tiles_are_compressed = l->tiles_are_compressed;
     level_map_is_compressed = l->map_is_compressed;
     level_map_bank = l->map_bank;
+
+    // Start level music if the level has a song; otherwise silent
+    // Strings live in the song banks, so we stay mapped-there while reading them,
+    // and we re-enable interrupts ONLY after hUGE_init() has finished. This
+    // guarantees the TIM ISR never runs with a partially-initialised driver.
+    if (level_songs[idx]) {
+        uint8_t song_b = song_bank[idx];
+        music_ready = 0;
+        current_song_bank = song_b;
+        SWITCH_ROM(song_b);
+        disable_interrupts();
+        hUGE_init(level_songs[idx]);
+        enable_interrupts();
+        music_ready = 1;
+    }
+
     SWITCH_ROM(prev_game_bank);
 
     (void)level_name;
@@ -121,8 +138,7 @@ void play_level(uint8_t idx) NONBANKED {
     uint16_t cam_px = 0;
     uint16_t cam_py = 112;
     uint16_t cam_py_max = (level_map_h << 4);
-    if (cam_py_max > 144u) cam_py_max -= 144u;
-    else cam_py_max = 0;
+    if (cam_py_max > 144u) cam_py_max -= 144u; else cam_py_max = 0;
     uint16_t loaded_r = BKG_MT_W - 1;
 
     uint8_t _prev;
@@ -184,7 +200,8 @@ void play_level(uint8_t idx) NONBANKED {
                 uint16_t need = curr + VIEW_MT_W;
                 if (need > loaded_r && need < level_map_w) {
                     loaded_r = need;
-                    draw_mt_column((uint8_t)(need % BKG_MT_W), need, level_map, level_map_w, level_map_h, level_map_bank);
+                    draw_mt_column((uint8_t)(need % BKG_MT_W), need,
+                                   level_map, level_map_w, level_map_h, level_map_bank);
                 }
             }
         }
@@ -211,11 +228,19 @@ void play_level(uint8_t idx) NONBANKED {
         }
 
         if (died) {
-            // Restart level on death
+            // Restart level on death — also restart the music from the beginning
+            if (level_songs[idx]) {
+                uint8_t song_b = song_bank[idx];
+                music_ready = 0;
+                current_song_bank = song_b;
+                SWITCH_ROM(song_b);
+                hUGE_init(level_songs[idx]);
+                music_ready = 1;
+            }
             disable_interrupts();
             cam_px = 0;
             cam_py = 112;
-            scroll_acc = 0;  // Reset fixed-point accumulator for smooth restart
+            scroll_acc = 0;       // Reset fixed-point accumulator for smooth restart
             loaded_r = BKG_MT_W - 1;
             player_init(&player, 32, 240);
             move_bkg(0, (uint8_t)cam_py);
@@ -226,9 +251,9 @@ void play_level(uint8_t idx) NONBANKED {
         py = player_screen_y(&player, cam_py);
 
         // Update sprite positions
-        move_sprite(0, PLAYER_SCREEN_X + 8,     py + 16);
+        move_sprite(0, PLAYER_SCREEN_X + 8, py + 16);
         move_sprite(1, PLAYER_SCREEN_X + 8 + 8, py + 16);
-        move_sprite(2, PLAYER_SCREEN_X + 8,     py + 16 + 8);
+        move_sprite(2, PLAYER_SCREEN_X + 8, py + 16 + 8);
         move_sprite(3, PLAYER_SCREEN_X + 8 + 8, py + 16 + 8);
 
         move_bkg((uint8_t)cam_px, (uint8_t)cam_py);

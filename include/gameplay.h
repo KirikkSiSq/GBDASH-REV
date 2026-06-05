@@ -7,6 +7,7 @@
 extern uint8_t music_ready;
 extern uint8_t redraw;
 extern uint8_t selected;
+extern volatile uint8_t current_song_bank;
 
 void play_music_safe(void);
 void setup_menu_font(void) NONBANKED;

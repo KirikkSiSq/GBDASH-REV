@@ -22,51 +22,59 @@ extern const uint8_t polargeist_map[];
 BANKREF_EXTERN(dryout_map)
 extern const uint8_t dryout_map[];
 
+// Music songs
+extern const hUGESong_t stereomadness;
+extern const hUGESong_t dryout;
+extern const hUGESong_t polargeist;
 
+// Per-level songs: NULL = no music for that level
+const hUGESong_t * const level_songs[] = {
+  &stereomadness, // level_sm
+  NULL, // level_bot
+  &polargeist, // level_pg
+  &dryout // level_du
+};
+
+// Per-level song banks: matches level_songs[]; 0 = silent
+// Values must match the #pragma bank N in each song's .c file.
+const uint8_t song_bank[] = {
+  6u, // level_sm — stereomadness.c
+  0u, // level_bot — no song
+  8u, // level_pg — polargeist.c
+  7u, // level_du — dryout.c
+};
 
 // Level definitions with dimensions and bank info
 const Level level_sm = {
-    "STEREO MADNESS",
-    famidash_chr_tiles,
-    stereomadness_map,
-    256,
-    894,
-    16,
-    0, 0,
-    BANK(stereomadness_map) 
+  "STEREO MADNESS",
+  famidash_chr_tiles,
+  stereomadness_map,
+  256, 894, 16, 0, 0,
+  BANK(stereomadness_map)
 };
 
 const Level level_bot = {
-    "BACK ON TRACK",
-    famidash_chr_tiles,
-    backontrack_map,
-    256,
-    846,
-    16,
-    0, 0,
-    BANK(backontrack_map) 
+  "BACK ON TRACK",
+  famidash_chr_tiles,
+  backontrack_map,
+  256, 846, 16, 0, 0,
+  BANK(backontrack_map)
 };
 
 const Level level_pg = {
-    "POLARGEIST",
-    famidash_chr_tiles,
-    polargeist_map,
-    256,
-    934,
-    16,
-    0, 0,
-    BANK(polargeist_map)
+  "POLARGEIST",
+  famidash_chr_tiles,
+  polargeist_map,
+  256, 934, 16, 0, 0,
+  BANK(polargeist_map)
 };
 
 const Level level_du = {
-    "DRY OUT",
-    famidash_chr_tiles,
-    dryout_map,
-    256,
-    842,
-    16,
-    0, 0,
-    BANK(dryout_map)
+  "DRY OUT",
+  famidash_chr_tiles,
+  dryout_map,
+  256, 842, 16, 0, 0,
+  BANK(dryout_map)
 };
 
 // Global level list used by the menu and gameplay systems
