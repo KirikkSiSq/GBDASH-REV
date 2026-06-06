@@ -14,6 +14,8 @@
 #define COL_ALL          0x07  // Full solid block
 #define COL_DEATH        0x08  // Hazard (orb/saw)
 #define COL_FLOOR_CEIL   0x09  // Solid top and bottom
+#define COL_ORB          0x0A  // Yellow Orb
+#define COL_PAD          0x0B  // Yellow Pad
 
 #define IS_SOLID(col)  ((col) == COL_ALL || (col) == COL_FLOOR_CEIL || \
                         (col) == COL_TOP || (col) == COL_BOTTOM)
@@ -23,6 +25,9 @@
                         (col) == COL_DEATH_BOTTOM|| \
                         (col) == COL_DEATH_LEFT  || \
                         (col) == COL_DEATH_RIGHT)
+
+#define IS_ORB(col)    ((col) == COL_ORB)
+#define IS_PAD(col)    ((col) == COL_PAD)
 
 #define IS_PASSTHROUGH(col) ((col) == COL_NONE)
 

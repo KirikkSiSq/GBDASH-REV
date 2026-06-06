@@ -26,7 +26,7 @@ void main(void) {
   NR51_REG = 0xFF;
   NR50_REG = 0x77;
 
-  // Set up timer at ~128 Hz for music playback
+  // Set up timer at ~60 Hz for music playback
   TMA_REG = 187;   // ~60 Hz (4096 Hz / (256-187) ≈ 59.4 Hz)
   TAC_REG = 0x04;
   add_TIM(play_music_safe);

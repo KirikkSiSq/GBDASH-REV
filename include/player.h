@@ -12,7 +12,8 @@
 // Physics constants using 4.4 fixed-point (16 units = 1 pixel)
 #define GRAVITY           10
 #define JUMP_FORCE       -93
-#define MAX_FALL_SPEED    95
+#define PAD_JUMP_FORCE   -140
+#define MAX_FALL_SPEED    105
 
 typedef struct {
     uint16_t world_x;

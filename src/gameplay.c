@@ -116,12 +116,15 @@ void play_level(uint8_t idx) NONBANKED {
 
   // Start level music if the level has a song; otherwise silent
   if (level_songs[idx]) {
-    uint8_t song_b = song_bank[idx];
+    const hUGESong_t * song = level_songs[idx]; // Capture pointer while Bank 1 is mapped
+    uint8_t song_b = song_bank[idx];            // Capture bank while Bank 1 is mapped
+    uint8_t divider = l->timer_divider;         // Capture divider while Bank 1 is mapped
     music_ready = 0;
     current_song_bank = song_b;
-    SWITCH_ROM(song_b); // hUGE_init reads the song struct, needs its bank mapped
-    disable_interrupts(); // block ISR while driver state is being initialised
-    hUGE_init(level_songs[idx]);
+    SWITCH_ROM(song_b);
+    disable_interrupts();
+    hUGE_init(song); // Use captured pointer
+    TMA_REG = divider; // Use captured divider
     enable_interrupts();
     music_ready = 1;
   }
@@ -227,11 +230,24 @@ void play_level(uint8_t idx) NONBANKED {
     if (died) {
       // Restart level on death — also restart the music from the beginning
       if (level_songs[idx]) {
-        uint8_t song_b = song_bank[idx];
+        const hUGESong_t * song;
+        uint8_t song_b;
+        uint8_t divider;
+
+        uint8_t prev_b_died = _current_bank;
+        SWITCH_ROM(BANK(game_levels));
+        song = level_songs[idx];
+        song_b = song_bank[idx];
+        divider = l->timer_divider;
+        SWITCH_ROM(prev_b_died);
+
         music_ready = 0;
         current_song_bank = song_b;
         SWITCH_ROM(song_b);
-            hUGE_init(level_songs[idx]);
+        disable_interrupts();
+        hUGE_init(song);
+        TMA_REG = divider;
+        enable_interrupts();
         music_ready = 1;
       }
       disable_interrupts();

@@ -107,6 +107,7 @@ _level_sm:
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.byte ___bank_stereomadness_map
+	.db #0xc0	; 192
 _level_bot:
 	.dw __str_1
 	.dw _famidash_chr_tiles
@@ -117,6 +118,7 @@ _level_bot:
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.byte ___bank_backontrack_map
+	.db #0xbb	; 187
 _level_pg:
 	.dw __str_2
 	.dw _famidash_chr_tiles
@@ -127,6 +129,7 @@ _level_pg:
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.byte ___bank_polargeist_map
+	.db #0xc1	; 193
 _level_du:
 	.dw __str_3
 	.dw _famidash_chr_tiles
@@ -137,6 +140,7 @@ _level_du:
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.byte ___bank_dryout_map
+	.db #0x2d	; 45
 _game_levels:
 	.dw _level_sm
 	.dw _level_bot

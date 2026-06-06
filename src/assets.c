@@ -50,7 +50,8 @@ const Level level_sm = {
   famidash_chr_tiles,
   stereomadness_map,
   256, 894, 16, 0, 0,
-  BANK(stereomadness_map)
+  BANK(stereomadness_map),
+  192
 };
 
 const Level level_bot = {
@@ -58,7 +59,8 @@ const Level level_bot = {
   famidash_chr_tiles,
   backontrack_map,
   256, 846, 16, 0, 0,
-  BANK(backontrack_map)
+  BANK(backontrack_map),
+  187
 };
 
 const Level level_pg = {
@@ -66,7 +68,8 @@ const Level level_pg = {
   famidash_chr_tiles,
   polargeist_map,
   256, 934, 16, 0, 0,
-  BANK(polargeist_map)
+  BANK(polargeist_map),
+  193 // 162.54 BPM @ Tempo 6 (Confirmed Perfect)
 };
 
 const Level level_du = {
@@ -74,7 +77,8 @@ const Level level_du = {
   famidash_chr_tiles,
   dryout_map,
   256, 842, 16, 0, 0,
-  BANK(dryout_map)
+  BANK(dryout_map),
+  45 // Matches hUGETracker "Tempo (timer divider)"
 };
 
 // Global level list used by the menu and gameplay systems

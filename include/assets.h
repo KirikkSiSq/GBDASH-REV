@@ -16,6 +16,7 @@ typedef struct {
   uint8_t tiles_are_compressed;
   uint8_t map_is_compressed;
   uint8_t map_bank;     // ROM bank where the map resides
+  uint8_t timer_divider; // The TMA_REG value for hUGEDriver
 } Level;
 
 // Per-level song pointers (same order as game_levels[]; NULL = silent)
