@@ -12,6 +12,7 @@
 // Physics constants using 4.4 fixed-point (16 units = 1 pixel)
 #define GRAVITY           10
 #define JUMP_FORCE       -93
+#define MAGENTA_JUMP_FORCE -60
 #define PAD_JUMP_FORCE   -140
 #define MAX_FALL_SPEED    105
 
@@ -21,6 +22,7 @@ typedef struct {
     int16_t  vel_y;
     uint8_t  on_ground;
     uint8_t  dead;
+    uint8_t  gravity_flipped;
     uint8_t  anim_frame;
     uint16_t anim_timer;
 } Player;
@@ -34,6 +36,7 @@ static inline void player_init(Player *p, uint16_t start_x, int16_t start_y) {
     p->vel_y     = 0;
     p->on_ground = 0;
     p->dead      = 0;
+    p->gravity_flipped = 0;
     p->anim_frame = 0;
     p->anim_timer = 0;
 }

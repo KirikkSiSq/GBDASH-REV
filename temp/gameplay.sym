@@ -24,17 +24,18 @@ Symbol Table
     ___current_base_tile                                            ******** GX
     ___current_metasprite                                           ******** GX
     ___move_metasprite                                              ******** GX
-  8 ___str_1                                                        000001EA R
-  8 ___str_2                                                        000001FA R
-  8 ___str_3                                                        000001FF R
+    ___move_metasprite_vflip                                        ******** GX
+  8 ___str_1                                                        000001F0 R
+  8 ___str_2                                                        00000200 R
+  8 ___str_3                                                        00000205 R
     __current_bank                                                  ******** GX
     __mulint                                                        ******** GX
   8 _col_at                                                         00000009 R
   8 _col_of                                                         00000000 R
-  8 _col_point                                                      000000BF R
+  8 _col_point                                                      000000C5 R
     _current_song_bank                                              ******** GX
     _display_off                                                    ******** GX
-  8 _draw_menu                                                      00000168 GR
+  8 _draw_menu                                                      0000016E GR
   5 _draw_mt_column                                                 00000041 GR
     _famidash_metatile_collision                                    ******** GX
     _fill_bkg_rect                                                  ******** GX
@@ -56,13 +57,13 @@ Symbol Table
   5 _play_level                                                     00000182 GR
   8 _player_init                                                    0000008C R
     _player_noclip                                                  ******** GX
-  8 _player_screen_y                                                0000015C R
-    _player_update                                                  ******** GX
+  8 _player_screen_y                                                00000162 R
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
 
 Symbol Table
 
+    _player_update                                                  ******** GX
     _printf                                                         ******** GX
     _puts                                                           ******** GX
     _rROMB0                                                         ******** GX
@@ -77,7 +78,6 @@ Symbol Table
     _waitpadup                                                      ******** GX
     b_draw_menu                                                 =   00000001 G
 
-
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 3
 Hexadecimal [32-Bits]
 
@@ -88,10 +88,10 @@ Area Table
    2 _DATA                                      size        0   flags    0
    3 _INITIALIZED                               size        0   flags    0
    4 _DABS                                      size        0   flags    8
-   5 _HOME                                      size      6AE   flags    0
+   5 _HOME                                      size      7EC   flags    0
    6 _GSINIT                                    size        0   flags    0
    7 _GSFINAL                                   size        0   flags    0
-   8 _CODE_1                                    size      203   flags    0
+   8 _CODE_1                                    size      209   flags    0
    9 _INITIALIZER                               size        0   flags    0
    A _CABS                                      size        0   flags    8
 

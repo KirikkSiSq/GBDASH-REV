@@ -42,20 +42,20 @@
                                      42 ; code
                                      43 ;--------------------------------------------------------
                                      44 	.area _CODE
-                                     45 ;src/../include/collision.h:36: static inline uint8_t col_of(uint8_t tile_id) {
+                                     45 ;src/../include/collision.h:39: static inline uint8_t col_of(uint8_t tile_id) {
                                      46 ;	---------------------------------
                                      47 ; Function col_of
                                      48 ; ---------------------------------
     00000000                         49 _col_of:
     00000000 4F               [ 4]   50 	ld	c, a
-                                     51 ;src/../include/collision.h:37: return famidash_metatile_collision[tile_id];
+                                     51 ;src/../include/collision.h:40: return famidash_metatile_collision[tile_id];
     00000001 21r8Cr05         [12]   52 	ld	hl, #_famidash_metatile_collision
     00000004 06 00            [ 8]   53 	ld	b, #0x00
     00000006 09               [ 8]   54 	add	hl, bc
     00000007 7E               [ 8]   55 	ld	a, (hl)
-                                     56 ;src/../include/collision.h:38: }
+                                     56 ;src/../include/collision.h:41: }
     00000008 C9               [16]   57 	ret
-                                     58 ;src/../include/collision.h:41: static inline uint8_t col_at(
+                                     58 ;src/../include/collision.h:44: static inline uint8_t col_at(
                                      59 ;	---------------------------------
                                      60 ; Function col_at
                                      61 ; ---------------------------------
@@ -65,14 +65,14 @@
     0000000D 7B               [ 4]   65 	ld	a, e
     0000000E 22               [ 8]   66 	ld	(hl+), a
     0000000F 72               [ 8]   67 	ld	(hl), d
-                                     68 ;src/../include/collision.h:48: if (world_py < 0) return COL_NONE;
+                                     68 ;src/../include/collision.h:51: if (world_py < 0) return COL_NONE;
     00000010 60               [ 4]   69 	ld	h, b
     00000011 CB 7C            [ 8]   70 	bit	7, h
     00000013 28 03            [12]   71 	jr	Z, 00102$
     00000015 AF               [ 4]   72 	xor	a, a
     00000016 18 6E            [12]   73 	jr	00107$
     00000018                         74 00102$:
-                                     75 ;src/../include/collision.h:49: uint16_t mx = world_px >> 4;
+                                     75 ;src/../include/collision.h:52: uint16_t mx = world_px >> 4;
     00000018 F8 02            [12]   76 	ldhl	sp,	#2
     0000001A 3A               [ 8]   77 	ld	a, (hl-)
     0000001B 2B               [ 8]   78 	dec	hl
@@ -96,7 +96,7 @@
     00000034 CB 3E            [16]   96 	srl	(hl)
     00000036 2B               [ 8]   97 	dec	hl
     00000037 CB 1E            [16]   98 	rr	(hl)
-                                     99 ;src/../include/collision.h:50: uint16_t my = (uint16_t)world_py >> 4;
+                                     99 ;src/../include/collision.h:53: uint16_t my = (uint16_t)world_py >> 4;
     00000039 59               [ 4]  100 	ld	e, c
     0000003A 50               [ 4]  101 	ld	d, b
     0000003B CB 3A            [ 8]  102 	srl	d
@@ -107,7 +107,7 @@
     00000045 CB 1B            [ 8]  107 	rr	e
     00000047 CB 3A            [ 8]  108 	srl	d
     00000049 CB 1B            [ 8]  109 	rr	e
-                                    110 ;src/../include/collision.h:52: if (mx >= map_w || my >= map_h) return COL_ALL;
+                                    110 ;src/../include/collision.h:55: if (mx >= map_w || my >= map_h) return COL_ALL;
     0000004B D5               [16]  111 	push	de
     0000004C F8 02            [12]  112 	ldhl	sp,	#2
     0000004E 5D               [ 4]  113 	ld	e, l
@@ -132,7 +132,7 @@
     00000064 3E 07            [ 8]  132 	ld	a, #0x07
     00000066 18 1E            [12]  133 	jr	00107$
     00000068                        134 00104$:
-                                    135 ;src/../include/collision.h:53: return col_of(map[(uint16_t)my * map_w + mx]);
+                                    135 ;src/../include/collision.h:56: return col_of(map[(uint16_t)my * map_w + mx]);
     00000068 F8 08            [12]  136 	ldhl	sp,	#8
     0000006A 2A               [ 8]  137 	ld	a, (hl+)
     0000006B 4F               [ 4]  138 	ld	c, a
@@ -152,14 +152,14 @@
     0000007C 44               [ 4]  152 	ld	b, h
     0000007D 0A               [ 8]  153 	ld	a, (bc)
     0000007E 4F               [ 4]  154 	ld	c, a
-                                    155 ;src/../include/collision.h:37: return famidash_metatile_collision[tile_id];
+                                    155 ;src/../include/collision.h:40: return famidash_metatile_collision[tile_id];
     0000007F 21r8Cr05         [12]  156 	ld	hl, #_famidash_metatile_collision
     00000082 06 00            [ 8]  157 	ld	b, #0x00
     00000084 09               [ 8]  158 	add	hl, bc
     00000085 7E               [ 8]  159 	ld	a, (hl)
-                                    160 ;src/../include/collision.h:53: return col_of(map[(uint16_t)my * map_w + mx]);
+                                    160 ;src/../include/collision.h:56: return col_of(map[(uint16_t)my * map_w + mx]);
     00000086                        161 00107$:
-                                    162 ;src/../include/collision.h:54: }
+                                    162 ;src/../include/collision.h:57: }
     00000086 E8 04            [16]  163 	add	sp, #4
     00000088 E1               [12]  164 	pop	hl
     00000089 E8 06            [16]  165 	add	sp, #6

@@ -16,6 +16,9 @@
 #define COL_FLOOR_CEIL   0x09  // Solid top and bottom
 #define COL_ORB          0x0A  // Yellow Orb
 #define COL_PAD          0x0B  // Yellow Pad
+#define COL_ORB_BLUE     0x0C  // Blue Orb (Gravity Flip)
+#define COL_ORB_MAGENTA  0x0D  // Magenta Orb (Small Jump)
+#define COL_PAD_BLUE     0x0E  // Blue Pad (Gravity Flip)
 
 #define IS_SOLID(col)  ((col) == COL_ALL || (col) == COL_FLOOR_CEIL || \
                         (col) == COL_TOP || (col) == COL_BOTTOM)
@@ -26,8 +29,8 @@
                         (col) == COL_DEATH_LEFT  || \
                         (col) == COL_DEATH_RIGHT)
 
-#define IS_ORB(col)    ((col) == COL_ORB)
-#define IS_PAD(col)    ((col) == COL_PAD)
+#define IS_ORB(col)    ((col) == COL_ORB || (col) == COL_ORB_BLUE || (col) == COL_ORB_MAGENTA)
+#define IS_PAD(col)    ((col) == COL_PAD || (col) == COL_PAD_BLUE)
 
 #define IS_PASSTHROUGH(col) ((col) == COL_NONE)
 

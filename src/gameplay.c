@@ -259,7 +259,11 @@ void play_level(uint8_t idx) NONBANKED {
     }
 
     py = player_screen_y(&player, cam_py);
-    move_metasprite(icon1_metasprites[player.anim_frame], 0, 0, PLAYER_SCREEN_X + 8, py + 16);
+    if (player.gravity_flipped) {
+        move_metasprite_vflip(icon1_metasprites[player.anim_frame], 0, 0, PLAYER_SCREEN_X + 8, py + 16);
+    } else {
+        move_metasprite(icon1_metasprites[player.anim_frame], 0, 0, PLAYER_SCREEN_X + 8, py + 16);
+    }
     move_bkg((uint8_t)(cam_px - PLAYER_SCREEN_X), (uint8_t)cam_py);
   }
 
