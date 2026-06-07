@@ -10,9 +10,13 @@ Symbol Table
     _BGP_REG                                                        ******** GX
     _LCDC_REG                                                       ******** GX
     _MAX_LEVELS                                                     ******** GX
+    _NR50_REG                                                       ******** GX
+    _NR51_REG                                                       ******** GX
+    _NR52_REG                                                       ******** GX
     _OBP0_REG                                                       ******** GX
     _SCX_REG                                                        ******** GX
     _SCY_REG                                                        ******** GX
+    _TAC_REG                                                        ******** GX
     _TMA_REG                                                        ******** GX
     ___bank_famidash_chr                                            ******** GX
     ___bank_game_levels                                             ******** GX
@@ -54,20 +58,21 @@ Symbol Table
     _rROMB0                                                         ******** GX
     _redraw                                                         ******** GX
     _selected                                                       ******** GX
-    _set_bkg_data                                                   ******** GX
-    _set_bkg_tiles                                                  ******** GX
-    _set_sprite_data                                                ******** GX
-  5 _setup_menu_font                                                00000000 GR
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
 
 Symbol Table
 
+    _set_bkg_data                                                   ******** GX
+    _set_bkg_tiles                                                  ******** GX
+    _set_sprite_data                                                ******** GX
+  5 _setup_menu_font                                                00000000 GR
     _shadow_OAM                                                     ******** GX
     _song_bank                                                      ******** GX
     _wait_vbl_done                                                  ******** GX
     _waitpadup                                                      ******** GX
     b_draw_menu                                                 =   00000001 G
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 3
 Hexadecimal [32-Bits]
@@ -79,7 +84,7 @@ Area Table
    2 _DATA                                      size        0   flags    0
    3 _INITIALIZED                               size        0   flags    0
    4 _DABS                                      size        0   flags    8
-   5 _HOME                                      size      6D2   flags    0
+   5 _HOME                                      size      6DE   flags    0
    6 _GSINIT                                    size        0   flags    0
    7 _GSFINAL                                   size        0   flags    0
    8 _CODE_1                                    size      1F6   flags    0

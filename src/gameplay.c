@@ -90,7 +90,6 @@ void draw_menu(void) BANKED {
 void play_level(uint8_t idx) NONBANKED {
   uint8_t prev_game_bank = _current_bank;
   const Level *l;
-  const char *level_name;
   const uint8_t *level_tiles;
   const uint8_t *level_map;
   uint16_t level_tile_count;
@@ -98,42 +97,33 @@ void play_level(uint8_t idx) NONBANKED {
   uint16_t level_map_h;
   uint8_t level_tiles_bank;
   uint8_t level_map_bank;
-  uint8_t level_tiles_are_compressed;
-  uint8_t level_map_is_compressed;
 
   SWITCH_ROM(BANK(game_levels));
   l = game_levels[idx];
-  level_name = l->name;
   level_tiles = l->tiles;
   level_map = l->map;
   level_tile_count = l->tile_count;
   level_map_w = l->map_width;
   level_map_h = l->map_height;
   level_tiles_bank = BANK(famidash_chr);
-  level_tiles_are_compressed = l->tiles_are_compressed;
-  level_map_is_compressed = l->map_is_compressed;
   level_map_bank = l->map_bank;
 
   // Start level music if the level has a song; otherwise silent
   if (level_songs[idx]) {
-    const hUGESong_t * song = level_songs[idx]; // Capture pointer while Bank 1 is mapped
-    uint8_t song_b = song_bank[idx];            // Capture bank while Bank 1 is mapped
-    uint8_t divider = l->timer_divider;         // Capture divider while Bank 1 is mapped
+    const hUGESong_t * song = level_songs[idx];
+    uint8_t song_b = song_bank[idx];
+    uint8_t divider = l->timer_divider;
     music_ready = 0;
     current_song_bank = song_b;
     SWITCH_ROM(song_b);
     disable_interrupts();
-    hUGE_init(song); // Use captured pointer
-    TMA_REG = divider; // Use captured divider
+    hUGE_init(song);
+    TMA_REG = divider;
     enable_interrupts();
     music_ready = 1;
   }
 
   SWITCH_ROM(prev_game_bank);
-
-  (void)level_name;
-  (void)level_tiles_are_compressed;
-  (void)level_map_is_compressed;
 
   uint16_t cam_px = 0;
   uint16_t cam_py = 112;
@@ -147,7 +137,6 @@ void play_level(uint8_t idx) NONBANKED {
   int16_t py;
 
   Player player;
-
   player_init(&player, 32, 240);
 
   // Setup GBDK graphics state
@@ -183,7 +172,7 @@ void play_level(uint8_t idx) NONBANKED {
     uint8_t joy = joypad();
     if (joy & J_START) break;
 
-    // Toggle noclip on B press (edge detect)
+    // Toggle noclip on B press
     if ((joy & J_B) && !(prev_joy & J_B)) {
       player_noclip = !player_noclip;
     }
@@ -191,14 +180,13 @@ void play_level(uint8_t idx) NONBANKED {
 
     // X-axis Scrolling logic
     if (cam_px < ((level_map_w - VIEW_MT_W) << 4)) {
-      uint16_t prev = cam_px >> 4;
+      uint16_t px_prev = cam_px >> 4;
       scroll_acc += SCROLL_SPEED_FP;
       cam_px += scroll_acc >> 8;
       scroll_acc &= 0xFF;
-      uint16_t curr = cam_px >> 4;
-      // Load next column if we crossed a metatile boundary
-      if (curr != prev) {
-        uint16_t need = curr + VIEW_MT_W;
+      uint16_t px_curr = cam_px >> 4;
+      if (px_curr != px_prev) {
+        uint16_t need = px_curr + VIEW_MT_W;
         if (need > loaded_r && need < level_map_w) {
           loaded_r = need;
           draw_mt_column((uint8_t)(need % BKG_MT_W), need, level_map, level_map_w, level_map_h, level_map_bank);
@@ -228,47 +216,57 @@ void play_level(uint8_t idx) NONBANKED {
     }
 
     if (died) {
-      // Restart level on death — also restart the music from the beginning
+      music_ready = 0;
+      TAC_REG = 0x00;   // Stop music timer immediately
+
+      NR52_REG = 0x00; // Silence
+      for (uint8_t i = 0; i < 4; i++) wait_vbl_done();
+      NR52_REG = 0x80;
+      NR51_REG = 0xFF;
+      NR50_REG = 0x77;
+
       if (level_songs[idx]) {
-        const hUGESong_t * song;
-        uint8_t song_b;
-        uint8_t divider;
+        const hUGESong_t * song_ptr;
+        uint8_t s_bank;
+        uint8_t s_divider;
 
-        uint8_t prev_b_died = _current_bank;
-        SWITCH_ROM(BANK(game_levels));
-        song = level_songs[idx];
-        song_b = song_bank[idx];
-        divider = l->timer_divider;
-        SWITCH_ROM(prev_b_died);
+        uint8_t pb = _current_bank;
+        SWITCH_ROM(1);
+        song_ptr = level_songs[idx];
+        s_bank = song_bank[idx];
+        s_divider = l->timer_divider;
+        SWITCH_ROM(pb);
 
-        music_ready = 0;
-        current_song_bank = song_b;
-        SWITCH_ROM(song_b);
+        current_song_bank = s_bank;
         disable_interrupts();
-        hUGE_init(song);
-        TMA_REG = divider;
+        uint8_t mb = _current_bank;
+        SWITCH_ROM(s_bank);
+        hUGE_init(song_ptr);
+        SWITCH_ROM(mb);
+        TMA_REG = s_divider;
         enable_interrupts();
-        music_ready = 1;
       }
+
       disable_interrupts();
       cam_px = 0;
       cam_py = 112;
-      scroll_acc = 0; // Reset fixed-point accumulator for smooth restart
+      scroll_acc = 0;
       loaded_r = BKG_MT_W - 1;
       player_init(&player, 32, 240);
       move_bkg(0, (uint8_t)cam_py);
       fill_scroll_bg(level_map, level_map_w, level_map_h, level_map_bank);
+
+      TAC_REG = 0x04;
+      music_ready = 1;
       enable_interrupts();
+      waitpadup();
     }
 
     py = player_screen_y(&player, cam_py);
-
-    // Update sprite positions
     move_sprite(0, PLAYER_SCREEN_X + 8, py + 16);
     move_sprite(1, PLAYER_SCREEN_X + 8 + 8, py + 16);
     move_sprite(2, PLAYER_SCREEN_X + 8, py + 16 + 8);
     move_sprite(3, PLAYER_SCREEN_X + 8 + 8, py + 16 + 8);
-
     move_bkg((uint8_t)cam_px, (uint8_t)cam_py);
   }
 
@@ -280,4 +278,3 @@ void play_level(uint8_t idx) NONBANKED {
   enable_interrupts();
   redraw = 1;
 }
-
