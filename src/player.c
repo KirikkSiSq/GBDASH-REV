@@ -35,8 +35,8 @@ uint8_t player_update(
     int16_t ny = p->world_y + pixels;
     p->on_ground = 0;
 
-    // Vertical Collision (Only check in moving direction)
-    if (pixels > 0) { // Falling
+    // Vertical Collision
+    if (pixels >= 0) { // Falling or standing
         uint8_t cl = col_at(p->world_x + 2, ny + PLAYER_SIZE, map, map_w, map_h);
         uint8_t cr = col_at(p->world_x + PLAYER_SIZE - 2, ny + PLAYER_SIZE, map, map_w, map_h);
         if (IS_SOLID(cl) || IS_SOLID(cr)) {
@@ -45,8 +45,17 @@ uint8_t player_update(
             p->on_ground = 1;
         } else {
             p->world_y = ny;
+            // Stick to ground logic: if 1px below is solid, stay on ground
+            uint8_t gl = col_at(p->world_x + 2, ny + PLAYER_SIZE + 1, map, map_w, map_h);
+            uint8_t gr = col_at(p->world_x + PLAYER_SIZE - 2, ny + PLAYER_SIZE + 1, map, map_w, map_h);
+            if (IS_SOLID(gl) || IS_SOLID(gr)) {
+                p->on_ground = 1;
+                p->vel_y = 0;
+            } else {
+                p->on_ground = 0;
+            }
         }
-    } else if (pixels < 0) { // Jumping
+    } else { // Jumping (pixels < 0)
         uint8_t cl = col_at(p->world_x + 2, ny, map, map_w, map_h);
         uint8_t cr = col_at(p->world_x + PLAYER_SIZE - 2, ny, map, map_w, map_h);
         if (IS_SOLID(cl) || IS_SOLID(cr)) {
@@ -55,8 +64,7 @@ uint8_t player_update(
         } else {
             p->world_y = ny;
         }
-    } else {
-        p->world_y = ny;
+        p->on_ground = 0;
     }
 
     // Combined Hazard & Frontal Wall Detection
@@ -77,6 +85,15 @@ uint8_t player_update(
     if (IS_HAZARD(head) || IS_HAZARD(foot) || IS_SOLID(head) || IS_SOLID(foot)) {
         p->dead = 1;
         return 1;
+    }
+
+    // Animation: Rotate while in air (cycle 24 frames, 2 frames per step)
+    if (p->on_ground) {
+        p->anim_timer = 0;
+        p->anim_frame = 0;
+    } else {
+        p->anim_timer++;
+        p->anim_frame = (p->anim_timer >> 1) % 24;
     }
 
     // Out of bounds (falling off screen)

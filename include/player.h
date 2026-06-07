@@ -21,6 +21,8 @@ typedef struct {
     int16_t  vel_y;
     uint8_t  on_ground;
     uint8_t  dead;
+    uint8_t  anim_frame;
+    uint16_t anim_timer;
 } Player;
 
 extern uint8_t player_noclip;
@@ -32,6 +34,8 @@ static inline void player_init(Player *p, uint16_t start_x, int16_t start_y) {
     p->vel_y     = 0;
     p->on_ground = 0;
     p->dead      = 0;
+    p->anim_frame = 0;
+    p->anim_timer = 0;
 }
 
 // Wrapper for checking collision at a specific pixel point

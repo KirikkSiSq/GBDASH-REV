@@ -8,17 +8,10 @@
 #include "gameplay.h"
 #include "player.h"
 #include "assets.h"
+#include "icon1.h"
 #include "../levels/famidash/famidash_chr.h"
 #include "famidash_metatiles.h"
 #include "hUGEDriver.h"
-
-// 2x2 sprite for the player cube
-const uint8_t cube_tiles[] = {
-0xFF,0xFF,0xC0,0xC0,0x90,0xD0,0x90,0x90,0x88,0x88,0x84,0x84,0x80,0x80,0x80,0x80,
-0xFF,0xFF,0x03,0x03,0x09,0x0B,0x09,0x09,0x11,0x11,0x21,0x21,0x01,0x01,0x01,0x01,
-0x80,0x80,0x80,0x80,0x84,0x84,0x88,0x88,0x90,0x90,0x90,0xD0,0xC0,0xC0,0xFF,0xFF,
-0x01,0x01,0x01,0x01,0x21,0x21,0x11,0x11,0x09,0x09,0x09,0x0B,0x03,0x03,0xFF,0xFF,
-};
 
 #define BKG_MT_W 16
 #define BKG_MT_H 16
@@ -125,7 +118,7 @@ void play_level(uint8_t idx) NONBANKED {
 
   SWITCH_ROM(prev_game_bank);
 
-  uint16_t cam_px = 0;
+  uint16_t cam_px = 0; // Represents player's world X position
   uint16_t cam_py = 112;
   uint16_t cam_py_max = (level_map_h << 4);
   if (cam_py_max > 144u) cam_py_max -= 144u;
@@ -137,7 +130,7 @@ void play_level(uint8_t idx) NONBANKED {
   int16_t py;
 
   Player player;
-  player_init(&player, 32, 240);
+  player_init(&player, 0, 240); // Player starts at map pixel 0
 
   // Setup GBDK graphics state
   disable_interrupts();
@@ -147,16 +140,18 @@ void play_level(uint8_t idx) NONBANKED {
   load_bkg_tileset(level_tiles, level_tile_count);
   SWITCH_ROM(_prev);
 
-  set_sprite_data(0, 4, cube_tiles);
-  set_sprite_tile(0, 0); set_sprite_tile(1, 1);
-  set_sprite_tile(2, 2); set_sprite_tile(3, 3);
+  set_sprite_data(0, 8, icon1_tiles);
 
-  move_bkg(0, (uint8_t)cam_py);
+  // Background shifted left by 32 so map 0 is at screen X 32
+  move_bkg((uint8_t)(cam_px - PLAYER_SCREEN_X), (uint8_t)cam_py);
   fill_scroll_bg(level_map, level_map_w, level_map_h, level_map_bank);
+
+  // Clear columns 28-31 to hide wrapping garbage
+  fill_bkg_rect(28, 0, 4, 32, 0);
 
   BGP_REG = 0xE4;
   OBP0_REG = 0xE4;
-  SPRITES_8x8;
+  SPRITES_8x16;
 
   SHOW_BKG;
   SHOW_SPRITES;
@@ -194,7 +189,7 @@ void play_level(uint8_t idx) NONBANKED {
       }
     }
 
-    player.world_x = cam_px + PLAYER_SCREEN_X;
+    player.world_x = cam_px;
 
     _prev = _current_bank;
     SWITCH_ROM(level_map_bank);
@@ -252,9 +247,10 @@ void play_level(uint8_t idx) NONBANKED {
       cam_py = 112;
       scroll_acc = 0;
       loaded_r = BKG_MT_W - 1;
-      player_init(&player, 32, 240);
-      move_bkg(0, (uint8_t)cam_py);
+      player_init(&player, 0, 240);
+      move_bkg((uint8_t)(cam_px - PLAYER_SCREEN_X), (uint8_t)cam_py);
       fill_scroll_bg(level_map, level_map_w, level_map_h, level_map_bank);
+      fill_bkg_rect(28, 0, 4, 32, 0);
 
       TAC_REG = 0x04;
       music_ready = 1;
@@ -263,11 +259,8 @@ void play_level(uint8_t idx) NONBANKED {
     }
 
     py = player_screen_y(&player, cam_py);
-    move_sprite(0, PLAYER_SCREEN_X + 8, py + 16);
-    move_sprite(1, PLAYER_SCREEN_X + 8 + 8, py + 16);
-    move_sprite(2, PLAYER_SCREEN_X + 8, py + 16 + 8);
-    move_sprite(3, PLAYER_SCREEN_X + 8 + 8, py + 16 + 8);
-    move_bkg((uint8_t)cam_px, (uint8_t)cam_py);
+    move_metasprite(icon1_metasprites[player.anim_frame], 0, 0, PLAYER_SCREEN_X + 8, py + 16);
+    move_bkg((uint8_t)(cam_px - PLAYER_SCREEN_X), (uint8_t)cam_py);
   }
 
   HIDE_SPRITES;
