@@ -10,6 +10,7 @@ Symbol Table
     __divulong                                                      ******** GX
     __modsint                                                       ******** GX
     __mulint                                                        ******** GX
+    __mullong                                                       ******** GX
   8 __xinit__player_noclip                                          00000000 R
   0 _col_at                                                         00000009 R
   0 _col_of                                                         00000000 R
@@ -31,7 +32,7 @@ Area Table
    2 _DATA                                      size        0   flags    0
    3 _INITIALIZED                               size        1   flags    0
    4 _DABS                                      size        0   flags    8
-   5 _HOME                                      size      D3D   flags    0
+   5 _HOME                                      size     100D   flags    0
    6 _GSINIT                                    size        0   flags    0
    7 _GSFINAL                                   size        0   flags    0
    8 _INITIALIZER                               size        1   flags    0

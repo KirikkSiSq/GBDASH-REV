@@ -84,14 +84,20 @@ uint8_t player_update(
         }
     }
 
-    // Combined Hazard & Frontal Wall Detection
-    uint8_t head = col_at(p->world_x + PLAYER_SIZE, p->world_y + 4, map, map_w, map_h);
-    uint8_t foot = col_at(p->world_x + PLAYER_SIZE, p->world_y + PLAYER_SIZE - 4, map, map_w, map_h);
+    // Frontal Solid Wall detection: check front edge for crashing into solid walls
+    uint8_t front_head = col_at(p->world_x + PLAYER_SIZE, p->world_y + PLAYER_HBOX, map, map_w, map_h);
+    uint8_t front_foot = col_at(p->world_x + PLAYER_SIZE, p->world_y + PLAYER_SIZE - PLAYER_HBOX, map, map_w, map_h);
+
+    // Hazard Collision box: Check all four corners of the inset hazard bounding box
+    uint8_t hz_tl = col_at(p->world_x + PLAYER_HBOX, p->world_y + PLAYER_HBOX, map, map_w, map_h);
+    uint8_t hz_tr = col_at(p->world_x + PLAYER_SIZE - PLAYER_HBOX, p->world_y + PLAYER_HBOX, map, map_w, map_h);
+    uint8_t hz_bl = col_at(p->world_x + PLAYER_HBOX, p->world_y + PLAYER_SIZE - PLAYER_HBOX, map, map_w, map_h);
+    uint8_t hz_br = col_at(p->world_x + PLAYER_SIZE - PLAYER_HBOX, p->world_y + PLAYER_SIZE - PLAYER_HBOX, map, map_w, map_h);
 
     // Orbs and Pads logic
     uint8_t mid = col_at(p->world_x + 8, p->world_y + 8, map, map_w, map_h);
-    if (IS_PAD(mid) || IS_PAD(head) || IS_PAD(foot)) {
-        uint8_t hit = (IS_PAD(mid)) ? mid : (IS_PAD(head) ? head : foot);
+    if (IS_PAD(mid) || IS_PAD(front_head) || IS_PAD(front_foot)) {
+        uint8_t hit = (IS_PAD(mid)) ? mid : (IS_PAD(front_head) ? front_head : front_foot);
         if (hit == COL_PAD_BLUE) {
             p->gravity_flipped = !p->gravity_flipped;
             // When flipping gravity, we want to maintain some vertical speed in the new direction
@@ -100,8 +106,8 @@ uint8_t player_update(
             p->vel_y = (p->gravity_flipped) ? -PAD_JUMP_FORCE : PAD_JUMP_FORCE;
         }
         p->on_ground = 0;
-    } else if ((joy & J_A) && (IS_ORB(mid) || IS_ORB(head) || IS_ORB(foot))) {
-        uint8_t hit = (IS_ORB(mid)) ? mid : (IS_ORB(head) ? head : foot);
+    } else if ((joy & J_A) && (IS_ORB(mid) || IS_ORB(front_head) || IS_ORB(front_foot))) {
+        uint8_t hit = (IS_ORB(mid)) ? mid : (IS_ORB(front_head) ? front_head : front_foot);
         if (hit == COL_ORB_MAGENTA) {
             p->vel_y = (p->gravity_flipped) ? -MAGENTA_JUMP_FORCE : MAGENTA_JUMP_FORCE;
         } else if (hit == COL_ORB_BLUE) {
@@ -113,8 +119,9 @@ uint8_t player_update(
         p->on_ground = 0;
     }
 
-    // Death logic: Check if the front is hitting a solid wall or a hazard
-    if (IS_HAZARD(head) || IS_HAZARD(foot) || IS_SOLID(head) || IS_SOLID(foot)) {
+    // Death logic: Check if hitting a solid wall in front or overlapping any hazard
+    if (IS_SOLID(front_head) || IS_SOLID(front_foot) ||
+        IS_HAZARD(hz_tl) || IS_HAZARD(hz_tr) || IS_HAZARD(hz_bl) || IS_HAZARD(hz_br)) {
         p->dead = 1;
         return 1;
     }
@@ -126,7 +133,7 @@ uint8_t player_update(
     } else {
         p->anim_timer++;
         // approx 1.5 frames per step (faster than 2)
-        p->anim_frame = ((uint32_t)p->anim_timer * 2 / 3) % 24;
+        p->anim_frame = ((uint32_t)p->anim_timer * 3 / 5) % 24;
     }
 
     // Out of bounds (falling off screen)
