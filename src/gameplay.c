@@ -118,7 +118,7 @@ void play_level(uint8_t idx) NONBANKED {
 
   SWITCH_ROM(prev_game_bank);
 
-  uint16_t cam_px = 0; // Represents player's world X position
+  uint16_t cam_px = 0;
   uint16_t cam_py = 112;
   uint16_t cam_py_max = (level_map_h << 4);
   if (cam_py_max > 144u) cam_py_max -= 144u;
@@ -130,7 +130,7 @@ void play_level(uint8_t idx) NONBANKED {
   int16_t py;
 
   Player player;
-  player_init(&player, 0, 240); // Player starts at map pixel 0
+  player_init(&player, 0, 240);
 
   // Setup GBDK graphics state
   disable_interrupts();
@@ -142,12 +142,8 @@ void play_level(uint8_t idx) NONBANKED {
 
   set_sprite_data(0, 8, icon1_tiles);
 
-  // Background shifted left by 32 so map 0 is at screen X 32
-  move_bkg((uint8_t)(cam_px - PLAYER_SCREEN_X), (uint8_t)cam_py);
+  move_bkg(0, (uint8_t)cam_py);
   fill_scroll_bg(level_map, level_map_w, level_map_h, level_map_bank);
-
-  // Clear columns 28-31 to hide wrapping garbage
-  fill_bkg_rect(28, 0, 4, 32, 0);
 
   BGP_REG = 0xE4;
   OBP0_REG = 0xE4;
@@ -248,9 +244,8 @@ void play_level(uint8_t idx) NONBANKED {
       scroll_acc = 0;
       loaded_r = BKG_MT_W - 1;
       player_init(&player, 0, 240);
-      move_bkg((uint8_t)(cam_px - PLAYER_SCREEN_X), (uint8_t)cam_py);
+      move_bkg(0, (uint8_t)cam_py);
       fill_scroll_bg(level_map, level_map_w, level_map_h, level_map_bank);
-      fill_bkg_rect(28, 0, 4, 32, 0);
 
       TAC_REG = 0x04;
       music_ready = 1;
@@ -258,13 +253,16 @@ void play_level(uint8_t idx) NONBANKED {
       waitpadup();
     }
 
+    uint16_t scroll_px = (cam_px > PLAYER_SCREEN_X) ? (cam_px - PLAYER_SCREEN_X) : 0;
+    uint8_t sprite_x = (cam_px < PLAYER_SCREEN_X) ? (uint8_t)cam_px : PLAYER_SCREEN_X;
+
     py = player_screen_y(&player, cam_py);
     if (player.gravity_flipped) {
-        move_metasprite_vflip(icon1_metasprites[player.anim_frame], 0, 0, PLAYER_SCREEN_X + 8, py + 16);
+        move_metasprite_vflip(icon1_metasprites[player.anim_frame], 0, 0, sprite_x + 8, py + 16);
     } else {
-        move_metasprite(icon1_metasprites[player.anim_frame], 0, 0, PLAYER_SCREEN_X + 8, py + 16);
+        move_metasprite(icon1_metasprites[player.anim_frame], 0, 0, sprite_x + 8, py + 16);
     }
-    move_bkg((uint8_t)(cam_px - PLAYER_SCREEN_X), (uint8_t)cam_py);
+    move_bkg((uint8_t)scroll_px, (uint8_t)cam_py);
   }
 
   HIDE_SPRITES;
