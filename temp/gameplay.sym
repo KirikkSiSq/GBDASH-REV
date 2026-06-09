@@ -17,66 +17,60 @@ Symbol Table
     _SCX_REG                                                        ******** GX
     _SCY_REG                                                        ******** GX
     _TAC_REG                                                        ******** GX
-    _TMA_REG                                                        ******** GX
     ___bank_chr_gb                                                  ******** GX
-    ___bank_game_levels                                             ******** GX
     ___current_base_prop                                            ******** GX
     ___current_base_tile                                            ******** GX
     ___current_metasprite                                           ******** GX
     ___move_metasprite                                              ******** GX
     ___move_metasprite_vflip                                        ******** GX
-  8 ___str_1                                                        000001F0 R
-  8 ___str_2                                                        00000200 R
-  8 ___str_3                                                        00000205 R
-    __current_bank                                                  ******** GX
-    __mulint                                                        ******** GX
-  8 _col_at                                                         00000009 R
-  8 _col_of                                                         00000000 R
-  8 _col_point                                                      000000C5 R
-    _current_song_bank                                              ******** GX
+    ___sdcc_bcall_ehl                                               ******** GX
+  8 ___str_1                                                        00000093 R
+  8 ___str_2                                                        000000A3 R
+  8 ___str_3                                                        000000A8 R
     _display_off                                                    ******** GX
-  8 _draw_menu                                                      0000016E GR
-  5 _draw_mt_column                                                 00000041 GR
-    _famidash_metatile_collision                                    ******** GX
+  8 _draw_menu                                                      00000011 GR
+    _draw_mt_column                                                 ******** GX
     _fill_bkg_rect                                                  ******** GX
-  5 _fill_scroll_bg                                                 00000135 GR
+    _fill_scroll_bg                                                 ******** GX
     _font_init                                                      ******** GX
     _font_load                                                      ******** GX
     _font_min                                                       ******** GX
     _font_set                                                       ******** GX
     _game_levels                                                    ******** GX
     _gotoxy                                                         ******** GX
-    _hUGE_init                                                      ******** GX
     _icon1_metasprites                                              ******** GX
     _icon1_tiles                                                    ******** GX
+    _init_music_banked                                              ******** GX
     _joypad                                                         ******** GX
     _level_songs                                                    ******** GX
-  5 _load_bkg_tileset                                               00000011 GR
-    _metatiles                                                      ******** GX
+    _load_bkg_tileset                                               ******** GX
     _music_ready                                                    ******** GX
-  5 _play_level                                                     00000182 GR
-  8 _player_init                                                    0000008C R
+  8 _play_level                                                     000000AC GR
+    _player_init                                                    ******** GX
     _player_noclip                                                  ******** GX
-  8 _player_screen_y                                                00000162 R
+    _player_screen_y                                                ******** GX
+    _player_update                                                  ******** GX
+    _printf                                                         ******** GX
+    _puts                                                           ******** GX
+    _redraw                                                         ******** GX
+    _selected                                                       ******** GX
+    _set_sprite_data                                                ******** GX
+  8 _setup_menu_font                                                00000000 GR
+    _song_bank                                                      ******** GX
+    _wait_vbl_done                                                  ******** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
 
 Symbol Table
 
-    _player_update                                                  ******** GX
-    _printf                                                         ******** GX
-    _puts                                                           ******** GX
-    _rROMB0                                                         ******** GX
-    _redraw                                                         ******** GX
-    _selected                                                       ******** GX
-    _set_bkg_data                                                   ******** GX
-    _set_bkg_tiles                                                  ******** GX
-    _set_sprite_data                                                ******** GX
-  5 _setup_menu_font                                                00000000 GR
-    _song_bank                                                      ******** GX
-    _wait_vbl_done                                                  ******** GX
     _waitpadup                                                      ******** GX
     b_draw_menu                                                 =   00000001 G
+    b_play_level                                                =   00000001 G
+    b_player_init                                                   ******** GX
+    b_player_screen_y                                               ******** GX
+    b_player_update                                                 ******** GX
+    b_setup_menu_font                                           =   00000001 G
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 3
 Hexadecimal [32-Bits]
@@ -88,10 +82,10 @@ Area Table
    2 _DATA                                      size        0   flags    0
    3 _INITIALIZED                               size        0   flags    0
    4 _DABS                                      size        0   flags    8
-   5 _HOME                                      size      72B   flags    0
+   5 _HOME                                      size        0   flags    0
    6 _GSINIT                                    size        0   flags    0
    7 _GSFINAL                                   size        0   flags    0
-   8 _CODE_1                                    size      209   flags    0
+   8 _CODE_1                                    size      60D   flags    0
    9 _INITIALIZER                               size        0   flags    0
    A _CABS                                      size        0   flags    8
 

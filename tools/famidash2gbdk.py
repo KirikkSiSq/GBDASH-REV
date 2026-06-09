@@ -90,7 +90,7 @@ def write_metatile_files(metatiles, out_c, out_h):
 
     lines.append("const uint8_t famidash_metatile_collision[FAMIDASH_NUM_METATILES] = {")
     for index in range(0, len(metatiles), 16):
-        values = ", ".join(str(collision_value(mt["name"], mt["collision"])) for mt in metatiles[index:index + 16])
+        values = ", ".join(str(collision_value(mt["name"], mt["collision"], mt["tiles"])) for mt in metatiles[index:index + 16])
         lines.append(f"    {values},")
     lines.append("};")
     lines.append("")
@@ -98,7 +98,7 @@ def write_metatile_files(metatiles, out_c, out_h):
     out_c.write_text("\n".join(lines), newline="\n")
 
 
-def collision_value(mt_name, col_name):
+def collision_value(mt_name, col_name, tiles):
     # Mapping for GBDK-specific collision IDs
     values = {
         "COL_NONE": 0x00,
@@ -116,17 +116,29 @@ def collision_value(mt_name, col_name):
         "COL_ORB_BLUE": 0x0C,
         "COL_ORB_MAGENTA": 0x0D,
         "COL_PAD_BLUE": 0x0E,
+        "COL_DEATH_TOP_HALF": 0x10,
+        "COL_DEATH_BOTTOM_HALF": 0x11,
     }
 
-    # Custom overrides: FamiDash uses COL_NONE for orbs/pads because they are objects
-    # but GBDASH-REV uses them as background metatiles for performance.
     mt_upper = mt_name.upper()
+
+    # Half-tile detection: FamiDash often uses $00 (empty) for the other half
+    is_bottom_half = (tiles[0] == 0 and tiles[1] == 0)
+    is_top_half = (tiles[2] == 0 and tiles[3] == 0)
+
+    # Custom overrides: FamiDash uses COL_NONE for orbs/pads because they are objects
     if "ORB_OUTLINE" in mt_upper:
         return values["COL_ORB"]
     if "PAD_UP_OUTLINE" in mt_upper:
         return values["COL_PAD"]
     if "PAD_DOWN_OUTLINE" in mt_upper:
-        return values["COL_PAD"] # Add COL_PAD_DOWN if needed
+        return values["COL_PAD"]
+
+    if "SPIKE" in mt_upper or "SAW" in mt_upper:
+        if is_bottom_half:
+            return values["COL_DEATH_TOP_HALF"]
+        if is_top_half:
+            return values["COL_DEATH_BOTTOM_HALF"]
 
     if col_name in values:
         return values[col_name]

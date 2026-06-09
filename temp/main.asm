@@ -8,9 +8,11 @@
 ; Public variables in this module
 ;--------------------------------------------------------
 	.globl _main
+	.globl b_play_level
 	.globl _play_level
 	.globl b_draw_menu
 	.globl _draw_menu
+	.globl b_setup_menu_font
 	.globl _setup_menu_font
 	.globl _hUGE_dosound
 	.globl _wait_vbl_done
@@ -125,7 +127,9 @@ _main::
 ;c:\gbdk\include\gb\gb.h:795: __asm__("ei");
 	ei
 ;src/main.c:36: setup_menu_font();
-	call	_setup_menu_font
+	ld	e, #b_setup_menu_font
+	ld	hl, #_setup_menu_font
+	call	___sdcc_bcall_ehl
 ;src/main.c:38: while (1) {
 00116$:
 ;src/main.c:39: if (redraw) draw_menu();
@@ -209,14 +213,19 @@ _main::
 	di
 ;src/main.c:52: play_level(selected);
 	ld	a, (_selected)
-	call	_play_level
+	push	af
+	inc	sp
+	ld	e, #b_play_level
+	ld	hl, #_play_level
+	call	___sdcc_bcall_ehl
+	inc	sp
 ;c:\gbdk\include\gb\gb.h:795: __asm__("ei");
 	ei
 ;src/main.c:53: enable_interrupts();
 00114$:
 ;src/main.c:56: wait_vbl_done();
 	call	_wait_vbl_done
-	jr	00116$
+	jp	00116$
 ;src/main.c:58: }
 	inc	sp
 	ret

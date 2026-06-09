@@ -30,36 +30,18 @@ typedef struct {
 extern uint8_t player_noclip;
 
 // Reset player state to starting position
-static inline void player_init(Player *p, uint16_t start_x, int16_t start_y) {
-    p->world_x   = start_x;
-    p->world_y   = start_y;
-    p->vel_y     = 0;
-    p->on_ground = 0;
-    p->dead      = 0;
-    p->gravity_flipped = 0;
-    p->anim_frame = 0;
-    p->anim_timer = 0;
-}
-
-// Wrapper for checking collision at a specific pixel point
-static inline uint8_t col_point(
-    uint16_t px, int16_t py,
-    const uint8_t *map, uint16_t map_w, uint16_t map_h
-) {
-    return col_at(px, py, map, map_w, map_h);
-}
+void player_init(Player *p, uint16_t start_x, int16_t start_y) __banked;
 
 uint8_t player_update(
     Player *p,
     uint8_t joy,
     const uint8_t *map,
     uint16_t map_w,
-    uint16_t map_h
-) NONBANKED;
+    uint16_t map_h,
+    uint8_t map_bank
+) __banked;
 
 // Returns player's Y position relative to the camera
-static inline int16_t player_screen_y(const Player *p, uint16_t cam_py) {
-    return p->world_y - (int16_t)cam_py;
-}
+int16_t player_screen_y(const Player *p, uint16_t cam_py) __banked;
 
 #endif // PLAYER_H

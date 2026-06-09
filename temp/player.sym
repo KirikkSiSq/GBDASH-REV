@@ -7,19 +7,21 @@ Symbol Table
     .__.ABS.                                                    =   00000000 G
     .__.CPU.                                                    =   00000000 L
     .__.H$L.                                                    =   00000000 L
+    ___bank_player_update                                       =   00000001 G
+  8 ___func_player_update                                           00000000 GR
     __divulong                                                      ******** GX
     __modsint                                                       ******** GX
-    __mulint                                                        ******** GX
     __mullong                                                       ******** GX
-  8 __xinit__player_noclip                                          00000000 R
-  0 _col_at                                                         00000009 R
-  0 _col_of                                                         00000000 R
-  0 _col_point                                                      000000C5 R
-    _famidash_metatile_collision                                    ******** GX
-  0 _player_init                                                    0000008C R
+  9 __xinit__player_noclip                                          00000000 R
+    _col_at                                                         ******** GX
+  8 _player_init                                                    00000000 GR
   3 _player_noclip                                                  00000000 GR
-  0 _player_screen_y                                                00000162 R
-  5 _player_update                                                  00000000 GR
+  8 _player_screen_y                                                0000003C GR
+  8 _player_update                                                  00000051 GR
+    b___func_player_update                                      =   00000001 L
+    b_player_init                                               =   00000001 G
+    b_player_screen_y                                           =   00000001 G
+    b_player_update                                             =   00000001 G
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
@@ -27,14 +29,15 @@ Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size      16E   flags    0
+   0 _CODE                                      size        0   flags    0
    1 _HRAM                                      size        0   flags    0
    2 _DATA                                      size        0   flags    0
    3 _INITIALIZED                               size        1   flags    0
    4 _DABS                                      size        0   flags    8
-   5 _HOME                                      size     100D   flags    0
+   5 _HOME                                      size        0   flags    0
    6 _GSINIT                                    size        0   flags    0
    7 _GSFINAL                                   size        0   flags    0
-   8 _INITIALIZER                               size        1   flags    0
-   9 _CABS                                      size        0   flags    8
+   8 _CODE_1                                    size      ABC   flags    0
+   9 _INITIALIZER                               size        1   flags    0
+   A _CABS                                      size        0   flags    8
 

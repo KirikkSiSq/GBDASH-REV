@@ -1,14 +1,34 @@
+#pragma bank 1
+
 #include "player.h"
 
+BANKREF(player_update)
+
 uint8_t player_noclip = 0;
+
+void player_init(Player *p, uint16_t start_x, int16_t start_y) __banked {
+    p->world_x = start_x;
+    p->world_y = start_y;
+    p->vel_y = 0;
+    p->on_ground = 0;
+    p->dead = 0;
+    p->anim_timer = 0;
+    p->anim_frame = 0;
+    p->gravity_flipped = 0;
+}
+
+int16_t player_screen_y(const Player *p, uint16_t cam_y) __banked {
+    return (int16_t)p->world_y - (int16_t)cam_y;
+}
 
 uint8_t player_update(
     Player *p,
     uint8_t joy,
     const uint8_t *map,
     uint16_t map_w,
-    uint16_t map_h
-) NONBANKED {
+    uint16_t map_h,
+    uint8_t  map_bank
+) __banked {
     if (p->dead) return 1;
 
     // Apply gravity
@@ -46,8 +66,8 @@ uint8_t player_update(
     int16_t check_y_head = (p->gravity_flipped) ? ny + PLAYER_SIZE : ny;
 
     // Check for "Ground" (Foot direction)
-    uint8_t cl = col_at(p->world_x + 2, check_y_foot, map, map_w, map_h);
-    uint8_t cr = col_at(p->world_x + PLAYER_SIZE - 2, check_y_foot, map, map_w, map_h);
+    uint8_t cl = col_at(p->world_x + 2, check_y_foot, map, map_w, map_h, map_bank);
+    uint8_t cr = col_at(p->world_x + PLAYER_SIZE - 2, check_y_foot, map, map_w, map_h, map_bank);
 
     uint8_t falling = (p->gravity_flipped) ? (pixels <= 0) : (pixels >= 0);
 
@@ -61,8 +81,8 @@ uint8_t player_update(
         p->on_ground = 1;
     } else {
         // Ceiling check
-        uint8_t hl = col_at(p->world_x + 2, check_y_head, map, map_w, map_h);
-        uint8_t hr = col_at(p->world_x + PLAYER_SIZE - 2, check_y_head, map, map_w, map_h);
+        uint8_t hl = col_at(p->world_x + 2, check_y_head, map, map_w, map_h, map_bank);
+        uint8_t hr = col_at(p->world_x + PLAYER_SIZE - 2, check_y_head, map, map_w, map_h, map_bank);
         if (IS_SOLID(hl) || IS_SOLID(hr)) {
             if (p->gravity_flipped) {
                 p->world_y = ((ny + PLAYER_SIZE) & ~15) - PLAYER_SIZE - 1;
@@ -75,8 +95,8 @@ uint8_t player_update(
 
             // Sticky ground check
             int16_t sticky_y = (p->gravity_flipped) ? ny - 1 : ny + PLAYER_SIZE + 1;
-            uint8_t gl = col_at(p->world_x + 2, sticky_y, map, map_w, map_h);
-            uint8_t gr = col_at(p->world_x + PLAYER_SIZE - 2, sticky_y, map, map_w, map_h);
+            uint8_t gl = col_at(p->world_x + 2, sticky_y, map, map_w, map_h, map_bank);
+            uint8_t gr = col_at(p->world_x + PLAYER_SIZE - 2, sticky_y, map, map_w, map_h, map_bank);
             if (IS_SOLID(gl) || IS_SOLID(gr)) {
                 p->on_ground = 1;
                 p->vel_y = 0;
@@ -85,17 +105,17 @@ uint8_t player_update(
     }
 
     // Frontal Solid Wall detection: check front edge for crashing into solid walls
-    uint8_t front_head = col_at(p->world_x + PLAYER_SIZE, p->world_y + PLAYER_HBOX, map, map_w, map_h);
-    uint8_t front_foot = col_at(p->world_x + PLAYER_SIZE, p->world_y + PLAYER_SIZE - PLAYER_HBOX, map, map_w, map_h);
+    uint8_t front_head = col_at(p->world_x + PLAYER_SIZE, p->world_y + PLAYER_HBOX, map, map_w, map_h, map_bank);
+    uint8_t front_foot = col_at(p->world_x + PLAYER_SIZE, p->world_y + PLAYER_SIZE - PLAYER_HBOX, map, map_w, map_h, map_bank);
 
     // Hazard Collision box: Check all four corners of the inset hazard bounding box
-    uint8_t hz_tl = col_at(p->world_x + PLAYER_HBOX, p->world_y + PLAYER_HBOX, map, map_w, map_h);
-    uint8_t hz_tr = col_at(p->world_x + PLAYER_SIZE - PLAYER_HBOX, p->world_y + PLAYER_HBOX, map, map_w, map_h);
-    uint8_t hz_bl = col_at(p->world_x + PLAYER_HBOX, p->world_y + PLAYER_SIZE - PLAYER_HBOX, map, map_w, map_h);
-    uint8_t hz_br = col_at(p->world_x + PLAYER_SIZE - PLAYER_HBOX, p->world_y + PLAYER_SIZE - PLAYER_HBOX, map, map_w, map_h);
+    uint8_t hz_tl = col_at(p->world_x + PLAYER_HBOX, p->world_y + PLAYER_HBOX, map, map_w, map_h, map_bank);
+    uint8_t hz_tr = col_at(p->world_x + PLAYER_SIZE - PLAYER_HBOX, p->world_y + PLAYER_HBOX, map, map_w, map_h, map_bank);
+    uint8_t hz_bl = col_at(p->world_x + PLAYER_HBOX, p->world_y + PLAYER_SIZE - PLAYER_HBOX, map, map_w, map_h, map_bank);
+    uint8_t hz_br = col_at(p->world_x + PLAYER_SIZE - PLAYER_HBOX, p->world_y + PLAYER_SIZE - PLAYER_HBOX, map, map_w, map_h, map_bank);
 
     // Orbs and Pads logic
-    uint8_t mid = col_at(p->world_x + 8, p->world_y + 8, map, map_w, map_h);
+    uint8_t mid = col_at(p->world_x + 8, p->world_y + 8, map, map_w, map_h, map_bank);
     if (IS_PAD(mid) || IS_PAD(front_head) || IS_PAD(front_foot)) {
         uint8_t hit = (IS_PAD(mid)) ? mid : (IS_PAD(front_head) ? front_head : front_foot);
         if (hit == COL_PAD_BLUE) {

@@ -1330,7 +1330,7 @@ _famidash_metatile_collision:
 	.db #0x09	; 9
 	.db #0x09	; 9
 	.db #0x06	; 6
-	.db #0x03	; 3
+	.db #0x11	; 17
 	.db #0x09	; 9
 	.db #0x09	; 9
 	.db #0x00	; 0
@@ -1344,19 +1344,19 @@ _famidash_metatile_collision:
 	.db #0x01	; 1
 	.db #0x07	; 7
 	.db #0x08	; 8
-	.db #0x04	; 4
+	.db #0x10	; 16
 	.db #0x04	; 4
 	.db #0x03	; 3
 	.db #0x80	; 128
 	.db #0x07	; 7
-	.db #0x03	; 3
-	.db #0x04	; 4
+	.db #0x11	; 17
+	.db #0x10	; 16
 	.db #0x05	; 5
 	.db #0x08	; 8
 	.db #0x08	; 8
 	.db #0x08	; 8
 	.db #0x02	; 2
-	.db #0x03	; 3
+	.db #0x11	; 17
 	.db #0x01	; 1
 	.db #0x07	; 7
 	.db #0x07	; 7
@@ -1453,7 +1453,7 @@ _famidash_metatile_collision:
 	.db #0x80	; 128
 	.db #0x08	; 8
 	.db #0x07	; 7
-	.db #0x04	; 4
+	.db #0x10	; 16
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x08	; 8
@@ -1499,9 +1499,9 @@ _famidash_metatile_collision:
 	.db #0x80	; 128
 	.db #0x80	; 128
 	.db #0x80	; 128
-	.db #0x80	; 128
-	.db #0x80	; 128
-	.db #0x80	; 128
+	.db #0x10	; 16
+	.db #0x10	; 16
+	.db #0x10	; 16
 	.db #0x80	; 128
 	.db #0x80	; 128
 	.db #0x80	; 128
@@ -1516,9 +1516,9 @@ _famidash_metatile_collision:
 	.db #0x80	; 128
 	.db #0x80	; 128
 	.db #0x80	; 128
-	.db #0x80	; 128
-	.db #0x80	; 128
-	.db #0x80	; 128
+	.db #0x11	; 17
+	.db #0x11	; 17
+	.db #0x11	; 17
 	.db #0x80	; 128
 	.db #0x80	; 128
 	.db #0x80	; 128
@@ -1529,14 +1529,14 @@ _famidash_metatile_collision:
 	.db #0x80	; 128
 	.db #0x05	; 5
 	.db #0x06	; 6
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x11	; 17
+	.db #0x10	; 16
+	.db #0x10	; 16
+	.db #0x10	; 16
+	.db #0x11	; 17
+	.db #0x11	; 17
+	.db #0x11	; 17
 	.db #0x07	; 7
 	.db #0x00	; 0
 	.db #0x00	; 0
@@ -1566,10 +1566,10 @@ _famidash_metatile_collision:
 	.db #0x0b	; 11
 	.db #0x0a	; 10
 	.db #0x0a	; 10
-	.db #0x80	; 128
-	.db #0x80	; 128
-	.db #0x80	; 128
-	.db #0x80	; 128
+	.db #0x10	; 16
+	.db #0x10	; 16
+	.db #0x11	; 17
+	.db #0x11	; 17
 	.db #0x80	; 128
 	.db #0x80	; 128
 	.db #0x08	; 8

@@ -24,47 +24,9 @@
 #define CAM_Y_TOP_ZONE 20
 #define CAM_Y_BOTTOM_ZONE 100
 
-void setup_menu_font(void) NONBANKED {
+void setup_menu_font(void) BANKED {
   font_init();
   font_set(font_load(font_min));
-}
-
-// Loads tileset into VRAM. Handles splitting if tiles > 128.
-void load_bkg_tileset(const uint8_t* tiles, uint16_t tile_count) NONBANKED {
-  if (tile_count == 256u) {
-    set_bkg_data(0, 128, tiles);
-    set_bkg_data(128, 128, tiles + (128u * 16u));
-  } else {
-    set_bkg_data(0, (uint8_t)tile_count, tiles);
-  }
-}
-
-// Draws a vertical column of metatiles to the background map
-void draw_mt_column(uint8_t ring_col, uint16_t map_col,
-  const uint8_t* map, uint16_t map_w, uint16_t map_h,
-  uint8_t map_bank) NONBANKED {
-
-  uint8_t bx = ring_col << 1;
-
-  uint8_t _prev = _current_bank;
-  SWITCH_ROM(map_bank);
-
-  for (uint8_t r = 0; r < map_h && r < BKG_MT_H; r++) {
-    uint8_t mt = map[(uint16_t)r * map_w + map_col];
-    uint8_t by = (r & (BKG_MT_H - 1)) << 1;
-    set_bkg_tiles(bx, by, 2, 1, &metatiles[mt][0]);
-    set_bkg_tiles(bx, by + 1, 2, 1, &metatiles[mt][2]);
-  }
-
-  SWITCH_ROM(_prev);
-}
-
-// Initial fill of the background scroll area
-void fill_scroll_bg(const uint8_t* map, uint16_t map_w, uint16_t map_h, uint8_t map_bank) NONBANKED {
-  uint16_t cols = (map_w < BKG_MT_W) ? map_w : BKG_MT_W;
-  for (uint16_t c = 0; c < cols; c++) {
-    draw_mt_column((uint8_t)(c % BKG_MT_W), c, map, map_w, map_h, map_bank);
-  }
 }
 
 void draw_menu(void) BANKED {
@@ -80,8 +42,7 @@ void draw_menu(void) BANKED {
   redraw = 0;
 }
 
-void play_level(uint8_t idx) NONBANKED {
-  uint8_t prev_game_bank = _current_bank;
+void play_level(uint8_t idx) BANKED {
   const Level *l;
   const uint8_t *level_tiles;
   const uint8_t *level_map;
@@ -91,7 +52,7 @@ void play_level(uint8_t idx) NONBANKED {
   uint8_t level_tiles_bank;
   uint8_t level_map_bank;
 
-  SWITCH_ROM(BANK(game_levels));
+  // game_levels is in Bank 1 (current bank)
   l = game_levels[idx];
   level_tiles = l->tiles;
   level_map = l->map;
@@ -103,20 +64,8 @@ void play_level(uint8_t idx) NONBANKED {
 
   // Start level music if the level has a song; otherwise silent
   if (level_songs[idx]) {
-    const hUGESong_t * song = level_songs[idx];
-    uint8_t song_b = song_bank[idx];
-    uint8_t divider = l->timer_divider;
-    music_ready = 0;
-    current_song_bank = song_b;
-    SWITCH_ROM(song_b);
-    disable_interrupts();
-    hUGE_init(song);
-    TMA_REG = divider;
-    enable_interrupts();
-    music_ready = 1;
+    init_music_banked(level_songs[idx], song_bank[idx], l->timer_divider);
   }
-
-  SWITCH_ROM(prev_game_bank);
 
   uint16_t cam_px = 0;
   uint16_t cam_py = 112;
@@ -125,7 +74,6 @@ void play_level(uint8_t idx) NONBANKED {
   else cam_py_max = 0;
   uint16_t loaded_r = BKG_MT_W - 1;
 
-  uint8_t _prev;
   uint8_t died;
   int16_t py;
 
@@ -135,10 +83,7 @@ void play_level(uint8_t idx) NONBANKED {
   // Setup GBDK graphics state
   disable_interrupts();
   DISPLAY_OFF;
-  _prev = _current_bank;
-  SWITCH_ROM(level_tiles_bank);
-  load_bkg_tileset(level_tiles, level_tile_count);
-  SWITCH_ROM(_prev);
+  load_bkg_tileset(level_tiles, level_tile_count, level_tiles_bank);
 
   set_sprite_data(0, 8, icon1_tiles);
 
@@ -187,10 +132,7 @@ void play_level(uint8_t idx) NONBANKED {
 
     player.world_x = cam_px;
 
-    _prev = _current_bank;
-    SWITCH_ROM(level_map_bank);
-    died = player_update(&player, joy, level_map, level_map_w, level_map_h);
-    SWITCH_ROM(_prev);
+    died = player_update(&player, joy, level_map, level_map_w, level_map_h, level_map_bank);
 
     // Simple camera Y following
     py = player_screen_y(&player, cam_py);
@@ -207,7 +149,6 @@ void play_level(uint8_t idx) NONBANKED {
     }
 
     if (died) {
-      music_ready = 0;
       TAC_REG = 0x00;   // Stop music timer immediately
 
       NR52_REG = 0x00; // Silence
@@ -217,25 +158,7 @@ void play_level(uint8_t idx) NONBANKED {
       NR50_REG = 0x77;
 
       if (level_songs[idx]) {
-        const hUGESong_t * song_ptr;
-        uint8_t s_bank;
-        uint8_t s_divider;
-
-        uint8_t pb = _current_bank;
-        SWITCH_ROM(1);
-        song_ptr = level_songs[idx];
-        s_bank = song_bank[idx];
-        s_divider = l->timer_divider;
-        SWITCH_ROM(pb);
-
-        current_song_bank = s_bank;
-        disable_interrupts();
-        uint8_t mb = _current_bank;
-        SWITCH_ROM(s_bank);
-        hUGE_init(song_ptr);
-        SWITCH_ROM(mb);
-        TMA_REG = s_divider;
-        enable_interrupts();
+        init_music_banked(level_songs[idx], song_bank[idx], l->timer_divider);
       }
 
       disable_interrupts();

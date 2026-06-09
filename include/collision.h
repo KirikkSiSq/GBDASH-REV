@@ -1,6 +1,7 @@
 #ifndef COLLISION_H
 #define COLLISION_H
 
+#include <gb/gb.h>
 #include <stdint.h>
 
 // Collision types mapping to famidash metatiles
@@ -19,6 +20,8 @@
 #define COL_ORB_BLUE     0x0C  // Blue Orb (Gravity Flip)
 #define COL_ORB_MAGENTA  0x0D  // Magenta Orb (Small Jump)
 #define COL_PAD_BLUE     0x0E  // Blue Pad (Gravity Flip)
+#define COL_DEATH_TOP_HALF    0x10  // Deadly in bottom half (spike points up)
+#define COL_DEATH_BOTTOM_HALF 0x11  // Deadly in top half (spike points down)
 
 #define IS_SOLID(col)  ((col) == COL_ALL || (col) == COL_FLOOR_CEIL || \
                         (col) == COL_TOP || (col) == COL_BOTTOM)
@@ -27,7 +30,9 @@
                         (col) == COL_DEATH_TOP   || \
                         (col) == COL_DEATH_BOTTOM|| \
                         (col) == COL_DEATH_LEFT  || \
-                        (col) == COL_DEATH_RIGHT)
+                        (col) == COL_DEATH_RIGHT || \
+                        (col) == COL_DEATH_TOP_HALF || \
+                        (col) == COL_DEATH_BOTTOM_HALF)
 
 #define IS_ORB(col)    ((col) == COL_ORB || (col) == COL_ORB_BLUE || (col) == COL_ORB_MAGENTA)
 #define IS_PAD(col)    ((col) == COL_PAD || (col) == COL_PAD_BLUE)
@@ -36,24 +41,23 @@
 
 extern const uint8_t famidash_metatile_collision[256];
 
-static inline uint8_t col_of(uint8_t tile_id) {
-    return famidash_metatile_collision[tile_id];
-}
+#define col_of(tile_id) (famidash_metatile_collision[(tile_id)])
 
-// Checks collision at a world coordinate
-static inline uint8_t col_at(
+// Forward declaration for music initialization
+struct hUGESong_t;
+
+// Checks collision at a world coordinate.
+// This function resides in Bank 0 (HOME) to allow switching ROM banks to read map data.
+uint8_t col_at(
     uint16_t world_px,
     int16_t  world_py,
     const uint8_t *map,
     uint16_t map_w,
-    uint16_t map_h
-) {
-    if (world_py < 0) return COL_NONE;
-    uint16_t mx = world_px >> 4;
-    uint16_t my = (uint16_t)world_py >> 4;
+    uint16_t map_h,
+    uint8_t  map_bank
+);
 
-    if (mx >= map_w || my >= map_h) return COL_ALL;
-    return col_of(map[(uint16_t)my * map_w + mx]);
-}
+// Safe music initialization from Bank 0
+void init_music_banked(const struct hUGESong_t * song, uint8_t bank, uint8_t divider);
 
 #endif // COLLISION_H

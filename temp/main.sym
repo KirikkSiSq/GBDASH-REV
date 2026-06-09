@@ -36,13 +36,16 @@ Symbol Table
     _wait_vbl_done                                                  ******** GX
     _waitpadup                                                      ******** GX
     b_draw_menu                                                     ******** GX
+    b_play_level                                                    ******** GX
+    b_setup_menu_font                                               ******** GX
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size       C5   flags    0
+   0 _CODE                                      size       D3   flags    0
    1 _HRAM                                      size        0   flags    0
    2 _DATA                                      size        0   flags    0
    3 _INITIALIZED                               size        4   flags    0
