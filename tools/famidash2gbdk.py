@@ -90,7 +90,7 @@ def write_metatile_files(metatiles, out_c, out_h):
 
     lines.append("const uint8_t famidash_metatile_collision[FAMIDASH_NUM_METATILES] = {")
     for index in range(0, len(metatiles), 16):
-        values = ", ".join(str(collision_value(mt["collision"])) for mt in metatiles[index:index + 16])
+        values = ", ".join(str(collision_value(mt["name"], mt["collision"])) for mt in metatiles[index:index + 16])
         lines.append(f"    {values},")
     lines.append("};")
     lines.append("")
@@ -98,7 +98,8 @@ def write_metatile_files(metatiles, out_c, out_h):
     out_c.write_text("\n".join(lines), newline="\n")
 
 
-def collision_value(name):
+def collision_value(mt_name, col_name):
+    # Mapping for GBDK-specific collision IDs
     values = {
         "COL_NONE": 0x00,
         "COL_DEATH_RIGHT": 0x01,
@@ -110,10 +111,26 @@ def collision_value(name):
         "COL_ALL": 0x07,
         "COL_DEATH": 0x08,
         "COL_FLOOR_CEIL": 0x09,
+        "COL_ORB": 0x0A,
+        "COL_PAD": 0x0B,
+        "COL_ORB_BLUE": 0x0C,
+        "COL_ORB_MAGENTA": 0x0D,
+        "COL_PAD_BLUE": 0x0E,
     }
-    if name in values:
-        return values[name]
-    if name.startswith("COL_"):
+
+    # Custom overrides: FamiDash uses COL_NONE for orbs/pads because they are objects
+    # but GBDASH-REV uses them as background metatiles for performance.
+    mt_upper = mt_name.upper()
+    if "ORB_OUTLINE" in mt_upper:
+        return values["COL_ORB"]
+    if "PAD_UP_OUTLINE" in mt_upper:
+        return values["COL_PAD"]
+    if "PAD_DOWN_OUTLINE" in mt_upper:
+        return values["COL_PAD"] # Add COL_PAD_DOWN if needed
+
+    if col_name in values:
+        return values[col_name]
+    if col_name.startswith("COL_"):
         return 0x80
     return 0
 
