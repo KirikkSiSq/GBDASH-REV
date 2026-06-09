@@ -15,10 +15,10 @@
 	.globl _level_sm
 	.globl _song_bank
 	.globl _level_songs
-	.globl b___func_famidash_chr_tiles
-	.globl ___func_famidash_chr_tiles
-	.globl b___func_famidash_chr
-	.globl ___func_famidash_chr
+	.globl b___func_chr_gb_tiles
+	.globl ___func_chr_gb_tiles
+	.globl b___func_chr_gb
+	.globl ___func_chr_gb
 	.globl b___func_game_levels
 	.globl ___func_game_levels
 ;--------------------------------------------------------
@@ -53,7 +53,7 @@
 ; code
 ;--------------------------------------------------------
 	.area _CODE_1
-;src/assets.c:5: BANKREF(game_levels)
+;src/assets.c:6: BANKREF(game_levels)
 ;	---------------------------------
 ; Function __func_game_levels
 ; ---------------------------------
@@ -62,30 +62,30 @@ ___func_game_levels::
 	.local b___func_game_levels 
 	___bank_game_levels = b___func_game_levels 
 	.globl ___bank_game_levels 
-;src/assets.c:6: BANKREF(famidash_chr)
+;src/assets.c:7: BANKREF(chr_gb)
 ;	---------------------------------
-; Function __func_famidash_chr
+; Function __func_chr_gb
 ; ---------------------------------
-	b___func_famidash_chr	= 1
-___func_famidash_chr::
-	.local b___func_famidash_chr 
-	___bank_famidash_chr = b___func_famidash_chr 
-	.globl ___bank_famidash_chr 
-;src/assets.c:9: INCBIN(famidash_chr_tiles, "levels/famidash/famidash_chr_tiles.bin")
+	b___func_chr_gb	= 1
+___func_chr_gb::
+	.local b___func_chr_gb 
+	___bank_chr_gb = b___func_chr_gb 
+	.globl ___bank_chr_gb 
+;src/assets.c:10: INCBIN(chr_gb_tiles, "levels/famidash/chr_gb_tiles.bin")
 ;	---------------------------------
-; Function __func_famidash_chr_tiles
+; Function __func_chr_gb_tiles
 ; ---------------------------------
-	b___func_famidash_chr_tiles	= 1
-___func_famidash_chr_tiles::
-_famidash_chr_tiles::
+	b___func_chr_gb_tiles	= 1
+___func_chr_gb_tiles::
+_chr_gb_tiles::
 1$:
-	.incbin "levels/famidash/famidash_chr_tiles.bin" 
+	.incbin "levels/famidash/chr_gb_tiles.bin" 
 2$:
-	___size_famidash_chr_tiles = (2$-1$) 
-	.globl ___size_famidash_chr_tiles 
-	.local b___func_famidash_chr_tiles 
-	___bank_famidash_chr_tiles = b___func_famidash_chr_tiles 
-	.globl ___bank_famidash_chr_tiles 
+	___size_chr_gb_tiles = (2$-1$) 
+	.globl ___size_chr_gb_tiles 
+	.local b___func_chr_gb_tiles 
+	___bank_chr_gb_tiles = b___func_chr_gb_tiles 
+	.globl ___bank_chr_gb_tiles 
 	.area _CODE_1
 _level_songs:
 	.dw _stereomadness
@@ -99,7 +99,7 @@ _song_bank:
 	.db #0x07	; 7
 _level_sm:
 	.dw __str_0
-	.dw _famidash_chr_tiles
+	.dw _chr_gb_tiles
 	.dw _stereomadness_map
 	.dw #0x0100
 	.dw #0x037e
@@ -110,7 +110,7 @@ _level_sm:
 	.db #0xc0	; 192
 _level_bot:
 	.dw __str_1
-	.dw _famidash_chr_tiles
+	.dw _chr_gb_tiles
 	.dw _backontrack_map
 	.dw #0x0100
 	.dw #0x034e
@@ -121,7 +121,7 @@ _level_bot:
 	.db #0xbb	; 187
 _level_pg:
 	.dw __str_2
-	.dw _famidash_chr_tiles
+	.dw _chr_gb_tiles
 	.dw _polargeist_map
 	.dw #0x0100
 	.dw #0x03a6
@@ -132,7 +132,7 @@ _level_pg:
 	.db #0xc1	; 193
 _level_du:
 	.dw __str_3
-	.dw _famidash_chr_tiles
+	.dw _chr_gb_tiles
 	.dw _dryout_map
 	.dw #0x0100
 	.dw #0x034a

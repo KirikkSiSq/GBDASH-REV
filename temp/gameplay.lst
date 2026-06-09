@@ -500,10 +500,10 @@
     0000020E 13               [ 8]  500 	inc	de
     0000020F 1A               [ 8]  501 	ld	a, (de)
     00000210 77               [ 8]  502 	ld	(hl), a
-                                    503 ;src/gameplay.c:101: level_tiles_bank = BANK(famidash_chr);
+                                    503 ;src/gameplay.c:101: level_tiles_bank = BANK(chr_gb);
     00000211 F8 24            [12]  504 	ldhl	sp,	#36
                                     505 ;src/gameplay.c:102: level_map_bank = l->map_bank;
-    00000213 3Er00            [ 8]  506 	ld	a, #<(___bank_famidash_chr)
+    00000213 3Er00            [ 8]  506 	ld	a, #<(___bank_chr_gb)
     00000215 22               [ 8]  507 	ld	(hl+), a
     00000216 2A               [ 8]  508 	ld	a, (hl+)
     00000217 5F               [ 4]  509 	ld	e, a

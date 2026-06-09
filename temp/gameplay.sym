@@ -18,7 +18,7 @@ Symbol Table
     _SCY_REG                                                        ******** GX
     _TAC_REG                                                        ******** GX
     _TMA_REG                                                        ******** GX
-    ___bank_famidash_chr                                            ******** GX
+    ___bank_chr_gb                                                  ******** GX
     ___bank_game_levels                                             ******** GX
     ___current_base_prop                                            ******** GX
     ___current_base_tile                                            ******** GX

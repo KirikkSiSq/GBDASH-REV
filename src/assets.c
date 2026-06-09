@@ -1,13 +1,14 @@
 #pragma bank 1
 #include <gbdk/incbin.h>
 #include "assets.h"
+#include "../levels/famidash/chr_gb.h"
 
 BANKREF(game_levels)
-BANKREF(famidash_chr)
+BANKREF(chr_gb)
 
 // Main tileset for the game levels
-INCBIN(famidash_chr_tiles, "levels/famidash/famidash_chr_tiles.bin")
-INCBIN_EXTERN(famidash_chr_tiles)
+INCBIN(chr_gb_tiles, "levels/famidash/chr_gb_tiles.bin")
+INCBIN_EXTERN(chr_gb_tiles)
 
 // External map data definitions from level files
 BANKREF_EXTERN(stereomadness_map)
@@ -47,36 +48,36 @@ const uint8_t song_bank[] = {
 // Level definitions with dimensions and bank info
 const Level level_sm = {
   "STEREO MADNESS",
-  famidash_chr_tiles,
+  chr_gb_tiles,
   stereomadness_map,
-  256, 894, 16, 0, 0,
+  chr_gb_TILE_COUNT, 894, 16, 0, 0,
   BANK(stereomadness_map),
   192
 };
 
 const Level level_bot = {
   "BACK ON TRACK",
-  famidash_chr_tiles,
+  chr_gb_tiles,
   backontrack_map,
-  256, 846, 16, 0, 0,
+  chr_gb_TILE_COUNT, 846, 16, 0, 0,
   BANK(backontrack_map),
   187
 };
 
 const Level level_pg = {
   "POLARGEIST",
-  famidash_chr_tiles,
+  chr_gb_tiles,
   polargeist_map,
-  256, 934, 16, 0, 0,
+  chr_gb_TILE_COUNT, 934, 16, 0, 0,
   BANK(polargeist_map),
   193 // 162.54 BPM @ Tempo 6 (Confirmed Perfect)
 };
 
 const Level level_du = {
   "DRY OUT",
-  famidash_chr_tiles,
+  chr_gb_tiles,
   dryout_map,
-  256, 842, 16, 0, 0,
+  chr_gb_TILE_COUNT, 842, 16, 0, 0,
   BANK(dryout_map),
   45 // Matches hUGETracker "Tempo (timer divider)"
 };

@@ -9,7 +9,7 @@
 #include "player.h"
 #include "assets.h"
 #include "icon1.h"
-#include "../levels/famidash/famidash_chr.h"
+#include "../levels/famidash/chr_gb.h"
 #include "famidash_metatiles.h"
 #include "hUGEDriver.h"
 
@@ -98,7 +98,7 @@ void play_level(uint8_t idx) NONBANKED {
   level_tile_count = l->tile_count;
   level_map_w = l->map_width;
   level_map_h = l->map_height;
-  level_tiles_bank = BANK(famidash_chr);
+  level_tiles_bank = BANK(chr_gb);
   level_map_bank = l->map_bank;
 
   // Start level music if the level has a song; otherwise silent

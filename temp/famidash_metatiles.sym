@@ -7,12 +7,9 @@ Symbol Table
     .__.ABS.                                                    =   00000000 G
     .__.CPU.                                                    =   00000000 L
     .__.H$L.                                                    =   00000000 L
-    __mulint                                                        ******** GX
-  0 _col_at                                                         00000009 R
-  0 _col_of                                                         00000000 R
-  0 _famidash_metatile_collision                                    0000058C GR
-  0 _famidash_metatile_palettes                                     0000048C GR
-  0 _metatiles                                                      0000008C GR
+  0 _famidash_metatile_collision                                    00000500 GR
+  0 _famidash_metatile_palettes                                     00000400 GR
+  0 _metatiles                                                      00000000 GR
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
@@ -20,7 +17,7 @@ Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size      68C   flags    0
+   0 _CODE                                      size      600   flags    0
    1 _HRAM                                      size        0   flags    0
    2 _DATA                                      size        0   flags    0
    3 _INITIALIZED                               size        0   flags    0

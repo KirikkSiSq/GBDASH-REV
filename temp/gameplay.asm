@@ -500,10 +500,10 @@ _play_level::
 	inc	de
 	ld	a, (de)
 	ld	(hl), a
-;src/gameplay.c:101: level_tiles_bank = BANK(famidash_chr);
+;src/gameplay.c:101: level_tiles_bank = BANK(chr_gb);
 	ldhl	sp,	#36
 ;src/gameplay.c:102: level_map_bank = l->map_bank;
-	ld	a, #<(___bank_famidash_chr)
+	ld	a, #<(___bank_chr_gb)
 	ld	(hl+), a
 	ld	a, (hl+)
 	ld	e, a

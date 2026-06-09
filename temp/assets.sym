@@ -9,24 +9,24 @@ Symbol Table
     .__.H$L.                                                    =   00000000 L
   8 _MAX_LEVELS                                                     00001054 GR
     ___bank_backontrack_map                                         ******** GX
+    ___bank_chr_gb                                              =   00000001 G
+    ___bank_chr_gb_tiles                                        =   00000001 G
     ___bank_dryout_map                                              ******** GX
-    ___bank_famidash_chr                                        =   00000001 G
-    ___bank_famidash_chr_tiles                                  =   00000001 G
     ___bank_game_levels                                         =   00000001 G
     ___bank_polargeist_map                                          ******** GX
     ___bank_stereomadness_map                                       ******** GX
-  8 ___func_famidash_chr                                            00000000 GR
-  8 ___func_famidash_chr_tiles                                      00000000 GR
+  8 ___func_chr_gb                                                  00000000 GR
+  8 ___func_chr_gb_tiles                                            00000000 GR
   8 ___func_game_levels                                             00000000 GR
-    ___size_famidash_chr_tiles                                  =   00001000 G
+    ___size_chr_gb_tiles                                        =   00001000 G
   8 __str_0                                                         00001055 R
   8 __str_1                                                         00001064 R
   8 __str_2                                                         00001072 R
   8 __str_3                                                         0000107D R
     _backontrack_map                                                ******** GX
+  8 _chr_gb_tiles                                                   00000000 GR
     _dryout                                                         ******** GX
     _dryout_map                                                     ******** GX
-  8 _famidash_chr_tiles                                             00000000 GR
   8 _game_levels                                                    0000104C GR
   8 _level_bot                                                      0000101C GR
   8 _level_du                                                       0000103C GR
@@ -38,8 +38,8 @@ Symbol Table
   8 _song_bank                                                      00001008 GR
     _stereomadness                                                  ******** GX
     _stereomadness_map                                              ******** GX
-    b___func_famidash_chr                                       =   00000001 L
-    b___func_famidash_chr_tiles                                 =   00000001 L
+    b___func_chr_gb                                             =   00000001 L
+    b___func_chr_gb_tiles                                       =   00000001 L
     b___func_game_levels                                        =   00000001 L
 
 
