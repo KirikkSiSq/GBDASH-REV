@@ -9,6 +9,7 @@
 #include "player.h"
 #include "assets.h"
 #include "icon1.h"
+#include "ship1.h"
 #include "../levels/famidash/chr_gb.h"
 #include "famidash_metatiles.h"
 #include "hUGEDriver.h"
@@ -86,6 +87,7 @@ void play_level(uint8_t idx) BANKED {
   load_bkg_tileset(level_tiles, level_tile_count, level_tiles_bank);
 
   set_sprite_data(0, 8, icon1_tiles);
+  set_sprite_data(8, 4, ship_tiles);
 
   move_bkg(0, (uint8_t)cam_py);
   fill_scroll_bg(level_map, level_map_w, level_map_h, level_map_bank);
@@ -207,10 +209,18 @@ void play_level(uint8_t idx) BANKED {
     uint8_t sprite_x = (cam_px < PLAYER_SCREEN_X) ? (uint8_t)cam_px : PLAYER_SCREEN_X;
 
     py = player_screen_y(&player, cam_py);
-    if (player.gravity_flipped) {
-        move_metasprite_vflip(icon1_metasprites[player.anim_frame], 0, 0, sprite_x + 8, py + 16);
+    if (player.mode == MODE_SHIP) {
+        if (player.gravity_flipped) {
+            move_metasprite_vflip(ship_metasprites[0], 0, 0, sprite_x + 8, py + 16);
+        } else {
+            move_metasprite(ship_metasprites[0], 0, 0, sprite_x + 8, py + 16);
+        }
     } else {
-        move_metasprite(icon1_metasprites[player.anim_frame], 0, 0, sprite_x + 8, py + 16);
+        if (player.gravity_flipped) {
+            move_metasprite_vflip(icon1_metasprites[player.anim_frame], 0, 0, sprite_x + 8, py + 16);
+        } else {
+            move_metasprite(icon1_metasprites[player.anim_frame], 0, 0, sprite_x + 8, py + 16);
+        }
     }
     move_bkg((uint8_t)scroll_px, (uint8_t)cam_py);
   }
