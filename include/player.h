@@ -16,6 +16,13 @@
 #define PAD_JUMP_FORCE   -140
 #define MAX_FALL_SPEED    105
 
+#define MODE_CUBE         0
+#define MODE_SHIP         1
+
+#define SHIP_THRUST       -8
+#define SHIP_GRAVITY       5
+#define SHIP_MAX_VEL       64
+
 typedef struct {
     uint16_t world_x;
     int16_t  world_y;
@@ -23,6 +30,7 @@ typedef struct {
     uint8_t  on_ground;
     uint8_t  dead;
     uint8_t  gravity_flipped;
+    uint8_t  mode;
     uint8_t  anim_frame;
     uint16_t anim_timer;
 } Player;

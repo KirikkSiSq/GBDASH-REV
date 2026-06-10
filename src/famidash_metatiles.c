@@ -1,3 +1,3 @@
-// Moved to Bank 0 (HOME) to allow background rendering from any bank
+// Bank 0 (HOME)
 #include "famidash_metatiles.h"
 #include "../include/famidash_metatiles.c"

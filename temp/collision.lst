@@ -374,7 +374,7 @@
     0000018F F8 06            [12]  374 	ldhl	sp,	#6
     00000191 77               [ 8]  375 	ld	(hl), a
     00000192 CB 26            [16]  376 	sla	(hl)
-                                    377 ;src/collision.c:73: set_bkg_tiles(bx, by, 2, 1, &metatiles[mt][0]);
+                                    377 ;src/collision.c:67: set_bkg_tiles(bx, by, 2, 1, &metatiles[mt][0]);
     00000194 2B               [ 8]  378 	dec	hl
     00000195 3A               [ 8]  379 	ld	a, (hl-)
     00000196 22               [ 8]  380 	ld	(hl+), a
@@ -420,7 +420,7 @@
     000001CC 33               [ 8]  420 	inc	sp
     000001CD CDr00r00         [24]  421 	call	_set_bkg_tiles
     000001D0 E8 06            [16]  422 	add	sp, #6
-                                    423 ;src/collision.c:74: set_bkg_tiles(bx, by + 1, 2, 1, &metatiles[mt][2]);
+                                    423 ;src/collision.c:68: set_bkg_tiles(bx, by + 1, 2, 1, &metatiles[mt][2]);
     000001D2 D1               [12]  424 	pop	de
     000001D3 D5               [16]  425 	push	de
     000001D4 21 02 00         [12]  426 	ld	hl, #0x0002
@@ -459,18 +459,18 @@
     000001FF 34               [12]  459 	inc	(hl)
     00000200 C3r38r01         [16]  460 	jp	00104$
     00000203                        461 00101$:
-                                    462 ;src/collision.c:77: SWITCH_ROM(_prev);
+                                    462 ;src/collision.c:71: SWITCH_ROM(_prev);
     00000203 F8 03            [12]  463 	ldhl	sp,	#3
     00000205 7E               [ 8]  464 	ld	a, (hl)
     00000206 E0r00            [12]  465 	ldh	(__current_bank + 0), a
     00000208 7E               [ 8]  466 	ld	a, (hl)
     00000209 EAr00r00         [16]  467 	ld	(#_rROMB0),a
-                                    468 ;src/collision.c:78: }
+                                    468 ;src/collision.c:72: }
     0000020C E8 0A            [16]  469 	add	sp, #10
     0000020E E1               [12]  470 	pop	hl
     0000020F E8 07            [16]  471 	add	sp, #7
     00000211 E9               [ 4]  472 	jp	(hl)
-                                    473 ;src/collision.c:80: void fill_scroll_bg(const uint8_t* map, uint16_t map_w, uint16_t map_h, uint8_t map_bank) {
+                                    473 ;src/collision.c:74: void fill_scroll_bg(const uint8_t* map, uint16_t map_w, uint16_t map_h, uint8_t map_bank) {
                                     474 ;	---------------------------------
                                     475 ; Function fill_scroll_bg
                                     476 ; ---------------------------------
@@ -480,7 +480,7 @@
     00000216 7B               [ 4]  480 	ld	a, e
     00000217 22               [ 8]  481 	ld	(hl+), a
     00000218 72               [ 8]  482 	ld	(hl), d
-                                    483 ;src/collision.c:81: uint16_t cols = (map_w < 16) ? map_w : 16;
+                                    483 ;src/collision.c:75: uint16_t cols = (map_w < 16) ? map_w : 16;
     00000219 59               [ 4]  484 	ld	e, c
     0000021A 50               [ 4]  485 	ld	d, b
     0000021B 7B               [ 4]  486 	ld	a, e
@@ -493,7 +493,7 @@
     00000225 F8 00            [12]  493 	ldhl	sp,	#0
     00000227 7B               [ 4]  494 	ld	a, e
     00000228 22               [ 8]  495 	ld	(hl+), a
-                                    496 ;src/collision.c:82: for (uint16_t c = 0; c < cols; c++) {
+                                    496 ;src/collision.c:76: for (uint16_t c = 0; c < cols; c++) {
     00000229 11 00 00         [12]  497 	ld	de, #0x0000
     0000022C 73               [ 8]  498 	ld	(hl), e
     0000022D                        499 00103$:
@@ -504,7 +504,7 @@
     00000232 7A               [ 4]  504 	ld	a, d
     00000233 9E               [ 8]  505 	sbc	a, (hl)
     00000234 30 23            [12]  506 	jr	NC, 00105$
-                                    507 ;src/collision.c:83: draw_mt_column((uint8_t)(c % 16), c, map, map_w, map_h, map_bank);
+                                    507 ;src/collision.c:77: draw_mt_column((uint8_t)(c % 16), c, map, map_w, map_h, map_bank);
     00000236 7B               [ 4]  508 	ld	a, e
     00000237 E6 0F            [ 8]  509 	and	a, #0x0f
     00000239 C5               [16]  510 	push	bc
@@ -531,56 +531,56 @@
     00000251 CDr1Er01         [24]  531 	call	_draw_mt_column
     00000254 D1               [12]  532 	pop	de
     00000255 C1               [12]  533 	pop	bc
-                                    534 ;src/collision.c:82: for (uint16_t c = 0; c < cols; c++) {
+                                    534 ;src/collision.c:76: for (uint16_t c = 0; c < cols; c++) {
     00000256 13               [ 8]  535 	inc	de
     00000257 18 D4            [12]  536 	jr	00103$
     00000259                        537 00105$:
-                                    538 ;src/collision.c:85: }
+                                    538 ;src/collision.c:79: }
     00000259 E8 04            [16]  539 	add	sp, #4
     0000025B E1               [12]  540 	pop	hl
     0000025C E8 03            [16]  541 	add	sp, #3
     0000025E E9               [ 4]  542 	jp	(hl)
-                                    543 ;src/collision.c:91: void init_music_banked(const hUGESong_t * song, uint8_t bank, uint8_t divider) {
+                                    543 ;src/collision.c:85: void init_music_banked(const hUGESong_t * song, uint8_t bank, uint8_t divider) {
                                     544 ;	---------------------------------
                                     545 ; Function init_music_banked
                                     546 ; ---------------------------------
     0000025F                        547 _init_music_banked::
     0000025F 4F               [ 4]  548 	ld	c, a
-                                    549 ;src/collision.c:92: uint8_t _prev = _current_bank;
+                                    549 ;src/collision.c:86: uint8_t _prev = _current_bank;
     00000260 F0r00            [12]  550 	ldh	a, (__current_bank + 0)
     00000262 47               [ 4]  551 	ld	b, a
-                                    552 ;src/collision.c:93: music_ready = 0;
+                                    552 ;src/collision.c:87: music_ready = 0;
     00000263 AF               [ 4]  553 	xor	a, a
     00000264 EAr00r00         [16]  554 	ld	(#_music_ready),a
-                                    555 ;src/collision.c:94: current_song_bank = bank;
+                                    555 ;src/collision.c:88: current_song_bank = bank;
     00000267 21r00r00         [12]  556 	ld	hl, #_current_song_bank
     0000026A 71               [ 8]  557 	ld	(hl), c
-                                    558 ;src/collision.c:95: SWITCH_ROM(bank);
+                                    558 ;src/collision.c:89: SWITCH_ROM(bank);
     0000026B 79               [ 4]  559 	ld	a, c
     0000026C E0r00            [12]  560 	ldh	(__current_bank + 0), a
     0000026E 21r00r00         [12]  561 	ld	hl, #_rROMB0
     00000271 71               [ 8]  562 	ld	(hl), c
                                     563 ;c:\gbdk\include\gb\gb.h:811: __asm__("di");
     00000272 F3               [ 4]  564 	di
-                                    565 ;src/collision.c:97: hUGE_init(song);
+                                    565 ;src/collision.c:91: hUGE_init(song);
     00000273 C5               [16]  566 	push	bc
     00000274 CDr00r00         [24]  567 	call	_hUGE_init
     00000277 C1               [12]  568 	pop	bc
-                                    569 ;src/collision.c:98: TMA_REG = divider;
+                                    569 ;src/collision.c:92: TMA_REG = divider;
     00000278 F8 02            [12]  570 	ldhl	sp,	#2
     0000027A 7E               [ 8]  571 	ld	a, (hl)
     0000027B E0r00            [12]  572 	ldh	(_TMA_REG + 0), a
                                     573 ;c:\gbdk\include\gb\gb.h:795: __asm__("ei");
     0000027D FB               [ 4]  574 	ei
-                                    575 ;src/collision.c:100: SWITCH_ROM(_prev);
+                                    575 ;src/collision.c:94: SWITCH_ROM(_prev);
     0000027E 78               [ 4]  576 	ld	a, b
     0000027F E0r00            [12]  577 	ldh	(__current_bank + 0), a
     00000281 21r00r00         [12]  578 	ld	hl, #_rROMB0
     00000284 70               [ 8]  579 	ld	(hl), b
-                                    580 ;src/collision.c:101: music_ready = 1;
+                                    580 ;src/collision.c:95: music_ready = 1;
     00000285 21r00r00         [12]  581 	ld	hl, #_music_ready
     00000288 36 01            [12]  582 	ld	(hl), #0x01
-                                    583 ;src/collision.c:102: }
+                                    583 ;src/collision.c:96: }
     0000028A E1               [12]  584 	pop	hl
     0000028B 33               [ 8]  585 	inc	sp
     0000028C E9               [ 4]  586 	jp	(hl)

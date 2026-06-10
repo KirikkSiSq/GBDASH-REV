@@ -28,7 +28,7 @@ extern const hUGESong_t stereomadness;
 extern const hUGESong_t dryout;
 extern const hUGESong_t polargeist;
 
-// Per-level songs: NULL = no music for that level
+// level songs
 const hUGESong_t * const level_songs[] = {
   &stereomadness, // level_sm
   NULL, // level_bot
@@ -46,6 +46,7 @@ const uint8_t song_bank[] = {
 };
 
 // Level definitions with dimensions and bank info
+// .timer_divider (last number) should be the same number as the song's timer_divider
 const Level level_sm = {
   "STEREO MADNESS",
   chr_gb_tiles,
@@ -70,7 +71,7 @@ const Level level_pg = {
   polargeist_map,
   chr_gb_TILE_COUNT, 934, 16, 0, 0,
   BANK(polargeist_map),
-  193 // 162.54 BPM @ Tempo 6 (Confirmed Perfect)
+  193
 };
 
 const Level level_du = {
@@ -79,7 +80,7 @@ const Level level_du = {
   dryout_map,
   chr_gb_TILE_COUNT, 842, 16, 0, 0,
   BANK(dryout_map),
-  45 // Matches hUGETracker "Tempo (timer divider)"
+  45
 };
 
 // Global level list used by the menu and gameplay systems

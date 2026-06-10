@@ -32,7 +32,7 @@ void setup_menu_font(void) BANKED {
 void draw_menu(void) BANKED {
   fill_bkg_rect(0, 0, 20, 18, 0x00);
   gotoxy(0, 0);
-  printf("GBDASH BETA 01\n\n");
+  printf("GBDASH DEMO 01\n\n");
   for (uint8_t i = 0; i < MAX_LEVELS; i++) {
     gotoxy(1, 2 + i);
     if (i == selected) printf("0 %s", game_levels[i]->name);
@@ -52,7 +52,7 @@ void play_level(uint8_t idx) BANKED {
   uint8_t level_tiles_bank;
   uint8_t level_map_bank;
 
-  // game_levels is in Bank 1 (current bank)
+  // game_levels is in Bank 1
   l = game_levels[idx];
   level_tiles = l->tiles;
   level_map = l->map;
@@ -62,7 +62,7 @@ void play_level(uint8_t idx) BANKED {
   level_tiles_bank = BANK(chr_gb);
   level_map_bank = l->map_bank;
 
-  // Start level music if the level has a song; otherwise silent
+  // Start level music if the level has a song
   if (level_songs[idx]) {
     init_music_banked(level_songs[idx], song_bank[idx], l->timer_divider);
   }
@@ -131,6 +131,33 @@ void play_level(uint8_t idx) BANKED {
     }
 
     player.world_x = cam_px;
+    // Player Mode logic (hardcoded for now lol)
+    // Mode Portals for Stereo Madness
+    if (idx == 0) {
+        uint16_t col = (player.world_x + 8) >> 4;
+        if (col == 266) player.mode = MODE_SHIP; // 266
+        else if (col == 418) player.mode = MODE_CUBE;
+        else if (col == 763) player.mode = MODE_SHIP;
+    }
+    // Mode Portals for Back on Track
+    if (idx == 1) {
+        uint16_t col = (player.world_x + 8) >> 4;
+        if (col == 421) player.mode = MODE_SHIP;
+        else if (col == 559) player.mode = MODE_CUBE;
+    }
+    // Mode Portals for Polargeist
+    if (idx == 2) {
+        uint16_t col = (player.world_x + 8) >> 4;
+        if (col == 321) player.mode = MODE_SHIP;
+        else if (col == 443) player.mode = MODE_CUBE;
+    }
+    // Mode Portals for Dry Out
+    if (idx == 3) {
+        uint16_t col = (player.world_x + 8) >> 4;
+        if (col == 566) player.mode = MODE_SHIP;
+        else if (col == 707) player.mode = MODE_CUBE;
+    }
+
 
     died = player_update(&player, joy, level_map, level_map_w, level_map_h, level_map_bank);
 
@@ -173,7 +200,7 @@ void play_level(uint8_t idx) BANKED {
       TAC_REG = 0x04;
       music_ready = 1;
       enable_interrupts();
-      waitpadup();
+      //waitpadup();
     }
 
     uint16_t scroll_px = (cam_px > PLAYER_SCREEN_X) ? (cam_px - PLAYER_SCREEN_X) : 0;

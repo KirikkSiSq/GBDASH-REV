@@ -15,6 +15,7 @@ void player_init(Player *p, uint16_t start_x, int16_t start_y) __banked {
     p->anim_timer = 0;
     p->anim_frame = 0;
     p->gravity_flipped = 0;
+    p->mode = MODE_CUBE;
 }
 
 int16_t player_screen_y(const Player *p, uint16_t cam_y) __banked {
@@ -31,14 +32,25 @@ uint8_t player_update(
 ) __banked {
     if (p->dead) return 1;
 
-    // Apply gravity
-    if (!p->on_ground) {
-        if (p->gravity_flipped) {
-            p->vel_y -= GRAVITY;
-            if (p->vel_y < -MAX_FALL_SPEED) p->vel_y = -MAX_FALL_SPEED;
+    // Ship Physics
+    if (p->mode == MODE_SHIP) {
+        if (joy & J_A) {
+            p->vel_y += (p->gravity_flipped) ? -SHIP_THRUST : SHIP_THRUST;
         } else {
-            p->vel_y += GRAVITY;
-            if (p->vel_y > MAX_FALL_SPEED) p->vel_y = MAX_FALL_SPEED;
+            p->vel_y += (p->gravity_flipped) ? -SHIP_GRAVITY : SHIP_GRAVITY;
+        }
+        if (p->vel_y > SHIP_MAX_VEL) p->vel_y = SHIP_MAX_VEL;
+        if (p->vel_y < -SHIP_MAX_VEL) p->vel_y = -SHIP_MAX_VEL;
+    } else {
+        // Cube Physics
+        if (!p->on_ground) {
+            if (p->gravity_flipped) {
+                p->vel_y -= GRAVITY;
+                if (p->vel_y < -MAX_FALL_SPEED) p->vel_y = -MAX_FALL_SPEED;
+            } else {
+                p->vel_y += GRAVITY;
+                if (p->vel_y > MAX_FALL_SPEED) p->vel_y = MAX_FALL_SPEED;
+            }
         }
     }
 
@@ -49,8 +61,8 @@ uint8_t player_update(
         return 0;
     }
 
-    // Normal Physics: Jump input
-    if ((joy & J_A) && p->on_ground) {
+    // Jump input for cube only
+    if (p->mode == MODE_CUBE && (joy & J_A) && p->on_ground) {
         p->vel_y = (p->gravity_flipped) ? -JUMP_FORCE : JUMP_FORCE;
         p->on_ground = 0;
     }
@@ -61,7 +73,6 @@ uint8_t player_update(
     p->on_ground = 0;
 
     // Vertical Collision logic
-    // We treat "downward" as whatever direction gravity pulls
     int16_t check_y_foot = (p->gravity_flipped) ? ny : ny + PLAYER_SIZE;
     int16_t check_y_head = (p->gravity_flipped) ? ny + PLAYER_SIZE : ny;
 
@@ -99,7 +110,10 @@ uint8_t player_update(
             uint8_t gr = col_at(p->world_x + PLAYER_SIZE - 2, sticky_y, map, map_w, map_h, map_bank);
             if (IS_SOLID(gl) || IS_SOLID(gr)) {
                 p->on_ground = 1;
-                p->vel_y = 0;
+                // Don't zero velocity in ship
+                if (p->mode == MODE_CUBE) p->vel_y = 0;
+                else if (p->gravity_flipped) { if (p->vel_y < 0) p->vel_y = 0; }
+                else { if (p->vel_y > 0) p->vel_y = 0; }
             }
         }
     }
@@ -120,7 +134,7 @@ uint8_t player_update(
         uint8_t hit = (IS_PAD(mid)) ? mid : (IS_PAD(front_head) ? front_head : front_foot);
         if (hit == COL_PAD_BLUE) {
             p->gravity_flipped = !p->gravity_flipped;
-            // When flipping gravity, we want to maintain some vertical speed in the new direction
+            // Some vertical speed when flipping gravity
             p->vel_y = (p->gravity_flipped) ? -20 : 20;
         } else {
             p->vel_y = (p->gravity_flipped) ? -PAD_JUMP_FORCE : PAD_JUMP_FORCE;
@@ -146,17 +160,17 @@ uint8_t player_update(
         return 1;
     }
 
-    // Animation: Rotate while in air
+    //Cube animation
     if (p->on_ground) {
         p->anim_timer = 0;
         p->anim_frame = 0;
     } else {
         p->anim_timer++;
-        // approx 1.5 frames per step (faster than 2)
+        // animation speed
         p->anim_frame = ((uint32_t)p->anim_timer * 3 / 5) % 24;
     }
 
-    // Out of bounds (falling off screen)
+    // Out of bounds
     if (p->world_y > (int16_t)((uint16_t)map_h << 4) || p->world_y < -32) {
         p->dead = 1;
         return 1;

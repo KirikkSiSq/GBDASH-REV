@@ -4,7 +4,7 @@
 
 #define BKG_MT_H 16
 
-// This function must be in BANK 0 (NONBANKED) so it can switch banks to read map data
+// This function must be in BANK 0
 uint8_t col_at(
     uint16_t world_px,
     int16_t  world_py,
@@ -63,12 +63,6 @@ void draw_mt_column(uint8_t ring_col, uint16_t map_col,
   for (uint8_t r = 0; r < map_h && r < BKG_MT_H; r++) {
     uint8_t mt = map[(uint16_t)r * map_w + map_col];
     uint8_t by = (r & (BKG_MT_H - 1)) << 1;
-    // metatiles are in Bank 1, but we are currently in map_bank!
-    // WAIT: metatiles are #included in famidash_metatiles.c which is Bank 1.
-    // If we are in Bank 0, we can't see Bank 1's data while map_bank is active.
-
-    // We need to switch to Bank 1 to get metatiles, or move metatiles to Bank 0.
-    // Given the size of metatiles (256 * 4 = 1KB), it might fit in Bank 0.
 
     set_bkg_tiles(bx, by, 2, 1, &metatiles[mt][0]);
     set_bkg_tiles(bx, by + 1, 2, 1, &metatiles[mt][2]);
