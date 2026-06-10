@@ -45,151 +45,151 @@ const uint8_t icon1_tiles[128] = {
 };
 
 const metasprite_t icon1_metasprite0[] = {
-	METASPR_ITEM(-1, -1, 0, S_PAL(0)),
+	METASPR_ITEM(0, -1, 0, S_PAL(0)),
 	METASPR_ITEM(0, 8, 0, S_PAL(0) | S_FLIPX),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite1[] = {
-	METASPR_ITEM(-1, -1, 2, S_PAL(0)),
+	METASPR_ITEM(0, -1, 2, S_PAL(0)),
 	METASPR_ITEM(0, 8, 2, S_PAL(0) | S_FLIPX | S_FLIPY),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite2[] = {
-	METASPR_ITEM(-1, -1, 4, S_PAL(0)),
+	METASPR_ITEM(0, -1, 4, S_PAL(0)),
 	METASPR_ITEM(0, 8, 4, S_PAL(0) | S_FLIPX | S_FLIPY),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite3[] = {
-	METASPR_ITEM(-1, -1, 6, S_PAL(0)),
+	METASPR_ITEM(0, -1, 6, S_PAL(0)),
 	METASPR_ITEM(0, 8, 6, S_PAL(0) | S_FLIPX),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite4[] = {
-	METASPR_ITEM(-1, -1, 4, S_PAL(0) | S_FLIPY),
+	METASPR_ITEM(0, -1, 4, S_PAL(0) | S_FLIPY),
 	METASPR_ITEM(0, 8, 4, S_PAL(0) | S_FLIPX),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite5[] = {
-	METASPR_ITEM(-1, -1, 2, S_PAL(0) | S_FLIPY),
+	METASPR_ITEM(0, -1, 2, S_PAL(0) | S_FLIPY),
 	METASPR_ITEM(0, 8, 2, S_PAL(0) | S_FLIPX),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite6[] = {
-	METASPR_ITEM(-1, -1, 0, S_PAL(0)),
+	METASPR_ITEM(0, -1, 0, S_PAL(0)),
 	METASPR_ITEM(0, 8, 0, S_PAL(0) | S_FLIPX),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite7[] = {
-	METASPR_ITEM(-1, -1, 2, S_PAL(0)),
+	METASPR_ITEM(0, -1, 2, S_PAL(0)),
 	METASPR_ITEM(0, 8, 2, S_PAL(0) | S_FLIPX | S_FLIPY),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite8[] = {
-	METASPR_ITEM(-1, -1, 4, S_PAL(0)),
+	METASPR_ITEM(0, -1, 4, S_PAL(0)),
 	METASPR_ITEM(0, 8, 4, S_PAL(0) | S_FLIPX | S_FLIPY),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite9[] = {
-	METASPR_ITEM(-1, -1, 6, S_PAL(0)),
+	METASPR_ITEM(0, -1, 6, S_PAL(0)),
 	METASPR_ITEM(0, 8, 6, S_PAL(0) | S_FLIPX),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite10[] = {
-	METASPR_ITEM(-1, -1, 4, S_PAL(0) | S_FLIPY),
+	METASPR_ITEM(0, -1, 4, S_PAL(0) | S_FLIPY),
 	METASPR_ITEM(0, 8, 4, S_PAL(0) | S_FLIPX),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite11[] = {
-	METASPR_ITEM(-1, -1, 2, S_PAL(0) | S_FLIPY),
+	METASPR_ITEM(0, -1, 2, S_PAL(0) | S_FLIPY),
 	METASPR_ITEM(0, 8, 2, S_PAL(0) | S_FLIPX),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite12[] = {
-	METASPR_ITEM(-1, -1, 0, S_PAL(0)),
+	METASPR_ITEM(0, -1, 0, S_PAL(0)),
 	METASPR_ITEM(0, 8, 0, S_PAL(0) | S_FLIPX),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite13[] = {
-	METASPR_ITEM(-1, -1, 2, S_PAL(0)),
+	METASPR_ITEM(0, -1, 2, S_PAL(0)),
 	METASPR_ITEM(0, 8, 2, S_PAL(0) | S_FLIPX | S_FLIPY),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite14[] = {
-	METASPR_ITEM(-1, -1, 4, S_PAL(0)),
+	METASPR_ITEM(0, -1, 4, S_PAL(0)),
 	METASPR_ITEM(0, 8, 4, S_PAL(0) | S_FLIPX | S_FLIPY),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite15[] = {
-	METASPR_ITEM(-1, -1, 6, S_PAL(0)),
+	METASPR_ITEM(0, -1, 6, S_PAL(0)),
 	METASPR_ITEM(0, 8, 6, S_PAL(0) | S_FLIPX),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite16[] = {
-	METASPR_ITEM(-1, -1, 4, S_PAL(0) | S_FLIPY),
+	METASPR_ITEM(0, -1, 4, S_PAL(0) | S_FLIPY),
 	METASPR_ITEM(0, 8, 4, S_PAL(0) | S_FLIPX),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite17[] = {
-	METASPR_ITEM(-1, -1, 2, S_PAL(0) | S_FLIPY),
+	METASPR_ITEM(0, -1, 2, S_PAL(0) | S_FLIPY),
 	METASPR_ITEM(0, 8, 2, S_PAL(0) | S_FLIPX),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite18[] = {
-	METASPR_ITEM(-1, -1, 0, S_PAL(0)),
+	METASPR_ITEM(0, -1, 0, S_PAL(0)),
 	METASPR_ITEM(0, 8, 0, S_PAL(0) | S_FLIPX),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite19[] = {
-	METASPR_ITEM(-1, -1, 2, S_PAL(0)),
+	METASPR_ITEM(0, -1, 2, S_PAL(0)),
 	METASPR_ITEM(0, 8, 2, S_PAL(0) | S_FLIPX | S_FLIPY),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite20[] = {
-	METASPR_ITEM(-1, -1, 4, S_PAL(0)),
+	METASPR_ITEM(0, -1, 4, S_PAL(0)),
 	METASPR_ITEM(0, 8, 4, S_PAL(0) | S_FLIPX | S_FLIPY),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite21[] = {
-	METASPR_ITEM(-1, -1, 6, S_PAL(0)),
+	METASPR_ITEM(0, -1, 6, S_PAL(0)),
 	METASPR_ITEM(0, 8, 6, S_PAL(0) | S_FLIPX),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite22[] = {
-	METASPR_ITEM(-1, -1, 4, S_PAL(0) | S_FLIPY),
+	METASPR_ITEM(0, -1, 4, S_PAL(0) | S_FLIPY),
 	METASPR_ITEM(0, 8, 4, S_PAL(0) | S_FLIPX),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite23[] = {
-	METASPR_ITEM(-1, -1, 2, S_PAL(0) | S_FLIPY),
+	METASPR_ITEM(0, -1, 2, S_PAL(0) | S_FLIPY),
 	METASPR_ITEM(0, 8, 2, S_PAL(0) | S_FLIPX),
 	METASPR_TERM
 };
 
 const metasprite_t icon1_metasprite24[] = {
-	METASPR_ITEM(-1, -1, 0, S_PAL(0)),
+	METASPR_ITEM(0, -1, 0, S_PAL(0)),
 	METASPR_ITEM(0, 8, 0, S_PAL(0) | S_FLIPX),
 	METASPR_TERM
 };

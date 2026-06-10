@@ -11,9 +11,9 @@
 
 // Physics constants using 4.4 fixed-point (16 units = 1 pixel)
 #define GRAVITY           10
-#define JUMP_FORCE       -93
+#define JUMP_FORCE       -105
 #define MAGENTA_JUMP_FORCE -60
-#define PAD_JUMP_FORCE   -140
+#define PAD_JUMP_FORCE   -150
 #define MAX_FALL_SPEED    105
 
 #define MODE_CUBE         0

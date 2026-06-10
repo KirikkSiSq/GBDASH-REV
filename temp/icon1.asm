@@ -203,7 +203,7 @@ _icon1_tiles:
 	.db #0x02	; 2
 	.db #0x03	; 3
 _icon1_metasprite0:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x00	; 0
 	.db #0x00	; 0
@@ -216,7 +216,7 @@ _icon1_metasprite0:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite1:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x02	; 2
 	.db #0x00	; 0
@@ -229,7 +229,7 @@ _icon1_metasprite1:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite2:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x04	; 4
 	.db #0x00	; 0
@@ -242,7 +242,7 @@ _icon1_metasprite2:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite3:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x06	; 6
 	.db #0x00	; 0
@@ -255,7 +255,7 @@ _icon1_metasprite3:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite4:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x04	; 4
 	.db #0x40	; 64
@@ -268,7 +268,7 @@ _icon1_metasprite4:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite5:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x02	; 2
 	.db #0x40	; 64
@@ -281,7 +281,7 @@ _icon1_metasprite5:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite6:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x00	; 0
 	.db #0x00	; 0
@@ -294,7 +294,7 @@ _icon1_metasprite6:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite7:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x02	; 2
 	.db #0x00	; 0
@@ -307,7 +307,7 @@ _icon1_metasprite7:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite8:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x04	; 4
 	.db #0x00	; 0
@@ -320,7 +320,7 @@ _icon1_metasprite8:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite9:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x06	; 6
 	.db #0x00	; 0
@@ -333,7 +333,7 @@ _icon1_metasprite9:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite10:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x04	; 4
 	.db #0x40	; 64
@@ -346,7 +346,7 @@ _icon1_metasprite10:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite11:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x02	; 2
 	.db #0x40	; 64
@@ -359,7 +359,7 @@ _icon1_metasprite11:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite12:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x00	; 0
 	.db #0x00	; 0
@@ -372,7 +372,7 @@ _icon1_metasprite12:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite13:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x02	; 2
 	.db #0x00	; 0
@@ -385,7 +385,7 @@ _icon1_metasprite13:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite14:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x04	; 4
 	.db #0x00	; 0
@@ -398,7 +398,7 @@ _icon1_metasprite14:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite15:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x06	; 6
 	.db #0x00	; 0
@@ -411,7 +411,7 @@ _icon1_metasprite15:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite16:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x04	; 4
 	.db #0x40	; 64
@@ -424,7 +424,7 @@ _icon1_metasprite16:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite17:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x02	; 2
 	.db #0x40	; 64
@@ -437,7 +437,7 @@ _icon1_metasprite17:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite18:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x00	; 0
 	.db #0x00	; 0
@@ -450,7 +450,7 @@ _icon1_metasprite18:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite19:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x02	; 2
 	.db #0x00	; 0
@@ -463,7 +463,7 @@ _icon1_metasprite19:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite20:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x04	; 4
 	.db #0x00	; 0
@@ -476,7 +476,7 @@ _icon1_metasprite20:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite21:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x06	; 6
 	.db #0x00	; 0
@@ -489,7 +489,7 @@ _icon1_metasprite21:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite22:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x04	; 4
 	.db #0x40	; 64
@@ -502,7 +502,7 @@ _icon1_metasprite22:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite23:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x02	; 2
 	.db #0x40	; 64
@@ -515,7 +515,7 @@ _icon1_metasprite23:
 	.db #0x00	; 0
 	.db #0x00	; 0
 _icon1_metasprite24:
-	.db #0xff	; -1
+	.db #0x00	;  0
 	.db #0xff	; -1
 	.db #0x00	; 0
 	.db #0x00	; 0

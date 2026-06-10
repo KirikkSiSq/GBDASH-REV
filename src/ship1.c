@@ -16,7 +16,6 @@ const uint8_t ship_tiles[] = {
 };
 
 // Fixed Metasprite: Tail on left (index 8), Nose on right (index 10)
-// Using relative offsets: dy=7 moves it 8px lower than cube, dy=0 keeps second half level.
 const metasprite_t ship_metasprite0[] = {
     { -1, -1, 8, 0 }, // Sprite 0: Tail at (-1, -1) relative to anchor
     { 0, 8, 10, 0 },  // Sprite 1: Nose at (8, 0) relative to Sprite 0

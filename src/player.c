@@ -68,7 +68,8 @@ uint8_t player_update(
     }
 
     // Calculate vertical movement
-    int8_t pixels = (int8_t)(p->vel_y >> 4);
+    // Use division for symmetric rounding between normal and flipped gravity
+    int8_t pixels = (int8_t)(p->vel_y / 16);
     int16_t ny = p->world_y + pixels;
     p->on_ground = 0;
 

@@ -89,7 +89,7 @@ DEF l__CODE_7 0x16A4
 DEF l__CODE 0x1929
 DEF s__HOME 0x1B29
 DEF _rROMB0 0x2000
-DEF l__CODE_1 0x2345
+DEF l__CODE_1 0x238D
 DEF s__BASE 0x278D
 DEF s__CODE_0 0x278D
 DEF s__INITIALIZER 0x278D
@@ -425,10 +425,10 @@ DEF _MAX_LEVELS 0x15054
 DEF _setup_menu_font 0x15085
 DEF _draw_menu 0x15096
 DEF _play_level 0x15131
-DEF ___func_player_update 0x157C5
-DEF _player_init 0x157C5
-DEF _player_screen_y 0x15807
-DEF _player_update 0x1581C
+DEF ___func_player_update 0x157E6
+DEF _player_init 0x157E6
+DEF _player_screen_y 0x15828
+DEF _player_update 0x1583D
 DEF _dryout 0x7568F
 DEF ___func_backontrack_map 0x34000
 DEF _backontrack_map 0x34000

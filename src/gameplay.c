@@ -156,7 +156,9 @@ void play_level(uint8_t idx) BANKED {
     // Mode Portals for Dry Out
     if (idx == 3) {
         uint16_t col = (player.world_x + 8) >> 4;
-        if (col == 566) player.mode = MODE_SHIP;
+        if (col == 292) player.gravity_flipped = 1;
+        else if (col == 429) player.gravity_flipped = 0;
+        else if (col == 566) player.mode = MODE_SHIP;
         else if (col == 707) player.mode = MODE_CUBE;
     }
 
@@ -217,7 +219,7 @@ void play_level(uint8_t idx) BANKED {
         }
     } else {
         if (player.gravity_flipped) {
-            move_metasprite_vflip(icon1_metasprites[player.anim_frame], 0, 0, sprite_x + 8, py + 16);
+            move_metasprite_vflip(icon1_metasprites[player.anim_frame], 0, 0, sprite_x + 22, py + 16);
         } else {
             move_metasprite(icon1_metasprites[player.anim_frame], 0, 0, sprite_x + 8, py + 16);
         }
