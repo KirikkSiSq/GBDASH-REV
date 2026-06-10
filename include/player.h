@@ -7,14 +7,14 @@
 
 #define PLAYER_SCREEN_X   32
 #define PLAYER_SIZE       15    // Box size for wall/floor collision
-#define PLAYER_HBOX       4     // Inset for spike/hazard collision
+#define PLAYER_HBOX       6     // Inset for spike/hazard collision
 
 // Physics constants using 4.4 fixed-point (16 units = 1 pixel)
 #define GRAVITY           10
 #define JUMP_FORCE       -105
 #define MAGENTA_JUMP_FORCE -60
-#define PAD_JUMP_FORCE   -150
-#define MAX_FALL_SPEED    105
+#define PAD_JUMP_FORCE   -148
+#define MAX_FALL_SPEED    120
 
 #define MODE_CUBE         0
 #define MODE_SHIP         1

@@ -428,7 +428,7 @@ _player_update::
 	ld	(hl), b
 ;src/player.c:49: if (p->vel_y < -MAX_FALL_SPEED) p->vel_y = -MAX_FALL_SPEED;
 	ld	a, c
-	sub	a, #0x97
+	sub	a, #0x88
 	ld	a, b
 	rla
 	ccf
@@ -439,7 +439,7 @@ _player_update::
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-	ld	a, #0x97
+	ld	a, #0x88
 	ld	(hl+), a
 	ld	(hl), #0xff
 	jr	00121$
@@ -459,7 +459,7 @@ _player_update::
 ;src/player.c:52: if (p->vel_y > MAX_FALL_SPEED) p->vel_y = MAX_FALL_SPEED;
 	ld	e, b
 	ld	d, #0x00
-	ld	a, #0x69
+	ld	a, #0x78
 	cp	a, c
 	ld	a, #0x00
 	sbc	a, b
@@ -479,7 +479,7 @@ _player_update::
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-	ld	a, #0x69
+	ld	a, #0x78
 	ld	(hl+), a
 	ld	(hl), #0x00
 00121$:
@@ -1426,10 +1426,10 @@ _player_update::
 	inc	de
 	ld	a, (de)
 	ld	b, a
-	inc	bc
-	inc	bc
-	inc	bc
-	inc	bc
+	ld	hl, #0x0006
+	add	hl, bc
+	ld	c, l
+	ld	b, h
 	ldhl	sp,#19
 	ld	a, (hl+)
 	ld	e, a
@@ -1474,7 +1474,7 @@ _player_update::
 	inc	de
 	ld	a, (de)
 	ld	b, a
-	ld	hl, #0x000b
+	ld	hl, #0x0009
 	add	hl, bc
 	ld	c, l
 	ld	b, h
@@ -1522,10 +1522,10 @@ _player_update::
 	inc	de
 	ld	a, (de)
 	ld	b, a
-	inc	bc
-	inc	bc
-	inc	bc
-	inc	bc
+	ld	hl, #0x0006
+	add	hl, bc
+	ld	c, l
+	ld	b, h
 	ldhl	sp,#19
 	ld	a, (hl+)
 	ld	e, a
@@ -1534,12 +1534,11 @@ _player_update::
 	ld	l, a
 	inc	de
 	ld	a, (de)
+	ld	h, a
+	ld	de, #0x0006
+	add	hl, de
 	ld	e, l
-	ld	d, a
-	inc	de
-	inc	de
-	inc	de
-	inc	de
+	ld	d, h
 	ldhl	sp,	#44
 	ld	a, (hl-)
 	push	af
@@ -1571,10 +1570,10 @@ _player_update::
 	inc	de
 	ld	a, (de)
 	ld	b, a
-	inc	bc
-	inc	bc
-	inc	bc
-	inc	bc
+	ld	hl, #0x0006
+	add	hl, bc
+	ld	c, l
+	ld	b, h
 	ldhl	sp,#19
 	ld	a, (hl+)
 	ld	e, a
@@ -1584,7 +1583,7 @@ _player_update::
 	inc	de
 	ld	a, (de)
 	ld	h, a
-	ld	de, #0x000b
+	ld	de, #0x0009
 	add	hl, de
 	ld	e, l
 	ld	d, h
@@ -1619,7 +1618,7 @@ _player_update::
 	inc	de
 	ld	a, (de)
 	ld	b, a
-	ld	hl, #0x000b
+	ld	hl, #0x0009
 	add	hl, bc
 	ld	c, l
 	ld	b, h
@@ -1631,12 +1630,11 @@ _player_update::
 	ld	l, a
 	inc	de
 	ld	a, (de)
+	ld	h, a
+	ld	de, #0x0006
+	add	hl, de
 	ld	e, l
-	ld	d, a
-	inc	de
-	inc	de
-	inc	de
-	inc	de
+	ld	d, h
 	ldhl	sp,	#44
 	ld	a, (hl-)
 	push	af
@@ -1668,7 +1666,7 @@ _player_update::
 	inc	de
 	ld	a, (de)
 	ld	b, a
-	ld	hl, #0x000b
+	ld	hl, #0x0009
 	add	hl, bc
 	ld	c, l
 	ld	b, h
@@ -1681,7 +1679,7 @@ _player_update::
 	inc	de
 	ld	a, (de)
 	ld	h, a
-	ld	de, #0x000b
+	ld	de, #0x0009
 	add	hl, de
 	ld	e, l
 	ld	d, h
@@ -1891,10 +1889,10 @@ _player_update::
 	ld	a, c
 	or	a, a
 	jr	Z, 00278$
-	ld	bc, #0x0096
+	ld	bc, #0x0094
 	jr	00279$
 00278$:
-	ld	bc, #0xff6a
+	ld	bc, #0xff6c
 00279$:
 	ld	a, c
 	ld	(de), a
