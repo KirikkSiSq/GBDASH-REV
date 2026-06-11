@@ -140,7 +140,7 @@ _level_du:
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.byte ___bank_dryout_map
-	.db #0x2d	; 45
+	.db #0xb9	; 185
 _game_levels:
 	.dw _level_sm
 	.dw _level_bot

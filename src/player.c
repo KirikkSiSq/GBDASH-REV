@@ -67,14 +67,14 @@ uint8_t player_update(
         p->on_ground = 0;
     }
 
-    // Frontal Solid Wall detection: check front edge for crashing into solid walls
-    // We check this BEFORE vertical movement to prevent "stepping up" onto walls
-    uint8_t f_h = col_at(p->world_x + PLAYER_SIZE, p->world_y + PLAYER_HBOX, map, map_w, map_h, map_bank);
-    uint8_t f_f = col_at(p->world_x + PLAYER_SIZE, p->world_y + PLAYER_SIZE - PLAYER_HBOX, map, map_w, map_h, map_bank);
-    if (IS_SOLID(f_h) || IS_SOLID(f_f)) {
-        p->dead = 1;
-        return 1;
-    }
+//    // Frontal Solid Wall detection: check front edge for crashing into solid walls
+//    // We check this BEFORE vertical movement to prevent "stepping up" onto walls
+//    uint8_t f_h = col_at(p->world_x + PLAYER_SIZE, p->world_y + PLAYER_HBOX, map, map_w, map_h, map_bank);
+//    uint8_t f_f = col_at(p->world_x + PLAYER_SIZE, p->world_y + PLAYER_SIZE - PLAYER_HBOX, map, map_w, map_h, map_bank);
+//    if (IS_SOLID(f_h) || IS_SOLID(f_f)) {
+//        p->dead = 1;
+//        return 1;
+//    }
 
     // Calculate vertical movement
     // Use "effective velocity" to preserve the snappy bit-shift feel symmetrically

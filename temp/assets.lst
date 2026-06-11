@@ -158,7 +158,7 @@
     00001048 00                     140 	.db #0x00	; 0
     00001049 00                     141 	.db #0x00	; 0
     0000104Ar00                     142 	.byte ___bank_dryout_map
-    0000104B 2D                     143 	.db #0x2d	; 45
+    0000104B B9                     143 	.db #0xb9	; 185
     0000104C                        144 _game_levels:
     0000104Cr0Cr10                  145 	.dw _level_sm
     0000104Er1Cr10                  146 	.dw _level_bot

@@ -80,7 +80,7 @@ const Level level_du = {
   dryout_map,
   chr_gb_TILE_COUNT, 842, 16, 0, 0,
   BANK(dryout_map),
-  45
+  185
 };
 
 // Global level list used by the menu and gameplay systems
