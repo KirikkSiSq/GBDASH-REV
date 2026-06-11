@@ -68,8 +68,10 @@ uint8_t player_update(
     }
 
     // Calculate vertical movement
-    // Use division for symmetric rounding between normal and flipped gravity
-    int8_t pixels = (int8_t)(p->vel_y / 16);
+    // Use "effective velocity" to preserve the snappy bit-shift feel symmetrically
+    int16_t effective_vel = p->gravity_flipped ? -p->vel_y : p->vel_y;
+    int8_t pixels = (int8_t)(effective_vel >> 4);
+    if (p->gravity_flipped) pixels = -pixels;
     int16_t ny = p->world_y + pixels;
     p->on_ground = 0;
 
