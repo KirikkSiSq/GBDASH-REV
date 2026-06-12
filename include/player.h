@@ -14,7 +14,7 @@
 #define JUMP_FORCE       -93
 #define MAGENTA_JUMP_FORCE -60
 #define PAD_JUMP_FORCE   -140
-#define MAX_FALL_SPEED    120
+#define MAX_FALL_SPEED    112
 
 #define MODE_CUBE         0
 #define MODE_SHIP         1

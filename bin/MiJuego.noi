@@ -85,6 +85,7 @@ DEF s__CODE 0x200
 DEF l__HOME 0xC64
 DEF l__CODE_6 0xEBC
 DEF ___size_chr_gb_tiles 0x1000
+DEF l__CODE_9 0x17BE
 DEF l__CODE 0x1929
 DEF s__HOME 0x1B29
 DEF l__CODE_7 0x1B84
@@ -202,6 +203,7 @@ DEF s__CODE_5 0x54000
 DEF s__CODE_6 0x64000
 DEF s__CODE_7 0x74000
 DEF s__CODE_8 0x84000
+DEF s__CODE_9 0x94000
 DEF _col_at 0x200
 DEF _load_bkg_tileset 0x2D3
 DEF _draw_mt_column 0x31E
@@ -429,6 +431,7 @@ DEF ___func_player_update 0x157E6
 DEF _player_init 0x157E6
 DEF _player_screen_y 0x15828
 DEF _player_update 0x1583D
+DEF _backontrack 0x957A9
 DEF _dryout 0x75B6F
 DEF ___func_backontrack_map 0x34000
 DEF _backontrack_map 0x34000

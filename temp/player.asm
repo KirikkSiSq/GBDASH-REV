@@ -428,7 +428,7 @@ _player_update::
 	ld	(hl), b
 ;src/player.c:49: if (p->vel_y < -MAX_FALL_SPEED) p->vel_y = -MAX_FALL_SPEED;
 	ld	a, c
-	sub	a, #0x88
+	sub	a, #0x90
 	ld	a, b
 	rla
 	ccf
@@ -439,7 +439,7 @@ _player_update::
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-	ld	a, #0x88
+	ld	a, #0x90
 	ld	(hl+), a
 	ld	(hl), #0xff
 	jr	00121$
@@ -459,7 +459,7 @@ _player_update::
 ;src/player.c:52: if (p->vel_y > MAX_FALL_SPEED) p->vel_y = MAX_FALL_SPEED;
 	ld	e, b
 	ld	d, #0x00
-	ld	a, #0x78
+	ld	a, #0x70
 	cp	a, c
 	ld	a, #0x00
 	sbc	a, b
@@ -479,7 +479,7 @@ _player_update::
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-	ld	a, #0x78
+	ld	a, #0x70
 	ld	(hl+), a
 	ld	(hl), #0x00
 00121$:

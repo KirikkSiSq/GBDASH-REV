@@ -27,20 +27,21 @@ extern const uint8_t dryout_map[];
 extern const hUGESong_t stereomadness;
 extern const hUGESong_t dryout;
 extern const hUGESong_t polargeist;
+extern const hUGESong_t backontrack;
 
 // level songs
 const hUGESong_t * const level_songs[] = {
   &stereomadness, // level_sm
-  NULL, // level_bot
-  &polargeist, // level_pg
-  &dryout // level_du
+  &backontrack,  // level_bot
+  &polargeist,   // level_pg
+  &dryout        // level_du
 };
 
 // Per-level song banks: matches level_songs[]; 0 = silent
 // Values must match the #pragma bank N in each song's .c file.
 const uint8_t song_bank[] = {
   6u, // level_sm — stereomadness.c
-  0u, // level_bot — no song
+  9u, // level_bot — backontrack.c
   8u, // level_pg — polargeist.c
   7u, // level_du — dryout.c
 };
@@ -62,7 +63,7 @@ const Level level_bot = {
   backontrack_map,
   chr_gb_TILE_COUNT, 846, 16, 0, 0,
   BANK(backontrack_map),
-  187
+  183
 };
 
 const Level level_pg = {

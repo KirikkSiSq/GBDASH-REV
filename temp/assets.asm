@@ -89,12 +89,12 @@ _chr_gb_tiles::
 	.area _CODE_1
 _level_songs:
 	.dw _stereomadness
-	.dw #0x0000
+	.dw _backontrack
 	.dw _polargeist
 	.dw _dryout
 _song_bank:
 	.db #0x06	; 6
-	.db #0x00	; 0
+	.db #0x09	; 9
 	.db #0x08	; 8
 	.db #0x07	; 7
 _level_sm:
@@ -118,7 +118,7 @@ _level_bot:
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.byte ___bank_backontrack_map
-	.db #0xbb	; 187
+	.db #0xb7	; 183
 _level_pg:
 	.dw __str_2
 	.dw _chr_gb_tiles
